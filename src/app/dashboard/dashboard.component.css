@@ -1,0 +1,60 @@
+.header{
+
+    height: 3.438rem;
+    background-color: #F9F9F9;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-weight: 500;
+    position:fixed;
+    width: 100%;
+    top:0;
+}
+
+.clock-action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 9.625rem;
+    margin-top: 4rem;
+}
+
+.mclockin{
+
+    padding: 1.125rem 1.875rem;
+    border: transparent;
+    border-radius: 2rem;
+    letter-spacing: 0.08rem;
+    background-color: #00A5C1;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.mclockout{
+    padding: 1.125rem 1.5rem;
+    border: transparent;
+    border-radius: 2rem;
+    letter-spacing: 0.08rem;
+    background-color: #FF6700;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+
+}
+
+.today{
+    text-align: center;
+}
+
+.hours{
+    text-align: center;
+    margin-top: 0.6rem;
+    font-weight: 500;
+}
+
+.table-container{
+    padding: 0 0.7rem;
+}

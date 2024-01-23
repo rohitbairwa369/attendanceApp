@@ -1,0 +1,85 @@
+.main{
+    height: 100vh;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-img{
+    width: 100%;
+    height: auto;
+}
+.login-container{
+
+  display : flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+}
+
+.login-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.minput{
+     width: 100%;
+     height: 3.25rem;
+     border-radius: 4px;
+     border: 1px solid #D5D5D5;
+     padding:0 0.7rem;
+     font-family: Arial, Helvetica, sans-serif;
+     letter-spacing: 0.08rem;
+ 
+}
+
+
+.mbutton{
+    width: 100%;
+    height: 3.25rem;
+    border: transparent;
+    border-radius: 2rem;
+    background-color: #168E79;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.08rem;
+    font-weight: 600;
+}
+
+.admin-button{
+    background-color: #007487;
+}
+
+.or_option{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    color: #9A9A9A;
+}
+.or_option span{
+    z-index: 1;
+    background-color: #fff;
+    padding: 0 0.7rem;
+}
+hr{
+    position: absolute;
+    width: 100%;
+    top: 0.6rem;
+    background-color: #D5D5D5;
+}
+
+
+.mpassword{
+    position: relative;
+
+}
+
+.show-eye{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    z-index: 1;
+}

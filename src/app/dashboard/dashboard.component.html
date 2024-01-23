@@ -1,0 +1,21 @@
+<div class="header">
+    <div class="header-option">29,Jan</div>
+    <div class="header-option">Wagholi</div>
+    <div class="header-option">5:59pm</div>
+</div>
+    <div class="clock-action">
+        @if(isClockIn=="clockin"){
+        <button class="mclockin" (click)="clockIn()">Clock in</button>
+        }@else if(isClockIn=="clockout") {
+        <button class="mclockout" (click)="clockOut()">Clock out</button>
+        }@else{
+        <div>
+            <h2 class="today">Today,</h2>
+            <div class="hours">9 hours and 9 mins</div>
+        </div>
+        }
+
+    </div>
+<div class="table-container">
+    <app-mtable [tableData]="tableData"></app-mtable>
+</div>
