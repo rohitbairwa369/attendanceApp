@@ -10,12 +10,12 @@ import { MtableComponent } from '../mtable/mtable.component';
 })
 export class DashboardComponent {
   isClockIn: string = 'clockin';
+  todaysDate = new Date()
   tableData = [
-    { date: '23', day: 'Thu', status: '-', in: '-', out: '-', hours: '-' },
     { date: '27', day: 'Fri', status: 'Absent', in: '09:30', out: '16:45', hours: '7.25' },
     { date: '26', day: 'Sat', status: 'Present', in: '10:00', out: '18:30', hours: '8.5' },
     { date: '25', day: 'Sun', status: 'Present', in: '11:00', out: '17:45', hours: '6.75' },
-    { date: '24', day: 'Mon', status: 'Absent', in: '09:15', out: '16:30', hours: '7.25' }, 
+    { date: '23', day: 'Mon', status: 'Absent', in: '09:15', out: '16:30', hours: '7.25' }, 
     { date: '25', day: 'Tue', status: 'Present', in: '08:45', out: '17:15', hours: '8.5' },
     { date: '22', day: 'Wed', status: 'Present', in: '09:30', out: '18:00', hours: '8.5' },
     { date: '21', day: 'Thu', status: 'Absent', in: '10:15', out: '16:45', hours: '6.5' },
@@ -26,6 +26,10 @@ export class DashboardComponent {
     { date: '16', day: 'Wed', status: 'Present', in: '09:30', out: '18:00', hours: '8.5' },
     { date: '15', day: 'Thu', status: 'Absent', in: '10:15', out: '16:45', hours: '6.5' },
   ];
+  constructor(){
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: '-' })
+  }
   clockIn(){
     this.isClockIn =  'clockout';
   }
