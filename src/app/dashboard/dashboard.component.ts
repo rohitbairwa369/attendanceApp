@@ -1,44 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MtableComponent } from '../mtable/mtable.component';
+import { MekaService } from '../service/meka.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [MtableComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  providers:[MekaService]
 })
 export class DashboardComponent {
+  mekaService= inject(MekaService);
   isClockIn: string = 'clockin';
   todaysDate = new Date()
-  tableData = [
-    { date: '27', day: 'Fri', status: 'Absent', in: '09:30', out: '16:45', hours: '7.25' },
-    { date: '26', day: 'Sat', status: 'Present', in: '10:00', out: '18:30', hours: '8.5' },
-    { date: '25', day: 'Sun', status: 'Present', in: '11:00', out: '17:45', hours: '6.75' },
-    { date: '23', day: 'Mon', status: 'Absent', in: '09:15', out: '16:30', hours: '7.25' }, 
-    { date: '25', day: 'Tue', status: 'Present', in: '08:45', out: '17:15', hours: '8.5' },
-    { date: '22', day: 'Wed', status: 'Present', in: '09:30', out: '18:00', hours: '8.5' },
-    { date: '21', day: 'Thu', status: 'Absent', in: '10:15', out: '16:45', hours: '6.5' },
-    { date: '20', day: 'Sat', status: 'Present', in: '10:00', out: '18:30', hours: '8.5' },
-    { date: '19', day: 'Sun', status: 'Present', in: '11:00', out: '17:45', hours: '6.75' },
-    { date: '18', day: 'Mon', status: 'Absent', in: '09:15', out: '16:30', hours: '7.25' }, 
-    { date: '17', day: 'Tue', status: 'Present', in: '08:45', out: '17:15', hours: '8.5' },
-    { date: '16', day: 'Wed', status: 'Present', in: '09:30', out: '18:00', hours: '8.5' },
-    { date: '15', day: 'Thu', status: 'Absent', in: '10:15', out: '16:45', hours: '6.5' },
-  ];
+  tableData:any = [];
+  daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   constructor(){
-    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: '-' })
+    this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
+      this.tableData = res;
+      const weekends = environment.weekends;
+      if(!weekends.includes(this.daysOfWeek[this.todaysDate.getDay()])){
+        this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: '-' })
+      }else{
+        this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: 'Holiday', in: '-', out: '-', hours: '-' })
+      }
+    },err=>{
+      console.log(err)
+    })
   }
   clockIn(){
     this.isClockIn =  'clockout';
+    const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: '-', status : 'Present', in : this.todaysDate};
+    this.mekaService.userClockIn(logdetail).subscribe(res=>{
+      this.tableData = res;
+    },err=>{
+      console.log(err)
+    })
   }
 
   clockOut(){
     this.isClockIn =  "denied";
-    this.tableData[0].status = 'Present';
-    this.tableData[0].in = '09:00';
-    this.tableData[0].out = '17:00';
-    this.tableData[0].hours = '8';
+    const logdetail  = {
+     in : this.tableData[0].in,
+     out : this.todaysDate
+    }
+    this.mekaService.userClockOut(this.todaysDate.getDate(),logdetail).subscribe(res=>{
+      if(res['attendance']){
+      this.tableData = res['attendance']
+      }
+    },err=>{
+      console.log(err)
+    })
   }
 }

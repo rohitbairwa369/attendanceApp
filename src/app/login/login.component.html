@@ -1,10 +1,11 @@
 <section class="main">
     <div class="login-container container">
         <div class="login-img"><img src="../../assets/loginbg.png" alt="" width="100%" height="100%"></div>
-        <section class="login-inputs">
-            <input class="minput" autocomplete="false" type="email" name="" id="" placeholder="Email or Phone">
+        <form class="login-inputs" [formGroup]="loginForm">
+            
+            <input class="minput" autocomplete="false" formControlName="email" type="email" name="" id="" placeholder="Email or Phone">
             <div class="mpassword">
-                <input class="minput" autocomplete="false" [type]="ptype" name="" id=""
+                <input class="minput" autocomplete="false" formControlName="password" [type]="ptype" name="" id=""
                     placeholder="Password">
                 <span class="show-eye"  (click)="passwordAction()">
                     @if(!showPassword){
@@ -15,13 +16,13 @@
 
                 </span>
             </div>
-            <button class="mbutton" (click)="empLogin()">Login</button>
+            <button class="mbutton" (click)="empLogin()" type="submit">Login</button>
             <div class="or_option"><span>or</span>
                 <hr>
             </div>
-            <button class="mbutton admin-button">Login as admin</button>
+            <button class="mbutton admin-button" type="submit">Login as admin</button>
 
-        </section>
+        </form>
 
 
     </div>

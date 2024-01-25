@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-mtable',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './mtable.component.html',
   styleUrl: './mtable.component.css'
 })
