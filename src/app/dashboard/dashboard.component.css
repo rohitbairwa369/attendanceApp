@@ -58,3 +58,11 @@
 .table-container{
     padding: 0 0.7rem;
 }
+
+
+
+:host{
+    .commonButton{
+        background-color: #00A5C1 !important;
+    }
+}

@@ -16,6 +16,13 @@ export class MekaService {
   adminRegister(credentials){
     return this.http.post(this.apiUrl + '/admin/register', credentials)
   }
+  verifytoken(){
+    var result = {}
+    this.http.get(this.apiUrl + '/verify/token',{headers:{'x-access-token':this.token.token}}).subscribe(res=>{
+      result = res;
+    })
+    return result;
+  }
   getAttendance(month,year){
     return this.http.get(this.apiUrl + `/user/attendance/${month}/${year}`,{headers:{'x-access-token':this.token.token}})
   }

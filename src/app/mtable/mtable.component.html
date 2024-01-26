@@ -12,16 +12,16 @@
     </thead>
     <tbody>
         @for(row of tableData;track $index){
-    <tr [class.today-active]="row.date == todaysDate" [class.grey-row]="$index % 2 !== 0">
+        <tr [class.today-active]="row.date == todaysDate" [class.grey-row]="$index % 2 !== 0">
         <td>{{ row.date }}</td>
         <td>{{ row.day }}</td>
         <td>{{ row.status }}</td>
-        <td>{{ row.in  | date}}</td>
-        <td>{{ row.out }}</td>
-        <td>{{ row.hours }}</td>
-    </tr>
+        <td>{{ row.in  | safeDate}}</td>
+        <td>{{ row.out | safeDate}}</td>
+        <td>{{ row.hours | decimalTimeShort}}</td>
+       </tr>
         }@empty{
-            <span>Empty List</span>
+            <span>No Entries to show!</span>
         }
     </tbody>
   </table>

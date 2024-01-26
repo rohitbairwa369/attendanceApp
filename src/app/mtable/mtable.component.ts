@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { SafeDatePipe } from '../shared/pipes/safe-date.pipe';
+import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
+
 @Component({
-  selector: 'app-mtable',
-  standalone: true,
-  imports: [DatePipe],
-  templateUrl: './mtable.component.html',
-  styleUrl: './mtable.component.css'
+    selector: 'app-mtable',
+    standalone: true,
+    templateUrl: './mtable.component.html',
+    styleUrl: './mtable.component.css',
+    providers: [SafeDatePipe,DecimalTimeShortPipe],
+    imports: [SafeDatePipe,DecimalTimeShortPipe]
 })
 export class MtableComponent {
   @Input() tableData: any[] = [];
