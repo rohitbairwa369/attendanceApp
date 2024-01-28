@@ -1,0 +1,77 @@
+<div class="flex justify-content-between align-items-center px-2 h-3rem mbg-primary">
+    @defer(when userData.hasOwnProperty('profilePic')){
+    <p-avatar [image]="userData.profilePic" shape="circle" (click)="isSidebarVisible=!isSidebarVisible" />
+    }
+    <div class="p-1" (click)="showNotice()">
+        @if(noticeData.length > 0){
+        <i class="pi pi-bell text-white" pBadge value="1"></i>
+    }@else {
+        <i class="pi pi-bell text-white"></i>
+    }
+    </div>
+    </div>
+
+<p-sidebar #sidebarRef [(visible)]="isSidebarVisible">
+        <ng-template pTemplate="headless">
+            <div class="flex flex-column h-full">
+                <div class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0" >
+                    <span class="flex flex-wrap align-items-center gap-2">
+                        <p-avatar [image]="userData.profilePic" shape="circle"  size="large" />
+                        <div>
+                            <div class="font-semibold text-xl text-gray-600">{{userData.name}}</div>
+                            <p class="m-0 text-700">{{userData.email}}</p>
+                        </div> 
+                    </span>
+                    <span>
+                    </span>
+                </div>
+                <div class="overflow-y-auto">
+                    <ul class="list-none p-3 m-0">
+                        <li>
+                            <ul class="list-none p-0 m-0 overflow-hidden">
+                                <li>
+                                    <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                        <i class="pi pi-user mr-2"></i>
+                                        <span class="font-medium">Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                        <i class="pi pi-envelope mr-2"></i>
+                                        <span class="font-medium">Notice</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                        <i class="pi pi-calendar mr-2"></i>
+                                        <span class="font-medium">Attendance Report</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="signOut()">
+                                        <i class="pi pi-sign-out mr-2"></i>
+                                        <span class="font-bold">Sign Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
+</p-sidebar>
+
+<p-dialog header="Notice" [(visible)]="isMessageVisible" [modal]="true" [style]="{width: '90vw'}">
+    <div class="flex mt-3 w-full">
+        <p-avatar [image]="noticeData.name" shape="circle"  size="large" />
+        <div class="ml-2 w-full">
+            <div class="flex justify-content-between w-full">
+                <label for="name" class="font-bold">{{noticeData[0].name}}</label>
+                <div class="text-sm text-400">{{noticeData[0].date | date}}</div>
+            </div>
+            <p class="m-0 mt-2">{{noticeData[0].message}}</p>
+        </div>
+    </div>
+</p-dialog>
+
+<router-outlet></router-outlet>

@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 export class MekaService {
   token = JSON.parse(localStorage.getItem('token'));
   apiUrl = environment.apiUrl;
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {}
 
   userLogin(credentials){
    return this.http.post(this.apiUrl + '/user/login',credentials);
@@ -16,13 +16,16 @@ export class MekaService {
   adminRegister(credentials){
     return this.http.post(this.apiUrl + '/admin/register', credentials)
   }
-  verifytoken(){
-    var result = {}
-    this.http.get(this.apiUrl + '/verify/token',{headers:{'x-access-token':this.token.token}}).subscribe(res=>{
-      result = res;
-    })
-    return result;
+  getUserData(){
+    return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':this.token.token}})
   }
+  // verifytoken(){
+  //   var result = {}
+  //   this.http.get(this.apiUrl + '/verify/token',{headers:{'x-access-token':this.token.token}}).subscribe(res=>{
+  //     result = res;
+  //   })
+  //   return result;
+  // }
   getAttendance(month,year){
     return this.http.get(this.apiUrl + `/user/attendance/${month}/${year}`,{headers:{'x-access-token':this.token.token}})
   }
@@ -31,5 +34,9 @@ export class MekaService {
   }
   userClockOut(tdate,logdetail){
     return this.http.put(this.apiUrl + `/user/attendance/out/${tdate}`,logdetail,{headers:{'x-access-token':this.token.token}})
+  }
+  //get notice 
+  getNotice(){
+    return this.http.get(this.apiUrl + `/messages`,{headers:{'x-access-token':this.token.token}})
   }
 }

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MekaService } from '../service/meka.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers: [MekaService]
+  providers: [MekaService,NotificationService]
 })
 export class LoginComponent {
   router=inject(Router)
+  notificationService = inject(NotificationService)
   mekaService = inject(MekaService)
   showPassword: boolean = false;
   ptype: string = "password";
@@ -42,6 +44,8 @@ export class LoginComponent {
         console.log(err);
       })
 
+    }else{
+      this.notificationService.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 });
     }
   }
 

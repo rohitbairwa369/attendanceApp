@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './user/dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { NoPermissionComponent } from './shared/no-permission/no-permission.component';
 import { authGuard } from './auth.guard';
+import { UserComponent } from './user/user.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 export const routes: Routes = [
     {
@@ -17,9 +19,19 @@ export const routes: Routes = [
         canActivate:[authGuard]
     },
     {
-        path: "dashboard",
-        component: DashboardComponent,
-        canActivate:[authGuard]
+        path: "",
+        component: UserComponent,
+        children:[
+            {
+                path:'dashboard', 
+                component: DashboardComponent
+            },
+            {
+                path:'profile', 
+                component: UserProfileComponent
+            },
+        ],
+        canActivateChild:[authGuard]
     },
     {
         path: "admin",

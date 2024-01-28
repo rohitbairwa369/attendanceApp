@@ -1,0 +1,52 @@
+<div class="header px-3">
+    <div class="header-option"><i class="pi pi-calendar mr-2"></i>{{todaysDate | date}}</div>
+    <!-- <div class="header-option">Wagholi</div> -->
+    <div class="header-option"><i class="pi pi-clock mr-2"></i>{{ todaysDate| safeDate }} </div>
+</div>
+@defer(when tableData.length>0){
+    <div class="clock-action relative">
+        @if(isClockIn=="clockin"){
+        <button class="mclockin" (click)="clockIn()" [disabled]="weekends.includes(daysOfWeek[todaysDate.getDay()]) || tableData[0].status == 'Absent'">Clock in</button>
+        }@else if(isClockIn=="clockout") {
+        <button class="mclockout" (click)="confirmationDialogue()">Clock out</button>
+        }@else{
+        <div>
+            <h2 class="today">Today,</h2>
+            <div class="hours">{{tableData[0].hours | decimalToTime }}</div>
+        </div>
+        }
+        @if(!weekends.includes(daysOfWeek[todaysDate.getDay()])){
+        <button [class.hidden]="tableData[0].status == 'Absent'"  class="flex text-red-500 font-bold justify-content-center align-items-center w-2rem h-2rem border-circle cursor-pointer hover:bg-gray-200 border-1 border-red-400 absolute right-0 mr-2" (click)="confirmationAbsent()">
+            <div >A</div>
+        </button>
+        }
+    </div>
+<div class="table-container">
+    <app-mtable [tableData]="tableData"></app-mtable>
+</div>
+}@placeholder {
+    <div class="clock-action">Loading...</div>
+}
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle mbg-secondary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                <i class="pi pi-question text-white text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">{{ message.header }}</span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button pButton label="Yes" (click)="cd.accept()" class="w-8rem mbg-secondary border-0"></button>
+                <button pButton label="Cancel" (click)="cd.reject()" class="mbg-secondary-border w-8rem "></button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>
+<p-dialog [header]="messageQuery.header" [(visible)]="isDialogVisible" [modal]="true" [style]="{ width: '95vw' }" [draggable]="false" [closable]="false" [resizable]="false">
+    <p class="m-0 mt-4">
+       {{messageQuery.message}}
+    </p>
+    <div class="flex justify-content-center mt-4">
+        <button pButton label="Ok" class="commonButton" (click)="navigateToLogin()"></button>
+    </div>
+</p-dialog>

@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         @for(row of tableData;track $index){
-        <tr [class.today-active]="row.date == todaysDate" [class.grey-row]="$index % 2 !== 0">
+        <tr [class.today-active]="row.date == todaysDate" [class.isAbsent]="row.status == 'Absent'" [class.grey-row]="row.status == 'Holiday'">
         <td>{{ row.date }}</td>
         <td>{{ row.day }}</td>
         <td>{{ row.status }}</td>
