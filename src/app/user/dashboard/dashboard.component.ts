@@ -96,7 +96,6 @@ export class DashboardComponent {
              this.clockOut()
           },
           reject: () => {
-              this.notificationService.notify({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
           }
       });
   }

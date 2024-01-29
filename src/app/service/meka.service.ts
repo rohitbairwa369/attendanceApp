@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,15 @@ import { environment } from '../../environments/environment';
 export class MekaService {
   token = JSON.parse(localStorage.getItem('token'));
   apiUrl = environment.apiUrl;
+
+  public UserSubject = new BehaviorSubject<Object>({});
+  myUserData$ = this.UserSubject.asObservable();
+
   constructor(private http:HttpClient) {}
 
+  updateUserData(newData: string): void {
+    this.UserSubject.next(newData);
+  }
   userLogin(credentials){
    return this.http.post(this.apiUrl + '/user/login',credentials);
   }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { SidebarModule } from 'primeng/sidebar';
 import { MekaService } from '../service/meka.service';
@@ -26,6 +26,7 @@ export class UserComponent {
 constructor(){
   this.mekaService.getUserData().subscribe(user=>{
     this.userData = user;
+    this.mekaService.UserSubject.next(user);
   },err=>{
     this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect'})
   })
@@ -33,6 +34,11 @@ constructor(){
     this.noticeData=notice;
   },err=>{
     this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect'})
+  })
+  this.router.events.subscribe((event) => {
+    if (event instanceof NavigationStart) {
+      this.isSidebarVisible = false;
+    }
   })
 }
 

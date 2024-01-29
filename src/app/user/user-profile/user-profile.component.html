@@ -1,1 +1,34 @@
-<p>user-profile works!</p>
+<!-- profile.component.html -->
+
+<div *ngIf="user" class="profile-container mx-2">
+    <div class="profile-header">
+      <img [src]="user.profilePic" alt="Profile Picture" class="profile-picture">
+      <div class="profile-info">
+        <h3>{{ user.name }}</h3>
+        <p class="role">{{ user.role }} | {{ user.email }}</p>
+      </div>
+    </div>
+    <div class="profile-details">
+      <div class="detail">
+        <span class="label">Account Created:</span>
+        <span class="value">{{ user.date }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Manager:</span>
+        <span class="value">{{ user.managerName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Team:</span>
+        <span class="value">{{ user.teamName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Address:</span>
+        <span class="value">{{ user.address }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">HR Name:</span>
+        <span class="value">{{ user.hrName }}</span>
+      </div>
+    </div>
+  </div>
+  

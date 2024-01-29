@@ -29,7 +29,13 @@
                     <ul class="list-none p-3 m-0">
                         <li>
                             <ul class="list-none p-0 m-0 overflow-hidden">
-                                <li>
+                                <li [routerLink]="['/dashboard']">
+                                    <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                        <i class="pi pi-home mr-2"></i>
+                                        <span class="font-medium">Home</span>
+                                    </a>
+                                </li>
+                                <li [routerLink]="['/profile']">
                                     <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
                                         <i class="pi pi-user mr-2"></i>
                                         <span class="font-medium">Profile</span>
@@ -61,17 +67,21 @@
         </ng-template>
 </p-sidebar>
 
-<p-dialog header="Notice" [(visible)]="isMessageVisible" [modal]="true" [style]="{width: '90vw'}">
+<p-dialog header="Notice"  [(visible)]="isMessageVisible" [modal]="true" [style]="{width: '95vw'}">
+    @defer(when noticeData.length>0){
     <div class="flex mt-3 w-full">
-        <p-avatar [image]="noticeData.name" shape="circle"  size="large" />
-        <div class="ml-2 w-full">
+        <p-avatar [image]="noticeData[0].profilePic" shape="circle" />
+        <div class="w-full">
             <div class="flex justify-content-between w-full">
-                <label for="name" class="font-bold">{{noticeData[0].name}}</label>
-                <div class="text-sm text-400">{{noticeData[0].date | date}}</div>
+                <label for="name" class="font-bold px-2 mt-1">{{noticeData[0].name}}</label>
             </div>
-            <p class="m-0 mt-2">{{noticeData[0].message}}</p>
+            <p class="m-0 mt-2 p-2">{{noticeData[0].message}}</p>
+            <div class="flex justify-content-end p-2 mt-3">
+                <span class="text-sm text-400">{{noticeData[0].date | date}}</span>
+            </div>
         </div>
     </div>
+}
 </p-dialog>
 
 <router-outlet></router-outlet>
