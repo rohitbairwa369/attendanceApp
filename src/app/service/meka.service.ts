@@ -13,7 +13,11 @@ export class MekaService {
   public UserSubject = new BehaviorSubject<Object>({});
   myUserData$ = this.UserSubject.asObservable();
 
-  constructor(private http:HttpClient) {}
+  constructor(private http:HttpClient) {
+    if(!this.token){
+      return;
+    }
+  }
 
   updateUserData(newData: string): void {
     this.UserSubject.next(newData);
@@ -24,8 +28,8 @@ export class MekaService {
   adminRegister(credentials){
     return this.http.post(this.apiUrl + '/admin/register', credentials)
   }
-  getUserData(){
-    return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':this.token.token}})
+  getUserData(token){
+    return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':token.token}})
   }
   // verifytoken(){
   //   var result = {}
@@ -44,7 +48,7 @@ export class MekaService {
     return this.http.put(this.apiUrl + `/user/attendance/out/${tdate}`,logdetail,{headers:{'x-access-token':this.token.token}})
   }
   //get notice 
-  getNotice(){
-    return this.http.get(this.apiUrl + `/messages`,{headers:{'x-access-token':this.token.token}})
+  getNotice(token){
+    return this.http.get(this.apiUrl + `/messages`,{headers:{'x-access-token':token.token}})
   }
 }

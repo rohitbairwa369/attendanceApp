@@ -33,18 +33,24 @@ export class LoginComponent {
 
   empLogin(){
     if(this.loginForm.valid){
+      this.notificationService.showLoader()
       const credentials = this.loginForm.value;
       this.mekaService.userLogin(credentials).subscribe(res=>{
         if(res['auth']){
+          this.notificationService.hideLoader()
           localStorage.setItem('token',JSON.stringify(res))
             this.loginForm.reset();
             this.router.navigate(['dashboard']);
+        }else{
+          this.notificationService.notify({ severity: 'error', summary: 'Authentication Failed', detail: res['token'], life: 3000 });
         }
       },err=>{
         console.log(err);
+        this.notificationService.hideLoader()
       })
 
     }else{
+      this.notificationService.showLoader()
       this.notificationService.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 });
     }
   }

@@ -3,9 +3,9 @@
         <div class="login-img"><img src="../../assets/loginbg.png" alt="" width="100%" height="100%"></div>
         <form class="login-inputs" [formGroup]="loginForm">
             
-            <input class="minput" autocomplete="false" formControlName="email" type="email" name="" id="" placeholder="Email or Phone">
+            <input class="minput" autocomplete="false" formControlName="email" type="email" name="" id="email" placeholder="Email or Phone">
             <div class="mpassword">
-                <input class="minput" autocomplete="false" formControlName="password" [type]="ptype" name="" id=""
+                <input class="minput" autocomplete="false" formControlName="password" [type]="ptype" name="" id="password"
                     placeholder="Password">
                 <span class="show-eye"  (click)="passwordAction()">
                     @if(!showPassword){

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { MtableComponent } from '../../mtable/mtable.component';
 import { MekaService } from '../../service/meka.service';
 import { environment } from '../../../environments/environment';
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { CalendarModule } from 'primeng/calendar';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
@@ -22,7 +23,7 @@ import { CalendarModule } from 'primeng/calendar';
     providers: [MekaService,NotificationService,ConfirmationService],
     imports: [CommonModule,MtableComponent, DatePipe, DecimalToTimePipe,SafeDatePipe,ConfirmDialogModule,DialogModule,ButtonModule,BadgeModule,AvatarModule,CalendarModule]
   })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy{
   mekaService= inject(MekaService);
   notificationService = inject(NotificationService)
   confirmationService = inject(ConfirmationService)
@@ -35,13 +36,15 @@ export class DashboardComponent {
   daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   weekends = environment.weekends;
   userData:any={}
+  token = JSON.parse(localStorage.getItem('token'));
+  private UserSubscription: Subscription;
   constructor(){
-    this.mekaService.getUserData().subscribe(user=>{
+    this.UserSubscription = this.mekaService.getUserData(this.token).subscribe(user=>{
       this.userData = user;
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
     })
-    this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
+    this.UserSubscription.add(this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
       this.tableData = res;
       if(res['auth']==false){
         this.messageQuery = {
@@ -72,10 +75,14 @@ export class DashboardComponent {
     }
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
-    })
+    }))
     setInterval(() => { 
       this.todaysDate = new Date();
     }, 1000);
+
+  }
+  ngOnDestroy(): void {
+    this.UserSubscription.unsubscribe();
   }
 
   clockIn(){
@@ -105,10 +112,13 @@ export class DashboardComponent {
         header: 'Are You Absent Today?',
         message: 'Please confirm to proceed.',
         accept: () => {
+          if(this.isClockIn !='clockout'){
            this.iAmAbsent()
+          }else{
+            this.notificationService.notify({severity:'error', summary: 'Error', detail: 'Unable to mark absent'})
+          }
         },
         reject: () => {
-            this.notificationService.notify({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
         }
     });
 }

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanMatchFn, Router } from '@angular/router';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanMatchFn = (route, state) => {
   var router = inject(Router)
   if (localStorage.getItem('token')) {
     const res = JSON.parse(localStorage.getItem('token'))

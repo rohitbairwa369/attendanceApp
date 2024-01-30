@@ -16,7 +16,7 @@ export const routes: Routes = [
     {
         path: "login",
         component: LoginComponent,
-        canActivate:[authGuard]
+        canMatch:[authGuard]
     },
     {
         path: "",
@@ -31,7 +31,7 @@ export const routes: Routes = [
                 component: UserProfileComponent
             },
         ],
-        canActivateChild:[authGuard]
+        canMatch:[authGuard]
     },
     {
         path: "admin",

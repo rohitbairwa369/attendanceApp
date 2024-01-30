@@ -1,0 +1,8 @@
+
+
+:host::ng-deep .p-progress-spinner{
+    position: absolute ;
+    top:50% !important;
+    width: 100%;
+    right:42%
+}
