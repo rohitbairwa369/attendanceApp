@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { MekaService } from '../service/meka.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../service/notification.service';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,ProgressSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [MekaService,NotificationService]
@@ -20,6 +20,7 @@ export class LoginComponent {
   ptype: string = "password";
 
   loginForm:FormGroup;
+  isLoading: boolean=false;
   
   passwordAction(){
     this.showPassword= !this.showPassword;
@@ -33,24 +34,25 @@ export class LoginComponent {
 
   empLogin(){
     if(this.loginForm.valid){
-      this.notificationService.showLoader()
+      this.isLoading = true;
       const credentials = this.loginForm.value;
       this.mekaService.userLogin(credentials).subscribe(res=>{
         if(res['auth']){
-          this.notificationService.hideLoader()
+          this.isLoading = false;
           localStorage.setItem('token',JSON.stringify(res))
             this.loginForm.reset();
             this.router.navigate(['dashboard']);
         }else{
+          this.isLoading = false;
           this.notificationService.notify({ severity: 'error', summary: 'Authentication Failed', detail: res['token'], life: 3000 });
         }
       },err=>{
-        console.log(err);
-        this.notificationService.hideLoader()
+        this.notificationService.notify({ severity: 'error', summary: 'Authentication Failed', detail: err.message, life: 3000 });
+        this.isLoading = false;
       })
 
     }else{
-      this.notificationService.showLoader()
+      this.isLoading = false;
       this.notificationService.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 });
     }
   }

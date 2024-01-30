@@ -4,14 +4,13 @@ import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NotificationService } from './service/notification.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,HttpClientModule,ToastModule,ProgressSpinnerModule],
+  imports: [CommonModule, RouterOutlet,HttpClientModule,ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [DatePipe,HttpClient,MessageService,NotificationService]

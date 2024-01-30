@@ -10,13 +10,6 @@ export class NotificationService {
   
   loaderSubject = new EventEmitter<boolean>();
 
-
-  showLoader() {
-    this.loaderSubject.emit(true);
-  }
-  hideLoader() {
-    this.loaderSubject.emit(false);
-  }
   notify(message){
     this.messageService.add(message)
   }
