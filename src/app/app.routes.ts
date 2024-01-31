@@ -36,7 +36,7 @@ export const routes: Routes = [
     {
         path: "admin",
         component: AdminComponent,
-        canActivate:[authGuard]
+        canMatch:[authGuard]
     },
     {
         path:'no-permission',

@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'https://meka-api.onrender.com',
+    apiUrl: 'http://localhost:3000',
     weekends: ['Sat','Sun']
   };

@@ -6,11 +6,10 @@ export const authGuard: CanMatchFn = (route, state) => {
   if (localStorage.getItem('token')) {
     const res = JSON.parse(localStorage.getItem('token'))
       if(res && res['auth'] && res['role']=='user'){
-        const currentRoute:any = window.location.pathname;
-        if(currentRoute[0].path=='admin'){
+        if(route.path=='admin'){
           router.navigate(['no-permission'])
         }
-        if(currentRoute[0].path =='login'){
+        if(route.path =='login'){
           router.navigate(['dashboard'])
         }
       }else{

@@ -44,7 +44,7 @@ export class DashboardComponent implements OnDestroy{
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
     })
-    this.UserSubscription.add(this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
+   this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
       this.tableData = res;
       if(res['auth']==false){
         this.messageQuery = {
@@ -75,7 +75,7 @@ export class DashboardComponent implements OnDestroy{
     }
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
-    }))
+    })
     setInterval(() => { 
       this.todaysDate = new Date();
     }, 1000);
@@ -112,7 +112,7 @@ export class DashboardComponent implements OnDestroy{
         header: 'Are You Absent Today?',
         message: 'Please confirm to proceed.',
         accept: () => {
-          if(this.isClockIn !='clockout'){
+          if(this.isClockIn =='clockout' ){
            this.iAmAbsent()
           }else{
             this.notificationService.notify({severity:'error', summary: 'Error', detail: 'Unable to mark absent'})

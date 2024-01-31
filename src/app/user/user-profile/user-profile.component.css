@@ -1,4 +1,4 @@
-/* profile.component.css */
+/* profile.component.css
 
 .profile-container {
     max-width: 600px;
@@ -52,5 +52,38 @@
   
   .value {
     color: #333;
+  }
+   */
+
+   input::file-selector-button {
+    font-weight: bold;
+    color: white;
+    padding: 0.5em;
+    border: none;
+    background-color: var(--primarybg);
+    border-radius: 1.5rem;
+  }
+  .UserImg {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .UserImg_Image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  .UserImg_border {
+    border-radius: 50%;
+    padding: 1rem;
+    background-color: var(--bgProfile);
+  }
+  .linkText {
+    width: 100%;
+    font-size: 1.7rem;
+    overflow-wrap: break-word;
+    padding: 1rem;
+    color: #0B2CDA;
   }
   

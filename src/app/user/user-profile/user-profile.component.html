@@ -1,6 +1,6 @@
 <!-- profile.component.html -->
 
-<div *ngIf="user" class="profile-container mx-2">
+<!-- <div *ngIf="user" class="profile-container mx-2">
     <div class="profile-header">
       <img [src]="user.profilePic" alt="Profile Picture" class="profile-picture">
       <div class="profile-info">
@@ -30,5 +30,51 @@
         <span class="value">{{ user.hrName }}</span>
       </div>
     </div>
-  </div>
+  </div> -->
   
+
+<div class="container">
+<form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
+    <div class="col-12 flex justify-content-between mb-5 p-4">
+        <span class="primaryFontSize font-bold"> <i class="pi pi-pencil text-2xl mr-3"></i> Edit Profile</span>
+        <button >Save <i class="pi pi-save text-2xl"></i></button>
+    </div>
+    <div class="lg:col-4 flex flex-column md:col-4 col-12">
+        <div class="UserImg ">
+            <div class="UserImg_border">
+                <ng-template #profileText><p-skeleton shape="circle" size="150px"></p-skeleton></ng-template>
+                <img [src]="imageUrl" *ngIf="imageUrl; else profileText" class="border-circle" width="150px" height="150px" alt="Uploaded Image">
+            </div>
+        </div>
+        <div class="flex flex-column justify-content-center align-items-center h-full p-4">
+            <input type="file" class="border-0 outline-none max-w-30rem w-full chooseFile"  #fileInput (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
+        </div>
+    </div>
+    
+    <div class="sm:col-12 lg:col-8 flex justify-content-between  flex-wrap">
+        <div class="col-12 lg:col-6 flex flex-column gap-5 p-4 justify-content-center">
+            <span class="p-input-icon-right">
+                <i class="pi pi-user text-2xl"></i>
+                <input type="text" pInputText formControlName="name"  class="text-2xl bg-gray-200 w-full" placeholder="Name" >        
+            </span> 
+            <input type="text" pInputText formControlName="email" placeholder="Email Id" class="text-2xl bg-gray-200">
+            <input type="password" pInputText formControlName="password" placeholder="Password" class="text-2xl bg-gray-200">
+        </div>
+        <div class="col-12 lg:col-6 flex flex-column gap-5 p-4 justify-content-center">
+            <span class="p-input-icon-right">
+                <i class="pi pi-mobile text-2xl"></i>
+                <input type="text" pInputText formControlName="mobile_number" class="text-2xl bg-gray-200 w-full" placeholder="Mobile Number" >        
+            </span> 
+            <span class="p-input-icon-right">
+                <i class="pi pi-directions text-2xl"></i>
+                <input type="text" pInputText formControlName="location"  class="text-2xl bg-gray-200 w-full" placeholder="Location" >        
+            </span> 
+            <input type="text" pInputText formControlName="pin" class="text-2xl bg-gray-200" placeholder="Pin Code">
+        </div>
+            <div class="col-12 p-4">
+                <input type="text" pInputText formControlName="company" placeholder="Company Name" class="text-2xl bg-gray-200 w-full">
+            </div>
+    </div>
+
+</form>
+</div>
