@@ -15,7 +15,7 @@ export const routes: Routes = [
     },
     {
         path: "login",
-        component: LoginComponent,
+        loadComponent:()=>import('./login/login.component').then(mod=>mod.LoginComponent),
         canMatch:[authGuard]
     },
     {
@@ -24,23 +24,23 @@ export const routes: Routes = [
         children:[
             {
                 path:'dashboard', 
-                component: DashboardComponent
+                loadComponent:()=>import('./user/dashboard/dashboard.component').then(mod=>mod.DashboardComponent)
             },
             {
                 path:'profile', 
-                component: UserProfileComponent
+                loadComponent:()=>import('./user/user-profile/user-profile.component').then(mod=>mod.UserProfileComponent)
             },
         ],
         canMatch:[authGuard]
     },
     {
         path: "admin",
-        component: AdminComponent,
+        loadComponent:()=>import('./admin/admin.component').then(mod=>mod.AdminComponent),
         canMatch:[authGuard]
     },
     {
         path:'no-permission',
-        component: NoPermissionComponent
+        loadComponent:()=>import('./shared/no-permission/no-permission.component').then(mod=>mod.NoPermissionComponent)
     }
 
 

@@ -112,7 +112,7 @@ export class DashboardComponent implements OnDestroy{
         header: 'Are You Absent Today?',
         message: 'Please confirm to proceed.',
         accept: () => {
-          if(this.isClockIn =='clockout' ){
+          if(this.isClockIn =='clockin' ){
            this.iAmAbsent()
           }else{
             this.notificationService.notify({severity:'error', summary: 'Error', detail: 'Unable to mark absent'})
