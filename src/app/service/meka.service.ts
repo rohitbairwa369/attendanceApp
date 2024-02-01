@@ -51,4 +51,8 @@ export class MekaService {
   getNotice(token){
     return this.http.get(this.apiUrl + `/messages`,{headers:{'x-access-token':token.token}})
   }
+
+  getAbsentDates(data,token){
+    return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/absent`,{headers:{'x-access-token':token.token}})
+  }
 }

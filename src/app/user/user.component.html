@@ -2,9 +2,9 @@
     @defer(when userData.hasOwnProperty('profilePic')){
     <p-avatar [image]="userData.profilePic" shape="circle" (click)="isSidebarVisible=!isSidebarVisible" />
     }
-    <div class="p-1" (click)="showNotice()">
+    <div class="p-1 cursor-pointer" (click)="showNotice()">
         @if(noticeData$ | async; as noticeData.length>0){
-        <i class="pi pi-bell text-white" pBadge value="1"></i>
+        <i class="pi pi-bell text-white" pBadge  value="1"></i>
     }@else {
         <i class="pi pi-bell text-white"></i>
     }

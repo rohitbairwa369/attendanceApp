@@ -1,1 +1,13 @@
-<p>attendance-report works!</p>
+<div class="p-2 mt-4">
+    <form class="flex justify-content-center align-items-center gap-2 mb-2" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+    <input type="month" id="start" formControlName="monthYear" />
+    <button type="submit">Submit</button>
+    </form>
+    <div class="mt-5">
+        <div class="flex justify-content-between">
+            <h4 for="Absent" class="mb-3">Month : {{this.selectedMonth}}</h4>
+            <h4 for="Absent" class="mb-3">Absent : {{absentData.length}}</h4>
+        </div>
+    <app-mtable [tableData]="absentData"></app-mtable>
+    </div>
+</div>

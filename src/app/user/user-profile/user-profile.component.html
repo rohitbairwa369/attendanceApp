@@ -37,7 +37,7 @@
 <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
     <div class="col-12 flex justify-content-between mb-5 align-items-center">
         <span class="font-bold"> <i class="pi pi-pencil  mr-3"></i>Profile</span>
-        <button class="button">Save <i class="pi pi-save "></i></button>
+        <button class="bg-green-700 border-round p-1 border-0 text-white">Save <i class="pi pi-save "></i></button>
     </div>
     <div class="lg:col-4 flex flex-column md:col-4 col-12">
         <div class="UserImg ">
@@ -58,7 +58,6 @@
                 <input type="text" pInputText formControlName="name"  class=" bg-gray-200 w-full" placeholder="Name" >        
             </span> 
             <input type="text" pInputText formControlName="email" placeholder="Email Id" class=" bg-gray-200">
-            <input type="password" pInputText formControlName="password" placeholder="Password" class=" bg-gray-200">
             <span class="p-input-icon-right">
               <i class="pi pi-mobile "></i>
               <input type="text" pInputText formControlName="mobile_number" class=" bg-gray-200 w-full" placeholder="Mobile Number" >        
