@@ -64,13 +64,13 @@ export class DashboardComponent implements OnDestroy{
             this.isClockIn = 'denied'
           }
         }else{
-          this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0 })
+          this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0 , month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()})
         }
       }else{
-        this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: 'Holiday', in: '-', out: '-', hours: 0 })
+        this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: 'Holiday', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
       }
       if(this.tableData.length==0){
-        this.tableData.push({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0 })
+        this.tableData.push({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
       }
     }
     },err=>{
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnDestroy{
   }
 
   clockIn(){
-    const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Present', in : this.todaysDate};
+    const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Present', in : this.todaysDate , month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()};
     const timeStamp = {
       month:this.todaysDate.toLocaleString('default', { month: 'short' }),
       year:this.todaysDate.getFullYear()
@@ -128,7 +128,7 @@ export class DashboardComponent implements OnDestroy{
 }
 
   iAmAbsent(){
-    const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Absent', in : '-'};
+    const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Absent', in : '-', month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()};
     const timeStamp = {
       month:this.todaysDate.toLocaleString('default', { month: 'short' }),
       year:this.todaysDate.getFullYear()
