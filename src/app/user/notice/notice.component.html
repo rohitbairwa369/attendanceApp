@@ -1,1 +1,17 @@
-<p>notice works!</p>
+
+<div class="container">
+@for(noticeData of noticeData$ | async;track noticeData._id){
+<div class="flex mt-3 w-full bg-gray-100 p-2 border-round">
+    <p-avatar [image]="noticeData.profilePic" shape="circle" />
+    <div class="w-full">
+        <div class="flex justify-content-between w-full">
+            <label for="name" class="font-bold px-2 mt-1">{{noticeData.name}}</label>
+        </div>
+        <p class="m-0 mt-2 p-2">{{noticeData.message}}</p>
+        <div class="flex justify-content-end p-2 mt-3">
+            <span class="text-sm text-400">{{noticeData.date | date}}</span>
+        </div>
+    </div>
+</div>
+}
+</div>

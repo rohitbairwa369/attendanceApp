@@ -86,4 +86,6 @@
     padding: 1rem;
     color: #0B2CDA;
   }
-  
+  .chooseFile{
+    background-color: var(--btnColor);
+  }

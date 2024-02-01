@@ -1,11 +1,6 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './user/dashboard/dashboard.component';
-import { AdminComponent } from './admin/admin.component';
-import { NoPermissionComponent } from './shared/no-permission/no-permission.component';
 import { authGuard } from './auth.guard';
-import { UserComponent } from './user/user.component';
-import { UserProfileComponent } from './user/user-profile/user-profile.component';
+
 
 export const routes: Routes = [
     {
@@ -20,7 +15,7 @@ export const routes: Routes = [
     },
     {
         path: "",
-        component: UserComponent,
+        loadComponent:()=>import('./user/user.component').then(mod=>mod.UserComponent),
         children:[
             {
                 path:'dashboard', 
@@ -29,6 +24,14 @@ export const routes: Routes = [
             {
                 path:'profile', 
                 loadComponent:()=>import('./user/user-profile/user-profile.component').then(mod=>mod.UserProfileComponent)
+            },
+            {
+                path:'notice', 
+                loadComponent:()=>import('./user/notice/notice.component').then(mod=>mod.NoticeComponent)
+            },
+            {
+                path:'attendance', 
+                loadComponent:()=>import('./user/attendance-report/attendance-report.component').then(mod=>mod.AttendanceReportComponent)
             },
         ],
         canMatch:[authGuard]

@@ -41,11 +41,11 @@ export class MekaService {
   getAttendance(month,year){
     return this.http.get(this.apiUrl + `/user/attendance/${month}/${year}`,{headers:{'x-access-token':this.token.token}})
   }
-  userClockIn(logdetail){
-    return this.http.put(this.apiUrl + `/user/attendance`,logdetail,{headers:{'x-access-token':this.token.token}})
+  userClockIn(logdetail,timeStamp){
+    return this.http.put(this.apiUrl + `/user/attendance/clockin/${timeStamp.month}/${timeStamp.year}`,logdetail,{headers:{'x-access-token':this.token.token}})
   }
-  userClockOut(tdate,logdetail){
-    return this.http.put(this.apiUrl + `/user/attendance/out/${tdate}`,logdetail,{headers:{'x-access-token':this.token.token}})
+  userClockOut(timeStamp,logdetail){
+    return this.http.put(this.apiUrl + `/user/attendance/out/${timeStamp.month}/${timeStamp.year}/${timeStamp.tdate}`,logdetail,{headers:{'x-access-token':this.token.token}})
   }
   //get notice 
   getNotice(token){

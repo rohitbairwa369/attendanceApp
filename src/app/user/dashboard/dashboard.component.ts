@@ -86,10 +86,14 @@ export class DashboardComponent implements OnDestroy{
   }
 
   clockIn(){
-    this.isClockIn =  'clockout';
     const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Present', in : this.todaysDate};
-    this.mekaService.userClockIn(logdetail).subscribe(res=>{
+    const timeStamp = {
+      month:this.todaysDate.toLocaleString('default', { month: 'short' }),
+      year:this.todaysDate.getFullYear()
+    }
+    this.mekaService.userClockIn(logdetail,timeStamp).subscribe(res=>{
       this.tableData = res;
+      this.isClockIn =  'clockout';
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'Error ', detail: 'Unable to clockin'})
     })
@@ -97,7 +101,7 @@ export class DashboardComponent implements OnDestroy{
 
   confirmationDialogue(){
       this.confirmationService.confirm({
-          header: 'Are you sure?',
+          header: 'Are you sure you want to clockout?',
           message: 'Please confirm to proceed.',
           accept: () => {
              this.clockOut()
@@ -125,7 +129,11 @@ export class DashboardComponent implements OnDestroy{
 
   iAmAbsent(){
     const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Absent', in : '-'};
-    this.mekaService.userClockIn(logdetail).subscribe(res=>{
+    const timeStamp = {
+      month:this.todaysDate.toLocaleString('default', { month: 'short' }),
+      year:this.todaysDate.getFullYear()
+    }
+    this.mekaService.userClockIn(logdetail,timeStamp).subscribe(res=>{
       this.tableData = res;
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'Error ', detail: 'Unable to clockin'})
@@ -138,7 +146,11 @@ export class DashboardComponent implements OnDestroy{
         let getThatDay = `${i} ${this.todaysDate.toLocaleString('default', { month: 'short' })} ${this.todaysDate.getFullYear()}`
         let getDateFormat =  new Date(getThatDay)
         const logdetail =  { date: i, day: this.daysOfWeek[getDateFormat.getDay()], out: '-', hours: 0, status : 'Holiday', in : this.todaysDate};
-        this.mekaService.userClockIn(logdetail).subscribe(res=>{
+        const timeStamp = {
+          month:this.todaysDate.toLocaleString('default', { month: 'short' }),
+          year:this.todaysDate.getFullYear()
+        }
+        this.mekaService.userClockIn(logdetail,timeStamp).subscribe(res=>{
           this.tableData = res;
         })
       }
@@ -151,7 +163,12 @@ export class DashboardComponent implements OnDestroy{
      in : this.tableData[0].in,
      out : Date()
     }
-    this.mekaService.userClockOut(this.todaysDate.getDate(),logdetail).subscribe(res=>{
+    const timeStamp = {
+      month:this.todaysDate.toLocaleString('default', { month: 'short' }),
+      year:this.todaysDate.getFullYear(),
+      tdate:this.todaysDate.getDate()
+    }
+    this.mekaService.userClockOut(timeStamp,logdetail).subscribe(res=>{
       this.tableData = res
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'Error', detail: 'Unable to clockout', sticky: true})

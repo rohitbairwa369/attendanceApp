@@ -35,9 +35,9 @@
 
 <div class="container">
 <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
-    <div class="col-12 flex justify-content-between mb-5 p-4">
-        <span class="primaryFontSize font-bold"> <i class="pi pi-pencil text-2xl mr-3"></i> Edit Profile</span>
-        <button >Save <i class="pi pi-save text-2xl"></i></button>
+    <div class="col-12 flex justify-content-between mb-5 align-items-center">
+        <span class="font-bold"> <i class="pi pi-pencil  mr-3"></i>Profile</span>
+        <button class="button">Save <i class="pi pi-save "></i></button>
     </div>
     <div class="lg:col-4 flex flex-column md:col-4 col-12">
         <div class="UserImg ">
@@ -47,34 +47,29 @@
             </div>
         </div>
         <div class="flex flex-column justify-content-center align-items-center h-full p-4">
-            <input type="file" class="border-0 outline-none max-w-30rem w-full chooseFile"  #fileInput (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
+            <input type="file" class="border-0 outline-none max-w-30rem w-full chooseFile border-round"  #fileInput (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
         </div>
     </div>
     
-    <div class="sm:col-12 lg:col-8 flex justify-content-between  flex-wrap">
-        <div class="col-12 lg:col-6 flex flex-column gap-5 p-4 justify-content-center">
+
+    <div class="flex flex-column gap-5 p-2 justify-content-center w-full">
             <span class="p-input-icon-right">
-                <i class="pi pi-user text-2xl"></i>
-                <input type="text" pInputText formControlName="name"  class="text-2xl bg-gray-200 w-full" placeholder="Name" >        
+                <i class="pi pi-user "></i>
+                <input type="text" pInputText formControlName="name"  class=" bg-gray-200 w-full" placeholder="Name" >        
             </span> 
-            <input type="text" pInputText formControlName="email" placeholder="Email Id" class="text-2xl bg-gray-200">
-            <input type="password" pInputText formControlName="password" placeholder="Password" class="text-2xl bg-gray-200">
-        </div>
-        <div class="col-12 lg:col-6 flex flex-column gap-5 p-4 justify-content-center">
+            <input type="text" pInputText formControlName="email" placeholder="Email Id" class=" bg-gray-200">
+            <input type="password" pInputText formControlName="password" placeholder="Password" class=" bg-gray-200">
             <span class="p-input-icon-right">
-                <i class="pi pi-mobile text-2xl"></i>
-                <input type="text" pInputText formControlName="mobile_number" class="text-2xl bg-gray-200 w-full" placeholder="Mobile Number" >        
-            </span> 
-            <span class="p-input-icon-right">
-                <i class="pi pi-directions text-2xl"></i>
-                <input type="text" pInputText formControlName="location"  class="text-2xl bg-gray-200 w-full" placeholder="Location" >        
-            </span> 
-            <input type="text" pInputText formControlName="pin" class="text-2xl bg-gray-200" placeholder="Pin Code">
-        </div>
-            <div class="col-12 p-4">
-                <input type="text" pInputText formControlName="company" placeholder="Company Name" class="text-2xl bg-gray-200 w-full">
-            </div>
-    </div>
+              <i class="pi pi-mobile "></i>
+              <input type="text" pInputText formControlName="mobile_number" class=" bg-gray-200 w-full" placeholder="Mobile Number" >        
+          </span> 
+          <span class="p-input-icon-right">
+              <i class="pi pi-directions "></i>
+              <input type="text" pInputText formControlName="location"  class=" bg-gray-200 w-full" placeholder="Location" >        
+          </span> 
+          <input type="text" pInputText formControlName="pin" class="bg-gray-200" placeholder="Pin Code">
+          <input type="text" pInputText formControlName="company" placeholder="Company Name" class=" bg-gray-200 w-full">
+  </div>
 
 </form>
 </div>

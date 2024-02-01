@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { SidebarModule } from 'primeng/sidebar';
@@ -7,53 +7,49 @@ import { NotificationService } from '../service/notification.service';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { BadgeModule } from 'primeng/badge';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [RouterModule,SidebarModule,AvatarModule,DialogModule,CommonModule, BadgeModule],
+  imports: [RouterModule, SidebarModule, AvatarModule, DialogModule, CommonModule, BadgeModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
-  providers: [MekaService,NotificationService]
+  providers: [MekaService, NotificationService]
 })
-export class UserComponent implements OnDestroy{
-  mekaService= inject(MekaService);
+export class UserComponent implements OnDestroy {
+  mekaService = inject(MekaService);
   notificationService = inject(NotificationService)
   router = inject(Router)
-  userData: any={};
-  isSidebarVisible:boolean= false;
-  isMessageVisible:boolean=false;
-  noticeData:any={};
+  userData: any = {};
+  isSidebarVisible: boolean = false;
+  isMessageVisible: boolean = false;
+  noticeData$:Observable<any>;
   token = JSON.parse(localStorage.getItem('token'));
   private UserDataSubscription: Subscription;
-constructor(){
-  this.UserDataSubscription = this.mekaService.getUserData(this.token).subscribe(user=>{
-    this.userData = user;
-    this.mekaService.UserSubject.next(user);
-  },err=>{
-    this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect'})
-  })
-  this.UserDataSubscription.add(this.mekaService.getNotice(this.token).subscribe(notice=>{
-    this.noticeData=notice;
-  },err=>{
-    this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect'})
-  }))
-  this.UserDataSubscription.add(this.router.events.subscribe((event) => {
-    if (event instanceof NavigationStart) {
-      this.isSidebarVisible = false;
-    }
-  }))
-}
+  constructor() {
+    this.UserDataSubscription = this.mekaService.getUserData(this.token).subscribe(user => {
+      this.userData = user;
+      this.mekaService.UserSubject.next(user);
+    }, err => {
+      this.notificationService.notify({ severity: 'error', summary: 'API Failure', detail: 'Failed to connect' })
+    })
+    this.noticeData$ = this.mekaService.getNotice(this.token)
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isSidebarVisible = false;
+      }
+    })
+  }
   ngOnDestroy(): void {
     this.UserDataSubscription.unsubscribe()
   }
 
-signOut(){
-  localStorage.clear()
-  this.router.navigate(['login'])
-}
+  signOut() {
+    localStorage.clear()
+    this.router.navigate(['login'])
+  }
 
-showNotice(){
-  this.isMessageVisible=true;
-}
+  showNotice() {
+    this.isMessageVisible = true;
+  }
 }
