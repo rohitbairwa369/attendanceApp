@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
+import {  Component, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { SidebarModule } from 'primeng/sidebar';
@@ -7,7 +7,8 @@ import { NotificationService } from '../service/notification.service';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { BadgeModule } from 'primeng/badge';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
+import { unsub } from '../shared/unsub.class';
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -16,7 +17,7 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './user.component.css',
   providers: [MekaService, NotificationService]
 })
-export class UserComponent implements OnDestroy {
+export class UserComponent extends unsub {
   mekaService = inject(MekaService);
   notificationService = inject(NotificationService)
   router = inject(Router)
@@ -25,23 +26,21 @@ export class UserComponent implements OnDestroy {
   isMessageVisible: boolean = false;
   noticeData$:Observable<any>;
   token = JSON.parse(localStorage.getItem('token'));
-  private UserDataSubscription: Subscription;
+
   constructor() {
-    this.UserDataSubscription = this.mekaService.getUserData(this.token).subscribe(user => {
+    super()
+    this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user => {
       this.userData = user;
       this.mekaService.UserSubject.next(user);
     }, err => {
       this.notificationService.notify({ severity: 'error', summary: 'API Failure', detail: 'Failed to connect' })
     })
     this.noticeData$ = this.mekaService.getNotice(this.token)
-    this.router.events.subscribe((event) => {
+    this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isSidebarVisible = false;
       }
     })
-  }
-  ngOnDestroy(): void {
-    this.UserDataSubscription.unsubscribe()
   }
 
   signOut() {

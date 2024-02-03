@@ -33,6 +33,10 @@ export const routes: Routes = [
                 path:'attendance', 
                 loadComponent:()=>import('./user/attendance-report/attendance-report.component').then(mod=>mod.AttendanceReportComponent)
             },
+            {
+                path:'requestleave', 
+                loadComponent:()=>import('./user/request-leave/request-leave.component').then(mod=>mod.RequestLeaveComponent)
+            },
         ],
         canMatch:[authGuard]
     },
