@@ -5,6 +5,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InputTextModule } from 'primeng/inputtext';
+import { takeUntil } from 'rxjs';
+import { unsub } from '../../shared/unsub.class';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -12,13 +14,14 @@ import { InputTextModule } from 'primeng/inputtext';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
-export class UserProfileComponent {
+export class UserProfileComponent extends unsub {
   userData: any={};
   profileForm:FormGroup;
   imageUrl: SafeResourceUrl;
   selectedFile: any;
-  constructor(private mekaService:MekaService,private sanitizer: DomSanitizer,){
-    this.mekaService.myUserData$.subscribe(data=>{
+  constructor(private mekaService:MekaService,private sanitizer: DomSanitizer){
+    super()
+    this.mekaService.myUserData$.pipe(takeUntil(this.onDestroyed$)).subscribe(data=>{
       this.userData = data;
       this.imageUrl = this.userData.profilePic;
       this.profileForm=new FormGroup({

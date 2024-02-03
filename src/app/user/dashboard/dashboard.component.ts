@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { CalendarModule } from 'primeng/calendar';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { unsub } from '../../shared/unsub.class';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
@@ -23,7 +24,7 @@ import { Subscription } from 'rxjs';
     providers: [MekaService,NotificationService,ConfirmationService],
     imports: [CommonModule,MtableComponent, DatePipe, DecimalToTimePipe,SafeDatePipe,ConfirmDialogModule,DialogModule,ButtonModule,BadgeModule,AvatarModule,CalendarModule]
   })
-export class DashboardComponent implements OnDestroy{
+export class DashboardComponent extends unsub{
   mekaService= inject(MekaService);
   notificationService = inject(NotificationService)
   confirmationService = inject(ConfirmationService)
@@ -37,14 +38,15 @@ export class DashboardComponent implements OnDestroy{
   weekends = environment.weekends;
   userData:any={}
   token = JSON.parse(localStorage.getItem('token'));
-  private UserSubscription: Subscription;
+
   constructor(){
-    this.UserSubscription = this.mekaService.getUserData(this.token).subscribe(user=>{
+  super()
+   this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
       this.userData = user;
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
     })
-   this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).subscribe(res=>{
+   this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
       this.tableData = res;
       if(res['auth']==false){
         this.messageQuery = {
@@ -81,9 +83,7 @@ export class DashboardComponent implements OnDestroy{
     }, 1000);
 
   }
-  ngOnDestroy(): void {
-    this.UserSubscription.unsubscribe();
-  }
+
 
   clockIn(){
     const logdetail =  { date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], out: '-', hours: 0, status : 'Present', in : this.todaysDate , month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()};

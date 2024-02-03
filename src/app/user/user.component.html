@@ -1,9 +1,7 @@
 <div class="flex justify-content-between align-items-center px-2 h-3rem mbg-primary">
-    @defer(when userData.hasOwnProperty('profilePic')){
     <!-- <p-avatar [image]="userData.profilePic" shape="circle" (click)="isSidebarVisible=!isSidebarVisible" /> -->
-    <i class="pi pi-bars text-xl text-white" (click)="isSidebarVisible=!isSidebarVisible"></i>
-    }
-    <div class="p-1 cursor-pointer" (click)="showNotice()">
+    <i class="pi pi-bars text-xl text-white ml-0.375" (click)="isSidebarVisible=!isSidebarVisible"></i>
+    <div class="p-1 cursor-pointer mt-0.375 mr-0.5" (click)="showNotice()">
         @if(noticeData$ | async; as noticeData.length>0){
         <i class="pi pi-bell text-xl text-white" pBadge  severity="warning" value="1"></i>
     }@else {
