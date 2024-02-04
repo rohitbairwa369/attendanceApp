@@ -1,16 +1,15 @@
 <div class="mt-5 p-2">
-<form>
+<form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
     <div class="flex justify-content-evenly">
     <div>
         <label for="From">From : </label>
-        <input type="date">
+        <input type="date" formControlName="fromDate">
     </div>
     <div>
         <label for="From">To : </label>
-        <input type="date">
+        <input type="date" formControlName="toDate">
     </div>
     </div>
     <div class="p-2 mt-5 flex justify-content-center"><button type="submit">Submit</button></div>
 </form>
-
 </div>

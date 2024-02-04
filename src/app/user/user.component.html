@@ -3,7 +3,7 @@
     <i class="pi pi-bars text-xl text-white ml-0.375" (click)="isSidebarVisible=!isSidebarVisible"></i>
     <div class="p-1 cursor-pointer mt-0.375 mr-0.5" (click)="showNotice()">
         @if(noticeData$ | async; as noticeData.length>0){
-        <i class="pi pi-bell text-xl text-white" pBadge  severity="warning" value="1"></i>
+        <i class="pi pi-bell text-xl text-white" pBadge  severity="warning"></i>
     }@else {
         <i class="pi pi-bell text-xl text-white"></i>
     }

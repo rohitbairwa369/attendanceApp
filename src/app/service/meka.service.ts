@@ -55,4 +55,7 @@ export class MekaService {
   getAbsentDates(data,token){
     return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/absent`,{headers:{'x-access-token':token.token}})
   }
+  requestLeave(requestedDates,token){
+    return this.http.put(this.apiUrl + `/user/attendance/requestleave`,requestedDates,{headers:{'x-access-token':token.token}})
+  }
 }

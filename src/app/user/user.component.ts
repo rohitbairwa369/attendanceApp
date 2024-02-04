@@ -26,6 +26,7 @@ export class UserComponent extends unsub {
   isMessageVisible: boolean = false;
   noticeData$:Observable<any>;
   token = JSON.parse(localStorage.getItem('token'));
+  isMessageRead:boolean=false;
 
   constructor() {
     super()
@@ -50,5 +51,6 @@ export class UserComponent extends unsub {
 
   showNotice() {
     this.isMessageVisible = true;
+    this.isMessageRead = true;
   }
 }
