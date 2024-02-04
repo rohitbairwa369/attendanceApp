@@ -20,7 +20,8 @@ export class RequestLeaveComponent {
   weekends = environment.weekends
   requestDates = new FormGroup({
     'fromDate': new FormControl(null,[Validators.required]),
-    'toDate':new FormControl(null,Validators.required)
+    'toDate':new FormControl(null,Validators.required),
+    'desc': new FormControl(null,Validators.required)
   })
 
  generateDateObjectsExcludingWeekends(fromDate, toDate) {
@@ -61,13 +62,18 @@ export class RequestLeaveComponent {
     if(getAbsentDates){
       this.mekaService.requestLeave(getAbsentDates,this.token).subscribe(res=>{
         if(!res['error']){
-          this.notificationService.notify({severity:'success', summary: 'Successfull', detail: res['message'], sticky: true})
+          let messageData = `I would like to reqest a leave from ${this.requestDates.value.fromDate} to ${this.requestDates.value.toDate} @ Reason: ${this.requestDates.value.desc}`
+          this.mekaService.postNotice({'message': messageData},this.token).subscribe(isMsg=>{
+            this.notificationService.notify({severity:'success', summary: 'Sent', detail: 'Notified to everyone', life: 3000 })
+          },err=>{
+            this.notificationService.notify({severity:'error', summary: 'Failed', detail: err.name, life: 3000 })
+          })
+          this.notificationService.notify({severity:'success', summary: 'Successfull', detail: res['message'], life: 3000 })
         }else{
           this.notificationService.notify({severity:'error', summary: 'Failed', detail: res['message'], sticky: true})
         }
       },err=>{
-        const errMessage = err.name
-        this.notificationService.notify({severity:'error', summary: 'Failed', detail: errMessage , sticky: false})
+        this.notificationService.notify({severity:'error', summary: 'Failed', detail: err.name , sticky: false})
       })
     }
   }else{
