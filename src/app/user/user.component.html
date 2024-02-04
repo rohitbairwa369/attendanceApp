@@ -1,4 +1,4 @@
-<div class="flex justify-content-between align-items-center px-2 h-3rem mbg-primary">
+<div class="flex justify-content-between w-full align-items-center px-2 h-3rem mbg-primary fixed top-0">
     <!-- <p-avatar [image]="userData.profilePic" shape="circle" (click)="isSidebarVisible=!isSidebarVisible" /> -->
     <i class="pi pi-bars text-xl text-white ml-0.375" (click)="isSidebarVisible=!isSidebarVisible"></i>
     <div class="p-1 cursor-pointer mt-0.375 mr-0.5" (click)="showNotice()">
@@ -9,6 +9,7 @@
     }
     </div>
     </div>
+    <div class="w-full h-3rem"></div>
 
 <p-sidebar #sidebarRef [(visible)]="isSidebarVisible">
         <ng-template pTemplate="headless">
