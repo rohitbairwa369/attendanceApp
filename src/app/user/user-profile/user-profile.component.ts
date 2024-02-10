@@ -7,6 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InputTextModule } from 'primeng/inputtext';
 import { takeUntil } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
+import { NotificationService } from '../../service/notification.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -19,7 +20,8 @@ export class UserProfileComponent extends unsub {
   profileForm:FormGroup;
   imageUrl: SafeResourceUrl;
   selectedFile: any;
-  constructor(private mekaService:MekaService,private sanitizer: DomSanitizer){
+  token = JSON.parse(localStorage.getItem('token'));
+  constructor(private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService){
     super()
     this.mekaService.myUserData$.pipe(takeUntil(this.onDestroyed$)).subscribe(data=>{
       this.userData = data;
@@ -38,16 +40,13 @@ export class UserProfileComponent extends unsub {
   }
 
   OnSave(){
-    const updatedProfile={
-      name:this.profileForm.get('name').value,
-      email:this.profileForm.get('email').value,
-      password:this.profileForm.get('password').value,
-      mobile:this.profileForm.get('mobile_number').value,
-      location:this.profileForm.get('location').value,
-      pin:this.profileForm.get('pin').value,
-      company_name:this.profileForm.get('company').value
-    }
-    
+    if(this.imageUrl.hasOwnProperty('changingThisBreaksApplicationSecurity')){
+      const updatedProfile ={'profilePic' :this.imageUrl['changingThisBreaksApplicationSecurity']}
+      // this.mekaService.UpdatePic.emit(this.imageUrl);
+      this.mekaService.updateUserDataApi(this.token,updatedProfile).subscribe(res=>{
+        this.notify.notify({severity:'success', summary:'Image Uploaded', detail: "Success"});
+      })
+    }  
 }
 
 onFileSelected(event: any) {
@@ -58,11 +57,6 @@ onFileSelected(event: any) {
       this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
     };
     reader.readAsDataURL(this.selectedFile);
-    // const updatedProfile ={profilePic :this.imageUrl['changingThisBreaksApplicationSecurity']}
-    // this.testserivce.UpdatePic.emit(this.imageUrl);
-    // this.testserivce.UpDateAdminProfile({profilePic :this.imageUrl['changingThisBreaksApplicationSecurity']},this.token).subscribe(res=>{
-    //   this.messageService.add({severity:'success', summary:'Image Uploaded', detail: "Success"});
-    // })
   }
 }
 }

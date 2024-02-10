@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MtableComponent } from '../../mtable/mtable.component';
 import { MekaService } from '../../service/meka.service';
 import { environment } from '../../../environments/environment';
@@ -101,7 +101,7 @@ export class DashboardComponent extends unsub{
 
   confirmationDialogue(){
       this.confirmationService.confirm({
-          header: 'Are you sure you want to clockout?',
+          header: 'Do you want to clockout?',
           message: 'Please confirm to proceed.',
           accept: () => {
              this.clockOut()

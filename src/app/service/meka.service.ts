@@ -31,6 +31,9 @@ export class MekaService {
   getUserData(token){
     return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':token.token}})
   }
+  updateUserDataApi(token,updatedDate){
+    return this.http.put(this.apiUrl + '/user',updatedDate,{headers:{'x-access-token':token.token}})
+  }
   // verifytoken(){
   //   var result = {}
   //   this.http.get(this.apiUrl + '/verify/token',{headers:{'x-access-token':this.token.token}}).subscribe(res=>{

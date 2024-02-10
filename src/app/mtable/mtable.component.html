@@ -21,7 +21,9 @@
         <td>{{ row.hours | decimalTimeShort}}</td>
        </tr>
         }@empty{
-            <span>No Entries to show!</span>
+          <tr>
+            <td colspan="7" class="text-center">No Entries to show!</td>
+          </tr>
         }
     </tbody>
   </table>

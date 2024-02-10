@@ -33,10 +33,9 @@
   </div> -->
   
 
-<div class="container">
+
 <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
-    <div class="col-12 flex justify-content-between mb-5 align-items-center">
-        <span class="font-bold"> <i class="pi pi-pencil  mr-3"></i>Profile</span>
+    <div class="col-12 flex justify-content-end mb-5 px-3 align-items-center">
         <button class="bg-green-700 border-round p-1 border-0 text-white">Save <i class="pi pi-save "></i></button>
     </div>
     <div class="lg:col-4 flex flex-column md:col-4 col-12">
@@ -50,25 +49,6 @@
             <input type="file" class="border-0 outline-none max-w-30rem w-full chooseFile border-round"  #fileInput (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
         </div>
     </div>
-    
 
-    <div class="flex flex-column gap-5 p-2 justify-content-center w-full">
-            <span class="p-input-icon-right">
-                <i class="pi pi-user "></i>
-                <input type="text" pInputText formControlName="name"  class=" bg-gray-200 w-full" placeholder="Name" >        
-            </span> 
-            <input type="text" pInputText formControlName="email" placeholder="Email Id" class=" bg-gray-200">
-            <span class="p-input-icon-right">
-              <i class="pi pi-mobile "></i>
-              <input type="text" pInputText formControlName="mobile_number" class=" bg-gray-200 w-full" placeholder="Mobile Number" >        
-          </span> 
-          <span class="p-input-icon-right">
-              <i class="pi pi-directions "></i>
-              <input type="text" pInputText formControlName="location"  class=" bg-gray-200 w-full" placeholder="Location" >        
-          </span> 
-          <input type="text" pInputText formControlName="pin" class="bg-gray-200" placeholder="Pin Code">
-          <input type="text" pInputText formControlName="company" placeholder="Company Name" class=" bg-gray-200 w-full">
-  </div>
 
 </form>
-</div>

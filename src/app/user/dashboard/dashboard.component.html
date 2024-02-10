@@ -1,8 +1,3 @@
-<div class="header px-3">
-    <div class="header-option"><i class="pi pi-calendar mr-2"></i>{{todaysDate | date}}</div>
-    <!-- <div class="header-option">Wagholi</div> -->
-    <div class="header-option"><i class="pi pi-clock mr-2"></i>{{ todaysDate| safeDate }} </div>
-</div>
 @defer(when tableData.length>0){
     <div class="clock-action relative">
         @if(isClockIn=="clockin"){
@@ -20,6 +15,10 @@
             <div >A</div>
         </button>
         }
+    </div>
+    <div class="header px-3 text-sm">
+        <div class="header-option"><i class="pi pi-calendar mr-2"></i>{{todaysDate | date}}</div>
+        <div class="header-option"><i class="pi pi-clock mr-2"></i>{{ todaysDate| safeDate }} </div>
     </div>
 <div class="table-container">
     <app-mtable [tableData]="tableData"></app-mtable>

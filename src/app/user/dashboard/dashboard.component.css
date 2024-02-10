@@ -1,14 +1,14 @@
 .header{
 
     height: 3rem;
-    background-color: #F9F9F9;
+    background-color: #efefef;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 500;
-    position:fixed;
     width: 100%;
-    top:3rem;
+
+    
 }
 
 .clock-action{
@@ -16,7 +16,6 @@
     justify-content: center;
     align-items: center;
     height: 9.625rem;
-    margin-top: 3rem;
 }
 
 .mclockin{
@@ -30,17 +29,19 @@
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .mclockin:disabled{
     padding: 1.125rem 1.875rem;
     border: transparent;
     border-radius: 2rem;
     letter-spacing: 0.08rem;
-    background-color: #00a4c152;
-    color: #fff;
+    background-color: #cbcbcb52;
+    color: #7e7e7e;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 }
 
 .mclockout{
@@ -53,6 +54,7 @@
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
 }
 

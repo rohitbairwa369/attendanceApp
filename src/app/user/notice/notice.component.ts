@@ -3,10 +3,11 @@ import { MekaService } from '../../service/meka.service';
 import { Observable } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { CommonModule } from '@angular/common';
+import { SkeletonModule } from 'primeng/skeleton';
 @Component({
   selector: 'app-notice',
   standalone: true,
-  imports: [CommonModule,AvatarModule],
+  imports: [CommonModule,AvatarModule,SkeletonModule],
   templateUrl: './notice.component.html',
   styleUrl: './notice.component.css'
 })
