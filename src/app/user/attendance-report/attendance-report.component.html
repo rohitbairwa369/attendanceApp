@@ -1,7 +1,9 @@
 <div class="p-2 mt-4">
     <form class="flex justify-content-center align-items-center gap-2 mb-2" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-    <input type="month" id="start" formControlName="monthYear" />
-    <button type="submit">Submit</button>
+    <!-- <input type="month" id="start" formControlName="monthYear" /> -->
+    <p-calendar formControlName="monthYear" view="month" dateFormat="mm/yy" [readonlyInput]="true"></p-calendar>
+    <p-button styleClass="mbg-primary" label="Submit" type="Submit" [raised]="true" [loading]="loading"></p-button>
+    
     </form>
     <div class="mt-5">
         <div class="flex justify-content-between">
