@@ -43,7 +43,12 @@ export const routes: Routes = [
     {
         path: "admin",
         loadComponent:()=>import('./admin/admin.component').then(mod=>mod.AdminComponent),
-        canMatch:[authGuard]
+       
+    },
+    {
+        path: "mreport/:id",
+        loadComponent:()=>import('./month-report/month-report.component').then(mod=>mod.MonthReportComponent),
+       
     },
     {
         path:'no-permission',

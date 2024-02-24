@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { CalendarModule } from 'primeng/calendar';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
 @Component({
     selector: 'app-dashboard',
