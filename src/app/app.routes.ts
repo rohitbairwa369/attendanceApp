@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: "login",
         loadComponent:()=>import('./login/login.component').then(mod=>mod.LoginComponent),
-        canMatch:[authGuard]
+        // canMatch:[authGuard]
     },
     {
         path: "",
