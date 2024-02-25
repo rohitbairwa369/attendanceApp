@@ -35,6 +35,10 @@ token = JSON.parse(localStorage.getItem('token'));
   })
  }
 
+ logout(){
+  localStorage.clear();
+  this.router.navigate(['login'])
+ }
  navigateToReport(id){
   this.router.navigate([`mreport/${id}`])
  }
