@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: "login",
         loadComponent:()=>import('./login/login.component').then(mod=>mod.LoginComponent),
-        // canMatch:[authGuard]
+        canMatch:[authGuard]
     },
     {
         path: "",
@@ -48,7 +48,7 @@ export const routes: Routes = [
     {
         path: "mreport/:id",
         loadComponent:()=>import('./month-report/month-report.component').then(mod=>mod.MonthReportComponent),
-       
+        canMatch:[authGuard]
     },
     {
         path:'no-permission',

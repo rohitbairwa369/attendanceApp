@@ -12,11 +12,19 @@ export const authGuard: CanMatchFn = (route, state) => {
         if(route.path =='login'){
           router.navigate(['dashboard'])
         }
-      }else{
-        router.navigate(['login']);
+      }else if(res && res['auth'] && res['role']=='admin'){
+        if(route.path =='login'){
+          router.navigate(['admin'])
+        }
+        if(state[0].path=='dashboard'){
+          router.navigate(['no-permission'])
+        }
       }
     return true;
   } else {
-    return true;
+    if(route.path !='login'){
+    router.navigate(['login'])
+    }
+    return true
   }
 };

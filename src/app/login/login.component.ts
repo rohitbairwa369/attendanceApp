@@ -4,6 +4,7 @@ import { MekaService } from '../service/meka.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../service/notification.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { take } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -36,12 +37,16 @@ export class LoginComponent {
     if(this.loginForm.valid){
       this.isLoading = true;
       const credentials = this.loginForm.value;
-      this.mekaService.userLogin(credentials).subscribe(res=>{
+      this.mekaService.userLogin(credentials).pipe(take(1)).subscribe(res=>{
         if(res['auth']){
           this.isLoading = false;
           localStorage.setItem('token',JSON.stringify(res))
             this.loginForm.reset();
+            if(res['role']=='admin'){
+              this.router.navigate(['admin'])
+            }else{
             this.router.navigate(['dashboard']);
+            }
         }else{
           this.isLoading = false;
           this.notificationService.notify({ severity: 'error', summary: 'Authentication Failed', detail: res['token'], life: 3000 });
