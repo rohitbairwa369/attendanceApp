@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MekaService } from '../service/meka.service';
 import { NotificationService } from '../service/notification.service';
 import { takeUntil } from 'rxjs';
@@ -7,11 +7,11 @@ import { unsub } from '../shared/unsub.class';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
-
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-month-report',
   standalone: true,
-  imports:[TagModule,CommonModule,JsonPipe,DecimalTimeShortPipe],
+  imports:[ButtonModule,TagModule,CommonModule,JsonPipe,DecimalTimeShortPipe],
   providers: [MekaService,NotificationService],
   templateUrl: './month-report.component.html',
   styleUrl: './month-report.component.css'
@@ -34,7 +34,7 @@ export class MonthReportComponent extends unsub {
   "Dec": "#d8d5b8"  
 };
 
-  constructor(private route:ActivatedRoute,private mekaService:MekaService){
+  constructor(private route:ActivatedRoute,private mekaService:MekaService,private router:Router){
    super()
    const userid = this.route.snapshot.paramMap.get('id')
    if(userid.length>0){
@@ -42,5 +42,9 @@ export class MonthReportComponent extends unsub {
       this.userData = data;
     })
    }
+  }
+
+  backTohome(){
+    this.router.navigate(['admin'])
   }
 }

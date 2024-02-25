@@ -7,12 +7,12 @@ import { takeUntil } from 'rxjs';
 import { NotificationService } from '../service/notification.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { Router } from '@angular/router';
-
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule,TableModule,InputTextModule],
+  imports: [ButtonModule,CommonModule,TableModule,InputTextModule],
   providers: [MekaService,NotificationService],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
@@ -23,11 +23,13 @@ notificationService = inject(NotificationService)
 router = inject(Router)
 selectedUser:any;
 usersData:any;
+isLoading:boolean = true;
 token = JSON.parse(localStorage.getItem('token'));
  constructor(private mekaService : MekaService){
   super()
   this.mekaService.getUsersData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
     this.usersData = user;
+    this.isLoading = false;
   },err=>{
     this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
   })
