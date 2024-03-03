@@ -34,6 +34,9 @@ export class MekaService {
   getUsersData(token){
     return this.http.get(this.apiUrl + '/users',{headers:{'x-access-token':token.token}})
   }
+  getUserDataAnalytics(data, token){
+    return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/${data.userId}/${data.status}`,{headers:{'x-access-token':token.token}})
+  }
   getUserById(id,token){
     return this.http.get(this.apiUrl + `/user/${id}`,{headers:{'x-access-token':token.token}})
   }

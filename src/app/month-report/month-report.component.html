@@ -1,16 +1,38 @@
-<div class="flex justify-content-center mt-3">
+<div class="flex justify-content-end mr-3 mt-3">
   <p-button label="Back" (onClick)="backTohome()"  [outlined]="true"></p-button>
 </div>
 
+@defer (when userData && userPresent) {
 <div class="p-3">
-    <div class="user-info">
-      <img [src]="userData.profilePic" alt="Profile Picture" class="profile-pic">
+    <div class="flex flex-wrap">
+      <div class="flex justify-content-center w-full mb-3">
+        <img [src]="userData.profilePic" alt="Profile Picture" class="profile-pic">
+      </div>
       <div class="user-details">
-        <p class="user-name">Name: {{  userData.name }}</p>
-        <p class="user-email">Email: {{  userData.email }}</p>
+        <p class="user-name"><b>Name:</b> {{  userData.name }}</p>
+        <p ><b>Email:</b> {{  userData.email }}</p>
+        <p ><b>Designation:</b> {{  userData.designation }}</p>
+        <p ><b>Reporting To:</b> {{  userData.reportingTo }}</p>
+        <p ><b>Address:</b> {{  userData.address }}</p>
+        <p ><b>Avg Working Hrs:</b> {{  userPresent.averageHours  | decimalTimeShort }}</p>
       </div>
     </div>
+    <hr>
     <h3 class="report-heading">Attendance Report</h3>
+    <div class="flex justify-content-between mb-2">
+      <div>
+        <div class="mb-1">
+          <b>Month :</b> {{this.todaysDate.toLocaleString('default', { month:'long' })}}
+        </div>
+        <div  class="mb-1">
+          <b>Total leaves :</b> {{userData.totalLeaves}}
+        </div>
+      </div>
+      <label for="Year">
+        <b>Year : </b> {{userData.attendanceForLeaves[0].year}}
+       </label>
+    </div>
+    <h3 class="report-heading">Leaves : </h3>
     <table class="attendance-table">
       <thead>
         <tr>
@@ -21,7 +43,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let record of userData.attendance"  [style.background-color]="monthColors[record.month]">
+        <tr *ngFor="let record of userData.attendanceForLeaves"  [style.background-color]="monthColors[record.month]">
+          <td>{{ record.date }} {{ record.month }} {{ record.year }}</td>
+          <td>{{ record.day }}</td>
+          <td>{{ record.hours | decimalTimeShort }}</td>
+          <td>@if (record.status == "Absent") {
+        <p-tag severity="danger" value='Absent' ></p-tag>
+        }@else if (record.status == "Present") {
+            <p-tag severity="success" value='Present' ></p-tag>
+        }@else {
+            <p-tag severity="info" value='Holiday' ></p-tag>
+        }</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="report-heading">Days Clocked In : </h3>
+    <table class="attendance-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Hours</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of userPresent.attendanceForLeaves"  [style.background-color]="monthColors[record.month]">
           <td>{{ record.date }} {{ record.month }} {{ record.year }}</td>
           <td>{{ record.day }}</td>
           <td>{{ record.hours | decimalTimeShort }}</td>
@@ -36,4 +83,5 @@
       </tbody>
     </table>
   </div>
+}
   
