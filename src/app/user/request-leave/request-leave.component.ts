@@ -3,12 +3,15 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { environment } from '../../../environments/environment';
 import { MekaService } from '../../service/meka.service';
 import { NotificationService } from '../../service/notification.service';
+import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 @Component({
   selector: 'app-request-leave',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule],
   templateUrl: './request-leave.component.html',
   styleUrl: './request-leave.component.css'
 })
