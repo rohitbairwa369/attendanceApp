@@ -16,6 +16,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { CalendarModule } from 'primeng/calendar';
 import { takeUntil } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
+import { Title } from '@angular/platform-browser';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
@@ -39,8 +40,9 @@ export class DashboardComponent extends unsub{
   userData:any={}
   token = JSON.parse(localStorage.getItem('token'));
 
-  constructor(){
+  constructor(private titleService: Title){
   super()
+  this.titleService.setTitle("Meka - Home")
    this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
       this.userData = user;
     },err=>{
