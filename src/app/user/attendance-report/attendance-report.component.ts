@@ -5,6 +5,7 @@ import { MtableComponent } from '../../mtable/mtable.component';
 import { NotificationService } from '../../service/notification.service';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-attendance-report',
@@ -23,7 +24,9 @@ export class AttendanceReportComponent {
   })
   selectedMonth:string='none'
 
-  constructor(private mekaService:MekaService,private notify:NotificationService){}
+  constructor(private titleService: Title,private mekaService:MekaService,private notify:NotificationService){
+    this.titleService.setTitle("Meka - Report")
+  }
 
   onSubmit(){
     if(this.reportForm.valid){

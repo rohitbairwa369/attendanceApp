@@ -6,6 +6,7 @@ import { NotificationService } from '../../service/notification.service';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -17,6 +18,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 })
 export class RequestLeaveComponent {
 
+  constructor(private titleService: Title){
+    this.titleService.setTitle("Meka - Request Leave")
+  }
   token = JSON.parse(localStorage.getItem('token'));
   mekaService= inject(MekaService);
   notificationService= inject(NotificationService);

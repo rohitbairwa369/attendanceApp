@@ -3,7 +3,7 @@ import { MekaService } from '../../service/meka.service';
 import { CommonModule } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, Title } from '@angular/platform-browser';
 import { InputTextModule } from 'primeng/inputtext';
 import { takeUntil } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
@@ -24,8 +24,9 @@ export class UserProfileComponent extends unsub {
   imageUrl: SafeResourceUrl;
   selectedFile: any;
   token = JSON.parse(localStorage.getItem('token'));
-  constructor(private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService, private FormBuilder: FormBuilder){
+  constructor(private titleService: Title,private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService, private FormBuilder: FormBuilder){
     super()
+    this.titleService.setTitle("Meka - Profile")
     this.mekaService.myUserData$.pipe(takeUntil(this.onDestroyed$)).subscribe(data=>{
       this.userData = data;
       this.imageUrl = this.userData.profilePic;
