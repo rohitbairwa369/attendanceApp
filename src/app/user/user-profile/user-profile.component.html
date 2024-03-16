@@ -1,42 +1,7 @@
-<!-- profile.component.html -->
-
-<!-- <div *ngIf="user" class="profile-container mx-2">
-    <div class="profile-header">
-      <img [src]="user.profilePic" alt="Profile Picture" class="profile-picture">
-      <div class="profile-info">
-        <h3>{{ user.name }}</h3>
-        <p class="role">{{ user.role }} | {{ user.email }}</p>
-      </div>
-    </div>
-    <div class="profile-details">
-      <div class="detail">
-        <span class="label">Account Created:</span>
-        <span class="value">{{ user.date }}</span>
-      </div>
-      <div class="detail">
-        <span class="label">Manager:</span>
-        <span class="value">{{ user.managerName }}</span>
-      </div>
-      <div class="detail">
-        <span class="label">Team:</span>
-        <span class="value">{{ user.teamName }}</span>
-      </div>
-      <div class="detail">
-        <span class="label">Address:</span>
-        <span class="value">{{ user.address }}</span>
-      </div>
-      <div class="detail">
-        <span class="label">HR Name:</span>
-        <span class="value">{{ user.hrName }}</span>
-      </div>
-    </div>
-  </div> -->
-
-
 <div class="grid">
-  <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
+  <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSubmit()">
     <div class="col-12 flex justify-content-end mb-5 px-3 align-items-center">
-      <button pButton label="Save"> <i class="pi pi-save "></i></button>
+      <button pButton  class="mbg-primary p-button-sm" label="Save"> <i class="pi pi-save mr-2"></i></button>
     </div>
     <div class="lg:col-4 flex flex-column md:col-4 col-12">
       <div class="UserImg ">
@@ -46,8 +11,8 @@
             alt="Uploaded Image">
         </div>
       </div>
-      <div class="flex flex-column justify-content-center align-items-center h-full p-4">
-        <input type="file" class="border-0 outline-none max-w-30rem w-full chooseFile border-round" #fileInput
+      <div class="flex flex-column justify-content-center align-items-center h-4rem p-2">
+        <input type="file" class="border-0 outline-none w-full chooseFile border-round" #fileInput
           (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
       </div>
       <div class="col">

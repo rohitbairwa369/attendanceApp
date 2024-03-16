@@ -10,6 +10,7 @@ body{
 :root{
   /* font-size: 62.5%; */
   --btnColor:#00A5C1;
+  --primary-color:#00A5C1 !important;
 }
 .container{
     padding: 1.5rem;

@@ -1,20 +1,20 @@
 <div class="mt-5 p-2">
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
         <div class="field">
-            <label for="From" style="font-size: 20px;">From : </label>
+            <label for="From" >From : </label>
             <p-calendar formControlName="fromDate" [showIcon]="true" styleClass="text-base text-color surface-overlay w-full"></p-calendar>
         </div>
         <div class="field">
-            <label for="From" style="font-size: 20px;">To : </label>&nbsp;
+            <label for="To">To : </label>
             <p-calendar formControlName="toDate" [showIcon]="true" styleClass="text-base text-color surface-overlay w-full" ></p-calendar>
         </div>
-        <div class="mt-5 grid">
-            <textarea pInputTextarea class="p-2" cols="43" rows="10" formControlName="desc"
+        <div class="mt-5 grid justify-content-center p-2">
+            <textarea pInputTextarea class="p-2 w-full" cols="43" rows="10" formControlName="desc"
                 placeholder="Add your reason..." id="Reason"></textarea>
         </div>
 
         <div class="p-2 grid justify-content-center mt-5"><p-button type="Submit" label="Submit"
-                styleClass="mbg-primary"></p-button></div>
+                styleClass="bg-primary"></p-button></div>
     </form>
 </div>
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MekaService } from '../../service/meka.service';
 import { CommonModule } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InputTextModule } from 'primeng/inputtext';
 import { takeUntil } from 'rxjs';
@@ -31,17 +31,6 @@ export class UserProfileComponent extends unsub {
       this.imageUrl = this.userData.profilePic;
       
       this.profileForm=this.FormBuilder.group({
-        // 'name':new FormControl(this.userData.name,Validators.required),
-        // 'email': new FormControl(this.userData.email,Validators.required),
-        // 'teamname':new FormControl(this.userData.teamname,Validators.required),
-        // 'DOB':new FormControl(this.userData.DOB,[Validators.required]),
-        // 'Gender':new FormControl(this.userData.Gender,Validators.required),
-        // 'role':new FormControl(this.userData.role,Validators.required),
-        // 'contact':new FormGroup(this.userData.contact,Validators.required),
-        // 'company':new FormControl(this.userData.company_name,Validators.required),
-        // 'reportingto':new FormControl(this.userData.reportingto,Validators.required),
-        // 'AddressLine':new FormControl(this.userData.AddressLine,Validators.required),
-
         name: [this.userData.name, [Validators.required]],
         email: [this.userData.email, [Validators.required, Validators.email]],
         gender: [this.userData.gender, [Validators.required]],
@@ -71,6 +60,10 @@ export class UserProfileComponent extends unsub {
         this.notify.notify({severity:'success', summary:'Image Uploaded', detail: "Success"});
       })
     }  
+}
+
+OnSubmit(){
+  console.log(this.profileForm)
 }
 
 onFileSelected(event: any) {
