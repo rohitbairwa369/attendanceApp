@@ -24,13 +24,13 @@ export class AdminComponent implements OnInit{
   isSidebarVisible: boolean = false;
 router=inject(Router)
 mekaService = inject(MekaService)
-token = localStorage.getItem('token')
 adminData:any;
 constructor(){
 
 }
 ngOnInit(){
-  this.mekaService.getUserData(this.token).subscribe(res=>{
+  const token = JSON.parse(localStorage.getItem('token'))
+  this.mekaService.getUserData(token).subscribe(res=>{
     this.adminData = res;
     })
 }
