@@ -1,0 +1,37 @@
+<div class="flex justify-content-start m-3">
+
+
+</div>
+<div class="p-3">
+    <div class="flex justify-content-center align-items-center">
+        <p-avatar image="../../assets/userProfile.jpg" shape="circle" size="large" />
+    </div>
+    <h2 class="text-center">Admin</h2>
+    <p-table #dt1 [value]="usersData" [tableStyle]="{ 'min-width': 'auto' }" selectionMode="single"
+        [(selection)]="selectedUser" dataKey="email" [globalFilterFields]="['name', 'email','role']">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <span class="p-input-icon-left w-full">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" class="w-full" #textInput
+                        (input)="dt1.filterGlobal(textInput.value, 'contains')" placeholder="Search by name ,email" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr (click)="navigateToReport(user._id)">
+                <td class="flex align-items-center">
+                    <div class="w-3rem h-3rem"><img [src]=user.profilePic alt="" class="border-circle border-1"
+                            width="100%" height="100%"></div>
+                    <div class="ml-3 capitalize">{{user.name}} <br>{{user.designation}}</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>

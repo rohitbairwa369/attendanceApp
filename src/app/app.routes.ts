@@ -43,6 +43,12 @@ export const routes: Routes = [
     {
         path: "admin",
         loadComponent:()=>import('./admin/admin.component').then(mod=>mod.AdminComponent),
+        children:[
+            {
+                path:'', 
+                loadComponent:()=>import('./admin/admindashboard/admindashboard.component').then(mod=>mod.AdmindashboardComponent)
+            }
+        ],
         canMatch:[authGuard]
        
     },

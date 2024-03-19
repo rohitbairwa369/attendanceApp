@@ -1,30 +1,75 @@
-
-<div class="flex justify-content-start m-3">
-    <p-button label="Logout" icon="pi pi-sign-out"  (onClick)="logout()"  [outlined]="true"></p-button>
-  </div>
-<div class="p-3">
-  <h2 class="text-center">Admin</h2>
-  <p-table  #dt1 [value]="usersData" [tableStyle]="{ 'min-width': 'auto' }"  selectionMode="single"   [(selection)]="selectedUser" dataKey="email"   [globalFilterFields]="['name', 'email','role']">
-    <ng-template pTemplate="caption">
-      <div class="flex">
-          <span class="p-input-icon-left w-full">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" class="w-full" #textInput (input)="dt1.filterGlobal(textInput.value, 'contains')" placeholder="Search by name ,email" />
-          </span>
-      </div>
-  </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Name</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-user>
-        <tr (click)="navigateToReport(user._id)">
-           <td class="flex align-items-center"><div class="w-3rem h-3rem"><img [src]=user.profilePic alt="" class="border-circle border-1" width="100%" height="100%"></div>
-            <div class="ml-3 capitalize">{{user.name}} <br>{{user.designation}}</div>
-        </td>
-        </tr>
-    </ng-template>
-</p-table>
-  
+<!-- <h1>navbar</h1> -->
+<div class="flex w-full align-items-center px-2 h-3rem mbg-primary fixed top-0 ">
+    <i class="pi pi-bars text-xl cursor-pointer text-white" (click)="isSidebarVisible =! isSidebarVisible"></i>
 </div>
+<div class="w-full h-3rem">
+</div>
+<p-sidebar #sidebarRef [(visible)]="isSidebarVisible" >
+    <ng-template pTemplate="headless">
+        <div class="flex flex-column h-full">
+            <div class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0">
+                <span class="flex flex-wrap align-items-center gap-2">
+                
+                        <p-avatar label="A" shape="circle" />
+                        
+                        
+                    <div>
+                        <div class="font-semibold text-xl text-gray-600">Admin</div>
+                    </div> 
+                </span>
+                <span>
+                </span>
+            </div>
+            <div class="overflow-y-auto">
+                <ul class="list-none p-3 m-0">
+                    <li>
+                        <ul class="list-none p-0 m-0 overflow-hidden">
+                            <li [routerLink]="['/addashboard']">
+                                <a pRipple
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-home mr-2"></i>
+                                    <span class="font-medium">Home Page</span>
+                                </a>
+                            </li>
+                            <li >
+                                <a pRipple
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-plus mr-2"></i>
+                                    <span class="font-medium">Add Interns</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a pRipple
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-envelope mr-2"></i>
+                                    <span class="font-medium">Notices</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a pRipple
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-send mr-2"></i>
+                                    <span class="font-medium">Add Holidays</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a pRipple
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-user-edit mr-2"></i>
+                                    <span class="font-medium">Manage Inters Page</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a pRipple class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple" (click)="logout()">
+                                    <i class="pi pi-sign-out mr-2"></i>
+                                    <span class="font-bold">Loged Out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-sidebar>
+<router-outlet></router-outlet>
