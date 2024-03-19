@@ -33,7 +33,7 @@
        </label>
     </div>
     <h3 class="report-heading">Leaves : </h3>
-    <table class="attendance-table">
+    <table class="attendance-table" >
       <thead>
         <tr>
           <th>Date</th>
@@ -87,4 +87,9 @@
   
 <div class="card">
   <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+</div>
+
+
+<div class="card flex justify-content-center">
+  <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
 </div>

@@ -25,6 +25,8 @@ export class MonthReportComponent extends unsub implements OnInit {
   userPresent: any;
   basicData: any;
   basicOptions: any;
+  pieData:any;
+  pieOptions:any;
   monthColors = {
     "Jan": "#b0d9e2",
     "Feb": "#b4c8a9",
@@ -59,7 +61,7 @@ export class MonthReportComponent extends unsub implements OnInit {
       this.mekaService.getUserDataAnalytics(postData, this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(data => {
         this.userPresent = data;
         this.setGraphData();
-
+        this.setpieChartData()
       })
 
     }
@@ -85,7 +87,7 @@ export class MonthReportComponent extends unsub implements OnInit {
           {
               label: 'hours',
               data:this.userPresent.analiticsData.hours,
-              backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+              backgroundColor: ['skyblue'],
               borderColor: ['rgb(54, 162, 235)'],
               
           }
@@ -127,6 +129,32 @@ export class MonthReportComponent extends unsub implements OnInit {
       }
   };
   }
+  
+setpieChartData(){
+  const documentStyle = getComputedStyle(document.documentElement);
+  const textColor = documentStyle.getPropertyValue('--text-color');
+this.pieData={
+  labels:['absent','present'],
+  datasets:[
+    {
+      data:[this.userData.totalLeaves,this.userPresent.attendanceForLeaves.length],
+      background:[documentStyle.getPropertyValue('--blue-500'),documentStyle.getPropertyValue('--yellow-500')],
+      hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'),]
+    }
+  ]
+};
+this.pieOptions = {
+  plugins: {
+      legend: {
+          labels: {
+              usePointStyle: true,
+              color: textColor
+          }
+      }
+  }
+};
+}
+
 }
 
 

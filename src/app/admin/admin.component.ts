@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { MekaService } from '../service/meka.service';
 import { unsub } from '../shared/unsub.class';
@@ -20,10 +20,20 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent extends unsub{
+export class AdminComponent implements OnInit{
   isSidebarVisible: boolean = false;
 router=inject(Router)
+mekaService = inject(MekaService)
+token = localStorage.getItem('token')
+adminData:any;
+constructor(){
 
+}
+ngOnInit(){
+  this.mekaService.getUserData(this.token).subscribe(res=>{
+    this.adminData = res;
+    })
+}
   logout(){
     localStorage.clear();
     this.router.navigate(['login'])
