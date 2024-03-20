@@ -1,4 +1,4 @@
-<div class="mt-5 p-2">
+<div class="mt-5 p-3">
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
         <div class="field">
             <label for="From" >From : </label>
@@ -13,8 +13,8 @@
                 placeholder="Add your reason..." id="Reason"></textarea>
         </div>
 
-        <div class="p-2 grid justify-content-center mt-5"><p-button type="Submit" label="Submit"
-                styleClass="bg-primary"></p-button></div>
+        <div class="p-2 grid justify-content-center mt-5"><p-button [raised]="true" type="Submit" label="Apply"
+                styleClass="bg-primary p-button-sm"></p-button></div>
     </form>
 </div>
 

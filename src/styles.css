@@ -7,29 +7,34 @@ body{
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 :root{
   /* font-size: 62.5%; */
-  --btnColor:#00A5C1;
-  --primary-color:#00A5C1 !important;
+  --btnColor:#3B82F6;
+  --primary-color:#3B82F6 !important;
 }
 .container{
     padding: 1.5rem;
 }
 .mbg-primary{
-    background-color: #00A5C1 !important;
+    background-color: #3B82F6 !important;
 }
 .mbg-secondary{
     background-color: #FF6700;
 }
 .mbg-secondary-border{
-    border-color: #00A5C1;
+    border-color: #3B82F6;
     background-color: white;
-    color:#00A5C1;
+    color:#3B82F6;
+}
+
+.bordershadow-meka{
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .button{
     position: relative;
-    background-color: #168E79;
+    background-color: #3B82F6;
     border-radius: 4em;
     font-size: 16px;
     color: white;
@@ -47,7 +52,7 @@ body{
   
   .button:hover {
     transition-duration: 0.1s;
-    background-color: #0b7361;
+    background-color: #3B82F6;
   }
   
   .button:after {

@@ -24,6 +24,7 @@ export class UserProfileComponent extends unsub {
   imageUrl: SafeResourceUrl;
   selectedFile: any;
   token = JSON.parse(localStorage.getItem('token'));
+  isloading:boolean=false;
   constructor(private titleService: Title,private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService, private FormBuilder: FormBuilder){
     super()
     this.titleService.setTitle("Meka - Profile")
@@ -36,6 +37,7 @@ export class UserProfileComponent extends unsub {
         email: [this.userData.email, [Validators.required, Validators.email]],
         gender: [this.userData.gender, [Validators.required]],
         role: [this.userData.role, [Validators.required]],
+        designation:[this.userData.designation, [Validators.required]],
         contact:[
           this.userData.contact,
           [
@@ -45,27 +47,31 @@ export class UserProfileComponent extends unsub {
             Validators.maxLength(10)
           ],
         ],
-        birthDate: [this.userData.birthDate, [Validators.required]],
+        birthDate: [new Date(this.userData.birthDate), [Validators.required]],
         reportingTo: [this.userData.reportingTo, [Validators.required]],
         teamCategory: [this.userData.teamCategory, [Validators.required]],
         address: [this.userData.address, [Validators.required]],   
       })
+      this.profileForm.get('role').disable(); 
     })
   }
 
   OnSave(){
-    if(this.imageUrl.hasOwnProperty('changingThisBreaksApplicationSecurity')){
-      const updatedProfile ={'profilePic' :this.imageUrl['changingThisBreaksApplicationSecurity']}
-      // this.mekaService.UpdatePic.emit(this.imageUrl);
+    this.isloading=true;
+      const updatedProfile ={
+        'profilePic' :this.imageUrl['changingThisBreaksApplicationSecurity'],
+        ...this.profileForm.value
+      }
+      this.mekaService.UpdatePic.emit(this.imageUrl['changingThisBreaksApplicationSecurity']);
       this.mekaService.updateUserDataApi(this.token,updatedProfile).subscribe(res=>{
-        this.notify.notify({severity:'success', summary:'Image Uploaded', detail: "Success"});
+        this.isloading=false;
+        this.notify.notify({severity:'success', summary:'Profile Updated', detail: "Success"});
+      },error=>{
+        this.isloading=false;
+        this.notify.notify({severity:'error', summary:'Updating Profile Failed', detail: "Failed"});
       })
-    }  
 }
 
-OnSubmit(){
-  console.log(this.profileForm)
-}
 
 onFileSelected(event: any) {
   this.selectedFile = event.target.files[0];

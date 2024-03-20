@@ -36,6 +36,9 @@ export class UserComponent extends unsub {
     }, err => {
       this.notificationService.notify({ severity: 'error', summary: 'API Failure', detail: 'Failed to connect' })
     })
+    this.mekaService.UpdatePic.subscribe((update=>{
+      this.userData.profilePic = update;
+    }))
     this.noticeData$ = this.mekaService.getNotice(this.token)
     this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {

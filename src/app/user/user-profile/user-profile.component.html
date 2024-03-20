@@ -1,8 +1,5 @@
 <div class="grid mr-0">
-  <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSubmit()">
-    <div class="col-12 flex justify-content-end mb-5 px-3 align-items-center">
-      <button pButton  class="mbg-primary p-button-sm" label="Save"> <i class="pi pi-save text-sm mr-2"></i></button>
-    </div>
+  <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
     <div class="lg:col-4 flex flex-column md:col-4 col-12">
       <div class="UserImg ">
         <div class="UserImg_border">
@@ -65,9 +62,17 @@
         </div>
         <div class="field col-12">
           <label for="role" class="block">Role<span class="text-red-500">*</span></label>
-          <input type="text" pInputText id="role" formControlName="role" class="col-12"
-            onkeydown="return /[A-Za-z -]/i.test(event.key)" />
+          <input type="text" pInputText id="role" formControlName="role" class="col-12"/>
           <span *ngIf="(profileForm.get('role').hasError('required')) && (profileForm.get('role').touched)"
+            class="text-red-500 text-xs">This field
+            is
+            required!</span>
+        </div>
+        <div class="field col-12">
+          <label for="designation" class="block">Designation<span class="text-red-500">*</span></label>
+          <input type="text" pInputText id="designation" formControlName="designation" class="col-12"
+            onkeydown="return /[A-Za-z -]/i.test(event.key)" />
+          <span *ngIf="(profileForm.get('designation').hasError('required')) && (profileForm.get('designation').touched)"
             class="text-red-500 text-xs">This field
             is
             required!</span>
@@ -85,8 +90,7 @@
 
         <div class="field col-12 sm:col-12">
           <label for="reportingTo" class="block">Reporting to<span class="text-red-500">*</span></label><br>
-          <input type="text" pInputText id="reportingTo" formControlName="reportingTo" class="col-12"
-            onkeydown="return /[a-zA-Z]/i.test(event.key)" />
+          <input type="text" pInputText id="reportingTo" formControlName="reportingTo" class="col-12" />
           <span
             *ngIf="(profileForm.get('reportingTo').hasError('required')) && (profileForm.get('reportingTo').touched)"
             class="text-red-500 text-xs">This field
@@ -104,7 +108,9 @@
 
       </div>
     </div>
-
+    <div class="col-12 flex justify-content-center mb-5 px-3 align-items-center">
+      <p-button label="Submit" [loading]="isloading" icon="pi pi-save" type="Submit" styleClass="mbg-primary p-button-sm" label="Save"></p-button>
+    </div>
 
   </form>
 </div>
