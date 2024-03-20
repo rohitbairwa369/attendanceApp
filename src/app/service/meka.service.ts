@@ -28,6 +28,12 @@ export class MekaService {
   adminRegister(credentials){
     return this.http.post(this.apiUrl + '/admin/register', credentials)
   }
+  addHolidays(holidayArray,token){
+    return this.http.put(this.apiUrl + '/holidays',holidayArray,{headers:{'x-access-token':token.token}})
+  }
+  userRegister(credentials){
+    return this.http.post(this.apiUrl + '/user/register', credentials)
+  }
   getUserData(token){
     return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':token.token}})
   }

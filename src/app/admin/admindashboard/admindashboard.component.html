@@ -1,8 +1,4 @@
-<div class="flex justify-content-start m-3">
-
-
-</div>
-<div class="p-3">
+<div class="p-2">
     <p-table #dt1 [value]="usersData" [tableStyle]="{ 'min-width': 'auto' }" selectionMode="single"
         [(selection)]="selectedUser" dataKey="email" [globalFilterFields]="['name', 'email','role']">
         <ng-template pTemplate="caption">

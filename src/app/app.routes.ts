@@ -47,7 +47,19 @@ export const routes: Routes = [
             {
                 path:'', 
                 loadComponent:()=>import('./admin/admindashboard/admindashboard.component').then(mod=>mod.AdmindashboardComponent)
-            }
+            },
+            {
+                path:'add-interns', 
+                loadComponent:()=>import('./admin/add-interns/add-interns.component').then(mod=>mod.AddInternsComponent)
+            },
+            {
+                path:'add-holidays', 
+                loadComponent:()=>import('./admin/add-holidays/add-holidays.component').then(mod=>mod.AddHolidaysComponent)
+            },
+            {
+                path:'notice', 
+                loadComponent:()=>import('./user/notice/notice.component').then(mod=>mod.NoticeComponent)
+            },
         ],
         canMatch:[authGuard]
        

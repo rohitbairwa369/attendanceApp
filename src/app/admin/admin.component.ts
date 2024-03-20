@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { MekaService } from '../service/meka.service';
-import { unsub } from '../shared/unsub.class';
-import { takeUntil } from 'rxjs';
 import { NotificationService } from '../service/notification.service';
 import { InputTextModule } from 'primeng/inputtext';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { unsub } from '../shared/unsub.class';
+import { takeUntil } from 'rxjs';
+
 
 @Component({
   selector: 'app-admin',
@@ -20,18 +21,21 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent implements OnInit{
-  isSidebarVisible: boolean = false;
+export class AdminComponent extends unsub implements OnInit{
+isSidebarVisible: boolean = false;
 router=inject(Router)
 mekaService = inject(MekaService)
 adminData:any;
-constructor(){
 
-}
 ngOnInit(){
   const token = JSON.parse(localStorage.getItem('token'))
-  this.mekaService.getUserData(token).subscribe(res=>{
+  this.mekaService.getUserData(token).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
     this.adminData = res;
+    })
+  this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isSidebarVisible = false;
+      }
     })
 }
   logout(){
@@ -39,3 +43,4 @@ ngOnInit(){
     this.router.navigate(['login'])
    }
 }
+

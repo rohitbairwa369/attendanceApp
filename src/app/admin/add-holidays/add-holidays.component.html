@@ -1,0 +1,32 @@
+<div class="p-2 mt-2">
+
+    <form [formGroup]="holidayForm" (ngSubmit)="addHoliday()">
+        <div class="field">
+            <label for="firstname1">Date</label>
+            <p-calendar formControlName="date" [touchUI]="true" [showIcon]="true" styleClass="text-base text-color surface-overlay w-full" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="firstname1">Occasion</label>
+            <input type="text" pInputText id="name" formControlName="reason" class="text-base text-color surface-overlay  border-1 w-full"  />
+        </div>
+        <div class="flex justify-content-center mt-2 mb-4">
+            <p-button type="submit" [raised]="true" [disabled]="this.holidayForm.invalid" styleClass="p-button-sm">Add Holiday</p-button>
+        </div>
+      </form>
+      <hr>
+    <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Occasion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let holiday of holidays">
+            <td>{{ holiday.date }}-{{ holiday.month }}-{{ holiday.year }}</td>
+            <td>{{ holiday.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+</div>
