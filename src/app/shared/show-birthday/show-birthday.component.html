@@ -1,0 +1,18 @@
+
+<div class="field mt-3 mx-2">
+    <label for="firstname1" class="font-bold ">😊 Birthday this month! 🍰</label>
+<div class="flex p-2 flex-wrap gap-3 text-base">
+    @for (user of usersbirthday; track user.id) {
+        <div class="flex flex-column justify-content-center align-items-center">
+        <div class="w-3rem h-3rem"><img [src]=user.profilePic alt="" class="border-circle border-1"
+            width="100%" height="100%"></div>
+            <div class="text-center">
+                <p class="text-sm mb-0">{{ user.name }}</p>
+                <p class="text-xs m-0">{{ user.birthday | date:'mediumDate' }}</p>
+            </div>
+        </div>
+      } @empty {
+        No has birthday in this month!
+      }
+</div>
+</div>

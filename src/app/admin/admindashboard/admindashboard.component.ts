@@ -10,11 +10,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ShowBirthdayComponent } from '../../shared/show-birthday/show-birthday.component';
 
 @Component({
   selector: 'app-admindashboard',
   standalone: true,
-  imports: [ButtonModule,CommonModule,TableModule,InputTextModule,AvatarModule,AvatarGroupModule],
+  imports: [ButtonModule,CommonModule,TableModule,InputTextModule,AvatarModule,AvatarGroupModule,ShowBirthdayComponent],
   providers:[MekaService,NotificationService],
   templateUrl: './admindashboard.component.html',
   styleUrl: './admindashboard.component.css'

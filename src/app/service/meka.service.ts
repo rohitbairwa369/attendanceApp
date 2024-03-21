@@ -76,6 +76,9 @@ export class MekaService {
   postNotice(messageData,token){
     return this.http.post(this.apiUrl + `/messages`,messageData,{headers:{'x-access-token':token.token}})
   }
+  getWhoseBirthday(month,token){
+    return this.http.get(this.apiUrl + `/birthday/${month}`,{headers:{'x-access-token':token.token}})
+  }
 
   getAbsentDates(data,token){
     return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/absent`,{headers:{'x-access-token':token.token}})
