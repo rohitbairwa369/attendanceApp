@@ -1,0 +1,102 @@
+<div class="grid mr-0">
+    <form class="col-12 flex flex-wrap" [formGroup]="profileForm" (ngSubmit)="OnSave()">
+      <div class=" flex flex-column col-12">
+        <div class="UserImg ">
+          <div class="UserImg_border">
+            <ng-template #profileText><p-skeleton shape="circle" size="150px"></p-skeleton></ng-template>
+            <img [src]="imageUrl" *ngIf="imageUrl; else profileText" class="border-circle profile-borderShadow" width="150px" height="150px"
+              alt="Uploaded Image">
+          </div>
+        </div>
+        <div class="flex flex-column justify-content-center align-items-center h-4rem p-2">
+          <input type="file" class="border-0 outline-none w-full chooseFile border-round" #fileInput
+            (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
+        </div>
+        <div class="col">
+          <div class="field col-12">
+              <label for="name" class="block">Name<span class="text-red-500">*</span></label>
+              <input type="text" pInputText id="name" formControlName="name" placeholder="Enter Name" class="col-12"
+                onkeydown="return /[A-Za-z -]/i.test(event.key)" />
+              <span *ngIf="(profileForm.get('name').hasError('required')) && (profileForm.get('name').touched)"
+                class="text-red-500 text-xs">This field
+                is
+                required!</span>
+           
+          </div>
+          <div class="field col-12">
+            <label for="email" class="block" color="gray">Email<span style="color: red;">*</span></label>
+            <input type="text" pInputText formControlName="email" class="w-full col-12" placeholder="Enter Name" />
+          </div>
+          <div class="field col-12">
+            <label for="birthDate" class="block" color="gray">DOB<span style="color: red;">*</span></label>
+            <p-calendar formControlName="birthDate" [showIcon]="true" styleClass="w-full surface-overlay"></p-calendar>
+          </div>
+          <div class="field">
+            <label for=" gender" class="block" color="gray">Gender<span style="color: red;">*</span></label>&nbsp;
+            <div class="gender grid mx-2 w-full">
+  
+              <div class="radioBtnForMale flex-grow-1">
+  
+                <p-radioButton name="gender" value="Male" id="Male" formControlName="gender"></p-radioButton>
+                <label for="Male" class="text-gray-500 ml-1">Male</label>
+              </div>
+  
+              <div class="radioBtnForFemale flex-grow-1">
+  
+                <p-radioButton name="gender" value="Female" id="Female" formControlName="gender"></p-radioButton>
+                <label for="Female" class="text-gray-500 ml-1">Female</label>
+              </div>
+  
+              <div class="radioBtnForOther flex-grow-1">
+  
+                <p-radioButton name="gender" value="Other" id="Other" formControlName="gender"></p-radioButton>
+                <label for="Other" class="text-gray-500 ml-1">Other</label>
+              </div>
+  
+            </div>
+  
+          </div>
+          <div class="field col-12">
+            <label for="role" class="block">Role<span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="role" formControlName="role" class="col-12"/>
+            <span *ngIf="(profileForm.get('role').hasError('required')) && (profileForm.get('role').touched)"
+              class="text-red-500 text-xs">This field
+              is
+              required!</span>
+          </div>
+          <div class="field col-12">
+            <label for="designation" class="block">Designation<span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="designation" formControlName="designation" class="col-12"
+              onkeydown="return /[A-Za-z -]/i.test(event.key)" />
+            <span *ngIf="(profileForm.get('designation').hasError('required')) && (profileForm.get('designation').touched)"
+              class="text-red-500 text-xs">This field
+              is
+              required!</span>
+          </div>
+          <div class="field col-12 sm-col-12">
+            <label for="contact" class="block">Contact<span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="contact" formControlName="contact" class="col-12" />
+            <span *ngIf="(profileForm.get('contact').hasError('required')) && (profileForm.get('contact').touched)"
+              class="text-red-500 text-xs">This
+              field
+              is
+              required!</span>
+  
+          </div>
+  
+          <div class="field col-12 sm:col-12">
+            <label for="address" class="block">Address Line<span class="text-red-500">*</span></label><br>
+  
+            <textarea pInputTextarea formControlName="address" class="col-12"></textarea><br>
+            <span *ngIf="(profileForm.get('address').hasError('required')) && (profileForm.get('address').touched)"
+              class="text-red-500 text-xs">This field is required!</span>
+          </div>
+  
+        </div>
+      </div>
+      <div class="col-12 flex justify-content-center mb-5 px-3 align-items-center">
+        <p-button label="Submit" [loading]="isloading" icon="pi pi-save" type="Submit" styleClass="mbg-primary p-button-sm" label="Save"></p-button>
+      </div>
+  
+    </form>
+  </div>

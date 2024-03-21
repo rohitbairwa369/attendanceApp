@@ -31,12 +31,16 @@ ngOnInit(){
   const token = JSON.parse(localStorage.getItem('token'))
   this.mekaService.getUserData(token).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
     this.adminData = res;
+    this.mekaService.UserSubject.next(res);
     })
   this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isSidebarVisible = false;
       }
     })
+    this.mekaService.UpdatePic.subscribe((update=>{
+      this.adminData.profilePic = update;
+    }))
 }
   logout(){
     localStorage.clear();
