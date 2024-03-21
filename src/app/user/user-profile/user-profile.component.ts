@@ -62,7 +62,9 @@ export class UserProfileComponent extends unsub {
         'profilePic' :this.imageUrl['changingThisBreaksApplicationSecurity'],
         ...this.profileForm.value
       }
-      this.mekaService.UpdatePic.emit(this.imageUrl['changingThisBreaksApplicationSecurity']);
+      if(this.imageUrl['changingThisBreaksApplicationSecurity']){
+        this.mekaService.UpdatePic.emit(this.imageUrl['changingThisBreaksApplicationSecurity']);
+      }
       this.mekaService.updateUserDataApi(this.token,updatedProfile).subscribe(res=>{
         this.isloading=false;
         this.notify.notify({severity:'success', summary:'Profile Updated', detail: "Success"});
