@@ -3,11 +3,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MekaService } from '../../service/meka.service';
 import { NotificationService } from '../../service/notification.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-add-interns',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,InputTextModule,ButtonModule,RadioButtonModule],
   templateUrl: './add-interns.component.html',
   styleUrl: './add-interns.component.css'
 })
@@ -35,6 +38,7 @@ export class AddInternsComponent {
           this.notify.notify({severity:'success', summary: 'Success', detail: 'User Added', life: 3000 })
         }
       })
+      this.registrationForm.reset()
     } else {
       console.log('Form is invalid');
     }
