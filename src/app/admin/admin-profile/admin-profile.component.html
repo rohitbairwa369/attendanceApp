@@ -8,9 +8,12 @@
               alt="Uploaded Image">
           </div>
         </div>
-        <div class="flex flex-column justify-content-center align-items-center h-4rem p-2">
-          <input type="file" class="border-0 outline-none w-full chooseFile border-round" #fileInput
+        <div class="flex flex-column justify-content-center align-items-center p-2 pt-0">
+        <div class="flex flex-column relative">
+            <label type="file" for="image_input" class="text-primaryColor text-center z-1 cursor-pointer">Change Profile <i class="pi pi-user-edit ml-2"></i></label>
+          <input type="file" name="image_input" class="border-0 text-white w-full h-full absolute chooseFile border-round text-base" #fileInput
             (change)="onFileSelected($event)" id="image_input" accept="image/png, image/jpg">
+        </div>
         </div>
         <div class="col">
           <div class="field col-12">

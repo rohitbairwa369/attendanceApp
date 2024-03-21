@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-          @if(holidays.length>0){
+          @if(holidays && holidays.length>0){
           <tr *ngFor="let holiday of holidays">
             <td>{{ holiday.date }}-{{ holiday.month }}-{{ holiday.year }}</td>
             <td>{{ holiday.status }}</td>

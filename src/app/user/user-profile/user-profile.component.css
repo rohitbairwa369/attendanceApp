@@ -10,7 +10,7 @@
     height: 200px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
   }
   .UserImg_Image {
     width: 150px;
@@ -28,9 +28,6 @@
     overflow-wrap: break-word;
     padding: 1rem;
     color: #0B2CDA;
-  }
-  .chooseFile{
-    background-color: var(--btnColor);
   }
   .profile-borderShadow{
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
