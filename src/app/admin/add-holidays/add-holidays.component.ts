@@ -20,6 +20,7 @@ export class AddHolidaysComponent extends unsub{
 
   holidays:any[]
   holidayForm: FormGroup;
+  isLoading: boolean;
 constructor(private mekaService:MekaService,private formBuilder: FormBuilder){
   super()
   const token = JSON.parse(localStorage.getItem('token'))
@@ -57,4 +58,12 @@ addHoliday() {
     })
 }
 
+resetHolidays(){
+  this.isLoading=true;
+  const token = JSON.parse(localStorage.getItem('token'))
+  this.mekaService.resetHolidays(token).subscribe(res=>{
+    this.isLoading = false;
+    this.holidays=[];
+  })
+}
 }
