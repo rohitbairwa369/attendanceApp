@@ -69,7 +69,7 @@ export class RequestLeaveComponent {
     if(getAbsentDates){
       this.mekaService.requestLeave(getAbsentDates,this.token).subscribe(res=>{
         if(!res['error']){
-          let messageData = `From : ${this.requestDates.value.fromDate} @ To ${this.requestDates.value.toDate} @ Reason: ${this.requestDates.value.desc}`
+          let messageData = `From : ${this.requestDates.value.fromDate} To : ${this.requestDates.value.toDate} @ Reason: ${this.requestDates.value.desc}`
           this.mekaService.postNotice({'message': messageData},this.token).subscribe(isMsg=>{
             this.notificationService.notify({severity:'success', summary: 'Sent', detail: 'Notified to everyone', life: 3000 })
           },err=>{
