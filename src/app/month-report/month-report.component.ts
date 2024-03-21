@@ -9,10 +9,12 @@ import { TagModule } from 'primeng/tag';
 import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-month-report',
   standalone: true,
-  imports: [ButtonModule, TagModule, CommonModule, JsonPipe, DecimalTimeShortPipe, ChartModule],
+  imports: [ButtonModule, TagModule, CommonModule, JsonPipe, DecimalTimeShortPipe, ChartModule,CardModule,TableModule],
   providers: [MekaService, NotificationService],
   templateUrl: './month-report.component.html',
   styleUrl: './month-report.component.css'
@@ -55,13 +57,14 @@ export class MonthReportComponent extends unsub implements OnInit {
       }
       this.mekaService.getUserDataAnalytics(postData, this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(data => {
         this.userData = data;
+        this.setpieChartData()
         
       })
       postData.status = 'present';
       this.mekaService.getUserDataAnalytics(postData, this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(data => {
         this.userPresent = data;
         this.setGraphData();
-        this.setpieChartData()
+
       })
 
     }
@@ -71,7 +74,7 @@ export class MonthReportComponent extends unsub implements OnInit {
     this.router.navigate(['admin'])
   }
   ngOnInit(): void {
-      // this.setGraphData();
+    
   }
  
 
