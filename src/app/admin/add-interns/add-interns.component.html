@@ -1,43 +1,68 @@
-<div class="card mt-5">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" formControlName="email" id="email">
-          <div *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched">
-                Email is required
-          </div>
+<div class="card mt-5 p-3">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label for="email">Email:</label>
+      <input type="email" pInputText formControlName="email" id="email"
+        class="text-base text-color surface-overlay w-full">
+      <div *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched" class="text-red-500">
+        Email is required
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password">Password:</label>
+      <input type="text" pInputText formControlName="password" id="password"
+        class="text-base text-color surface-overlay w-full">
+      <div *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched" class="text-red-500">
+        Password is required
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Name:</label>
+      <input type="text" pInputText formControlName="name" id="name"
+        class="text-base text-color surface-overlay w-full">
+      <div *ngIf="registrationForm.get('name').invalid && registrationForm.get('name').touched" class="text-red-500">
+        Name is required
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="gender" class="block">Gender:</label>&nbsp;
+      <div class="gender grid mx-1 w-full">
+
+        <div class="radioBtnForMale flex-grow-1">
+
+          <p-radioButton name="gender" value="Male" id="Male" formControlName="gender"></p-radioButton>
+          <label for="Male" class="text-gray-500 ml-1">Male</label>
         </div>
-      
-        <div>
-          <label for="password">Password:</label>
-          <input type="text" formControlName="password" id="password">
-          <div *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched">
-            Password is required
-          </div>
+
+        <div class="radioBtnForFemale flex-grow-1">
+
+          <p-radioButton name="gender" value="Female" id="Female" formControlName="gender"></p-radioButton>
+          <label for="Female" class="text-gray-500 ml-1">Female</label>
         </div>
-      
-        <div>
-          <label for="name">Name:</label>
-          <input type="text" formControlName="name" id="name">
-          <div *ngIf="registrationForm.get('name').invalid && registrationForm.get('name').touched">
-            Name is required
-          </div>
+
+        <div class="radioBtnForOther flex-grow-1">
+
+          <p-radioButton name="gender" value="Other" id="Other" formControlName="gender"></p-radioButton>
+          <label for="Other" class="text-gray-500 ml-1">Other</label>
         </div>
-      
-        <div>
-          <label for="gender">Gender:</label>
-          <select formControlName="gender" id="gender">
-            <option value="" disabled selected>Select your gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <div *ngIf="registrationForm.get('gender').invalid && registrationForm.get('gender').touched">
-                Gender is required
-          </div>
+
+        <div *ngIf="registrationForm.get('gender').invalid && registrationForm.get('gender').touched">
+          Gender is required
         </div>
-      
-        <button type="submit" [disabled]="!registrationForm.valid">Submit</button>
-      </form>
+      </div>
+    </div>
+    <div class="col-12 flex justify-content-center mb-5 px-3 align-items-center">
+      <button type="submit" pButton [disabled]="!registrationForm.valid" icon="pi pi-plus" label="Add" class="mt-4"></button>
+    </div>
+  </form>
 </div>
-  
+
+<!-- <select formControlName="gender" id="gender">
+  <option value="" disabled selected>Select your gender</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+  <option value="other">Other</option>
+</select> -->
