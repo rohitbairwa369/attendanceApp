@@ -69,7 +69,7 @@ export class MonthReportComponent extends unsub implements OnInit {
         setTimeout(()=>{
           this.setGraphData();
           this.setpieChartData()
-        })
+        },700)
       })
     }
   }
