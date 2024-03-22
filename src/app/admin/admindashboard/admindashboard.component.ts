@@ -42,6 +42,6 @@ export class AdmindashboardComponent extends unsub{
   //   this.router.navigate(['login'])
   //  }
    navigateToReport(id){
-    this.router.navigate([`mreport/${id}`])
+    this.router.navigate([`admin/mreport/${id}`])
    }
 }
