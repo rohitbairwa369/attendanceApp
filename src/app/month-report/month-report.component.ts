@@ -47,6 +47,10 @@ export class MonthReportComponent extends unsub implements OnInit {
 
   constructor(private route: ActivatedRoute, private mekaService: MekaService, private router: Router) {
     super()
+
+  }
+
+  ngOnInit(){
     const userid = this.route.snapshot.paramMap.get('id')
     if (userid.length > 0) {
       let postData = {
@@ -57,26 +61,21 @@ export class MonthReportComponent extends unsub implements OnInit {
       }
       this.mekaService.getUserDataAnalytics(postData, this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(data => {
         this.userData = data;
-        this.setpieChartData()
         
       })
       postData.status = 'present';
       this.mekaService.getUserDataAnalytics(postData, this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(data => {
         this.userPresent = data;
-        this.setGraphData();
-
+        setTimeout(()=>{
+          this.setGraphData();
+          this.setpieChartData()
+        })
       })
-
     }
   }
-
   backTohome() {
     this.router.navigate(['admin'])
   }
-  ngOnInit(): void {
-    
-  }
- 
 
   setGraphData() {
     const documentStyle = getComputedStyle(document.documentElement);
