@@ -34,13 +34,12 @@
   </div>
 
   <p-table [value]="userData.attendanceForLeaves" styleClass="p-datatable-gridlines"
-    [tableStyle]="{ 'min-width': '50rem' }" [rowHover]="true">
+    [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
     <ng-template pTemplate="caption"> Leaves : </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th class="text-center">Date</th>
         <th class="text-center">Day</th>
-        <th class="text-center">Hours</th>
         <th class="text-center">Status</th>
       </tr>
     </ng-template>
@@ -48,7 +47,6 @@
       <tr>
         <td class="text-center">{{ product.date }} {{product.month }} {{ product.year }}</td>
         <td class="text-center">{{ product.day }}</td>
-        <td class="text-center">{{ product.hours | decimalTimeShort }}</td>
         <td class="text-center">@if (product.status == "Absent") {
           <p-tag severity="danger" value='Absent'></p-tag>
           }@else if (product.status == "Present") {
@@ -63,7 +61,7 @@
   </p-table>
 
   <p-table [value]=" userPresent.attendanceForLeaves" styleClass="p-datatable-gridlines"
-    [tableStyle]="{ 'min-width': '50rem' }" [rowHover]="true">
+    [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
     <ng-template pTemplate="caption">Days Clocked In :</ng-template>
     <ng-template pTemplate="header">
       <tr>
