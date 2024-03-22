@@ -1,8 +1,9 @@
 <!-- <h1>navbar</h1> -->
-<div class="flex w-full align-items-center px-2 h-3rem mbg-primary fixed top-0 z-3">
+<div class="flex justify-content-between w-full align-items-center px-2 h-3rem mbg-primary fixed top-0 z-3">
     <div class="h-full flex align-items-center cursor-pointer px-2" (click)="isSidebarVisible =! isSidebarVisible">
         <i class="pi pi-bars text-xl  text-white"></i>
     </div>
+    <div class="text-white mr-3">{{headerTitle}}</div>
 </div>
 <div class="w-full h-3rem">
 </div>
