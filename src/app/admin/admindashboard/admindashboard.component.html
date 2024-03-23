@@ -29,7 +29,7 @@
                 </tr>
             </ng-template>
 
-            <tr *ngIf="skeleton else userList">
+            <tr *ngIf="skeleton;else userList">
                 <td>
                     <div class="flex">
                         <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
