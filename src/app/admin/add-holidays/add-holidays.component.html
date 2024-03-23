@@ -14,6 +14,9 @@
         </div>
       </form>
       <hr>
+      <div class="flex justify-content-end p-2">
+        <p-button [raised]="true" icon="pi pi-refresh" [loading]="isLoading" label="Reset" (onClick)="resetHolidays()" styleClass="p-button-sm"></p-button>
+      </div>
     <table>
         <thead>
           <tr>
@@ -22,10 +25,12 @@
           </tr>
         </thead>
         <tbody>
+          @if(holidays && holidays.length>0){
           <tr *ngFor="let holiday of holidays">
             <td>{{ holiday.date }}-{{ holiday.month }}-{{ holiday.year }}</td>
             <td>{{ holiday.status }}</td>
           </tr>
+        }
         </tbody>
       </table>
       

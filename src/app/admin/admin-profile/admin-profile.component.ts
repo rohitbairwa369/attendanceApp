@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
-import { MekaService } from '../../service/meka.service';
-import { CommonModule } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl, Title } from '@angular/platform-browser';
-import { InputTextModule } from 'primeng/inputtext';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormsModule,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SafeResourceUrl, DomSanitizer, Title } from '@angular/platform-browser';
 import { takeUntil } from 'rxjs';
-import { unsub } from '../../shared/unsub.class';
+import { MekaService } from '../../service/meka.service';
 import { NotificationService } from '../../service/notification.service';
+import { unsub } from '../../shared/unsub.class';
+import { CommonModule } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
-import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
-  selector: 'app-user-profile',
+  selector: 'app-admin-profile',
   standalone: true,
   imports: [CommonModule,SkeletonModule,ReactiveFormsModule,InputTextModule,CalendarModule,RadioButtonModule,FormsModule,InputTextareaModule],
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  templateUrl: './admin-profile.component.html',
+  styleUrl: './admin-profile.component.css'
 })
-export class UserProfileComponent extends unsub {
+export class AdminProfileComponent extends unsub implements OnInit {
   userData: any={};
   profileForm!:FormGroup;
   imageUrl: SafeResourceUrl;
@@ -28,10 +29,12 @@ export class UserProfileComponent extends unsub {
   constructor(private titleService: Title,private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService, private FormBuilder: FormBuilder){
     super()
     this.titleService.setTitle("Meka - Profile")
+  }
+
+  ngOnInit(): void {
     this.mekaService.myUserData$.pipe(takeUntil(this.onDestroyed$)).subscribe(data=>{
       this.userData = data;
       this.imageUrl = this.userData.profilePic;
-      
       this.profileForm=this.FormBuilder.group({
         name: [this.userData.name, [Validators.required]],
         email: [this.userData.email, [Validators.required, Validators.email]],

@@ -26,17 +26,38 @@ isSidebarVisible: boolean = false;
 router=inject(Router)
 mekaService = inject(MekaService)
 adminData:any;
+headerTitle:any;
 
 ngOnInit(){
   const token = JSON.parse(localStorage.getItem('token'))
   this.mekaService.getUserData(token).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
     this.adminData = res;
+    this.mekaService.UserSubject.next(res);
     })
+    let setheaderTitle = {
+      "/admin/profile":"Profile",
+      "/":"Home",
+      "/admin":"Home",
+      "/admin/add-interns":"Add Interns",
+      "/admin/notice":"Notice",
+      "/admin/add-holidays":"Add Holidays"
+    }
+    this.headerTitle= setheaderTitle[window.location.pathname]
+    if(window.location.pathname.includes('mreport')){
+      this.headerTitle= "Monthly Report"
+    }
   this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isSidebarVisible = false;
+        this.headerTitle = setheaderTitle[event.url]
+        if(event.url.includes('mreport')){
+          this.headerTitle= "Monthly Report"
+        }
       }
     })
+    this.mekaService.UpdatePic.subscribe((update=>{
+      this.adminData.profilePic = update;
+    }))
 }
   logout(){
     localStorage.clear();

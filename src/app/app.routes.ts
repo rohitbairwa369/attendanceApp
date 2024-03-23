@@ -60,14 +60,18 @@ export const routes: Routes = [
                 path:'notice', 
                 loadComponent:()=>import('./user/notice/notice.component').then(mod=>mod.NoticeComponent)
             },
+            {
+                path:'profile', 
+                loadComponent:()=>import('./admin/admin-profile/admin-profile.component').then(mod=>mod.AdminProfileComponent)
+            },
+            {
+                path: "mreport/:id",
+                loadComponent:()=>import('./month-report/month-report.component').then(mod=>mod.MonthReportComponent),
+                canMatch:[authGuard]
+            },
         ],
         canMatch:[authGuard]
        
-    },
-    {
-        path: "mreport/:id",
-        loadComponent:()=>import('./month-report/month-report.component').then(mod=>mod.MonthReportComponent),
-        canMatch:[authGuard]
     },
     {
         path:'no-permission',
