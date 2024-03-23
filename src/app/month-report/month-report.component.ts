@@ -9,12 +9,12 @@ import { TagModule } from 'primeng/tag';
 import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
-import { CardModule } from 'primeng/card';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-month-report',
   standalone: true,
-  imports: [ButtonModule, TagModule, CommonModule, JsonPipe, DecimalTimeShortPipe, ChartModule,CardModule,TableModule],
+  imports: [ButtonModule, TagModule, CommonModule, JsonPipe, DecimalTimeShortPipe,SkeletonModule, ChartModule,TableModule],
   providers: [MekaService, NotificationService],
   templateUrl: './month-report.component.html',
   styleUrl: './month-report.component.css'
@@ -69,12 +69,14 @@ export class MonthReportComponent extends unsub implements OnInit {
 
     }
   }
-
+// skeleton:boolean=true;
   backTohome() {
     this.router.navigate(['admin'])
   }
   ngOnInit(): void {
-    
+//     setTimeout(()=>{
+// this.skeleton=false;
+//     },3000)
   }
  
 

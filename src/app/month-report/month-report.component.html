@@ -8,16 +8,21 @@
   <div class="flex w-full align-items-center bg-white justify-content-between  border-round-md shadow-2 p-2">
 
     <div class="border-circle h-6rem w-6rem ml-2">
+
       <img [src]="userData.profilePic" alt="Profile Picture" height="100%" width="100%"
         class="profile-pic border-circle">
+
+    
+
     </div>
+
     <div class="user-details">
+
       <p class="user-name"><b>Name:</b> {{ userData.name }}</p>
       <p><b>Email:</b> {{ userData.email }}</p>
       <p><b>Designation:</b> {{ userData.designation }}</p>
       <p><b>Reporting To:</b> {{ userData.reportingTo }}</p>
       <p><b>Address:</b> {{ userData.address }}</p>
-
     </div>
   </div>
 
@@ -60,6 +65,12 @@
       </tr>
     </ng-template>
 
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="12" class="text-center text-red-400">No data found!</td>
+      </tr>
+    </ng-template>
+
   </p-table>
 
   <p-table [value]=" userPresent.attendanceForLeaves" styleClass="p-datatable-gridlines"
@@ -86,6 +97,13 @@
           <p-tag severity="info" value='Holiday'></p-tag>
           }
         </td>
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="12" class="text-center text-red-400">No data found!</td>
       </tr>
     </ng-template>
 
