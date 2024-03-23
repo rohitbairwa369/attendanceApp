@@ -43,10 +43,16 @@ ngOnInit(){
       "/admin/add-holidays":"Add Holidays"
     }
     this.headerTitle= setheaderTitle[window.location.pathname]
+    if(window.location.pathname.includes('mreport')){
+      this.headerTitle= "Monthly Report"
+    }
   this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isSidebarVisible = false;
         this.headerTitle = setheaderTitle[event.url]
+        if(event.url.includes('mreport')){
+          this.headerTitle= "Monthly Report"
+        }
       }
     })
     this.mekaService.UpdatePic.subscribe((update=>{

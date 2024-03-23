@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormsModule,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SafeResourceUrl, DomSanitizer, Title } from '@angular/platform-browser';
 import { takeUntil } from 'rxjs';
@@ -19,7 +19,7 @@ import { SkeletonModule } from 'primeng/skeleton';
   templateUrl: './admin-profile.component.html',
   styleUrl: './admin-profile.component.css'
 })
-export class AdminProfileComponent extends unsub {
+export class AdminProfileComponent extends unsub implements OnInit {
   userData: any={};
   profileForm!:FormGroup;
   imageUrl: SafeResourceUrl;
@@ -29,10 +29,12 @@ export class AdminProfileComponent extends unsub {
   constructor(private titleService: Title,private mekaService:MekaService,private sanitizer: DomSanitizer,private notify : NotificationService, private FormBuilder: FormBuilder){
     super()
     this.titleService.setTitle("Meka - Profile")
+  }
+
+  ngOnInit(): void {
     this.mekaService.myUserData$.pipe(takeUntil(this.onDestroyed$)).subscribe(data=>{
       this.userData = data;
       this.imageUrl = this.userData.profilePic;
-      
       this.profileForm=this.FormBuilder.group({
         name: [this.userData.name, [Validators.required]],
         email: [this.userData.email, [Validators.required, Validators.email]],
