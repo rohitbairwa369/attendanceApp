@@ -19,30 +19,38 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
 
-            <ng-template #userList>
-                <tr (click)="navigateToReport(user._id)">
-                    <td class="flex align-items-center">
-                        <div class="w-3rem h-3rem"><img [src]=user.profilePic alt="" class="border-circle border-1"
-                                width="100%" height="100%"></div>
-                        <div class="ml-3 capitalize">{{user.name}} <br>{{user.designation}}</div>
-                    </td>
-                </tr>
-            </ng-template>
 
-            <tr *ngIf="skeleton;else userList">
-                <td>
-                    <div class="flex">
-                        <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
-                        <div style="flex: 1">
-                            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
-                            <p-skeleton width="75%"></p-skeleton>
-                        </div>
-                    </div>
+            <tr (click)="navigateToReport(user._id)" *ngIf="!skeleton;else grid">
+                <td class="flex align-items-center">
+                    <div class="w-3rem h-3rem"><img [src]=user.profilePic alt="" class="border-circle" width="100%"
+                            height="100%"></div>
+                    <div class="ml-3 capitalize">{{user.name}} <br>{{user.designation}}</div>
                 </td>
             </tr>
 
 
+            <ng-template #grid>
+                <tr>
+                    <td>
+                        <div class="flex">
+                            <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+                            <div style="flex: 1">
+                                <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+                                <p-skeleton width="75%"></p-skeleton>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+
+
+
+
+
         </ng-template>
     </p-table>
+
+
 
 </div>

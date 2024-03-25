@@ -73,13 +73,16 @@ export class MonthReportComponent extends unsub implements OnInit {
         userId: userid,
         status: 'absent',
       };
+
       this.mekaService
         .getUserDataAnalytics(postData, this.token)
         .pipe(takeUntil(this.onDestroyed$))
         .subscribe((data) => {
           this.userData = data;
         });
+
       postData.status = 'present';
+
       this.mekaService
         .getUserDataAnalytics(postData, this.token)
         .pipe(takeUntil(this.onDestroyed$))
@@ -88,13 +91,10 @@ export class MonthReportComponent extends unsub implements OnInit {
           setTimeout(() => {
             this.setGraphData();
             this.setpieChartData();
-          }, 700);
+            this.skeleton = false;
+          }, 500);
         });
     }
-
-    setTimeout(() => {
-      this.skeleton = false;
-    },700);
   }
   backTohome() {
     this.router.navigate(['admin']);
