@@ -7,6 +7,15 @@
     background-color: red;
 }
 
+.holidaySelected{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: #97a400;
+}
+
 ::ng-deep .calendarStyle{
     width: 90vw;
     user-select: none;
