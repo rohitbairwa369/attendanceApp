@@ -59,5 +59,8 @@ export class AttendanceReportComponent {
     }
   }
 
+  catchMonth(event){
+    console.log(event)
+  }
 
 }
