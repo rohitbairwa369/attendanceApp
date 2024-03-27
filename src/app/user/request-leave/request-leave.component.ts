@@ -63,14 +63,20 @@ export class RequestLeaveComponent {
 
   async onRequestleave(){
     if(this.requestDates.valid){
-    const formDate = this.requestDates.value.fromDate
-    const toDate = this.requestDates.value.toDate
+    const formDate = new Date(this.requestDates.value.fromDate)
+    const toDate = new Date(this.requestDates.value.toDate)
     const getAbsentDates =await this.generateDateObjectsExcludingWeekends(formDate,toDate)
     if(getAbsentDates){
       this.mekaService.requestLeave(getAbsentDates,this.token).subscribe(res=>{
         if(!res['error']){
-          let messageData = `From : ${this.requestDates.value.fromDate} To : ${this.requestDates.value.toDate} @ Reason: ${this.requestDates.value.desc}`
-          this.mekaService.postNotice({'message': messageData},this.token).subscribe(isMsg=>{
+          const inboxObject = {
+            'fromDate':formDate,
+            'toDate':toDate,
+            'message':this.requestDates.value.desc,
+            'category':'Other'
+          }
+          this.mekaService.postNotice(inboxObject,this.token).subscribe(isMsg=>{
+            this.requestDates.reset()
             this.notificationService.notify({severity:'success', summary: 'Sent', detail: 'Notified to everyone', life: 3000 })
           },err=>{
             this.notificationService.notify({severity:'error', summary: 'Failed', detail: err.name, life: 3000 })
