@@ -60,7 +60,20 @@ export class AttendanceReportComponent {
   }
 
   catchMonth(event){
-    console.log(event)
-  }
+   
 
+    const data = {
+
+      month : this.months[event.month -1],  
+      year : event.year
+    }
+    this.selectedMonth=data.month
+   this.mekaService.getAbsentDates(data,this.token).subscribe(res=>{
+    this.absentData = res;
+    this.reportForm.patchValue({monthYear:new Date(event.year,event.month-1)})
+  
+    
+   }) 
+
+}
 }
