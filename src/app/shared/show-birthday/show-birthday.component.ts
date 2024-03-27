@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ShowBirthdayComponent implements OnInit{
 
+  isLoading=false;
   token = JSON.parse(localStorage.getItem('token'))
 
   months = [
@@ -45,11 +46,12 @@ ngOnInit(): void {
 }
 
 previousMonthe(){
-
+this.isLoading=true;
 if(this.selectedMonth>=1){
 this.selectedMonth--;
 this.mekaService.getWhoseBirthday((this.selectedMonth+1),this.token).subscribe(res =>{
   this.usersbirthday = res;
+  this.isLoading=false;
 })
 }else{
   this.selectedMonth =11
@@ -57,10 +59,12 @@ this.mekaService.getWhoseBirthday((this.selectedMonth+1),this.token).subscribe(r
 }
 
 nextMonth(){
+  this.isLoading=true;
   if(this.selectedMonth<=10){
   this.selectedMonth ++;
   this.mekaService.getWhoseBirthday((this.selectedMonth+1),this.token).subscribe(res =>{
   this.usersbirthday = res;
+  this.isLoading =false;
 })
   }else{
     this.selectedMonth = 0;
