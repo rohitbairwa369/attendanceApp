@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MekaService } from '../service/meka.service';
 import { NotificationService } from '../service/notification.service';
@@ -9,8 +9,11 @@ import { TagModule } from 'primeng/tag';
 import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
-import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { SPINNER } from 'ngx-ui-loader';
+import { POSITION } from 'ngx-ui-loader';
 @Component({
   selector: 'app-month-report',
   standalone: true,
@@ -20,15 +23,15 @@ import { TableModule } from 'primeng/table';
     CommonModule,
     JsonPipe,
     DecimalTimeShortPipe,
-    SkeletonModule,
     ChartModule,
     TableModule,
+    NgxUiLoaderModule,
   ],
-  providers: [MekaService, NotificationService],
+  providers: [MekaService, NotificationService, NgxUiLoaderService],
   templateUrl: './month-report.component.html',
   styleUrl: './month-report.component.css',
 })
-export class MonthReportComponent extends unsub implements OnInit {
+export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   token = JSON.parse(localStorage.getItem('token'));
   userData: any;
   dates: any = [];
@@ -38,7 +41,11 @@ export class MonthReportComponent extends unsub implements OnInit {
   basicOptions: any;
   pieData: any;
   pieOptions: any;
-  skeleton = true;
+  SPINNER;
+  POSITION;
+  Color = 'red';
+  text = 'Loading...';
+
   monthColors = {
     Jan: '#b0d9e2',
     Feb: '#b4c8a9',
@@ -58,13 +65,17 @@ export class MonthReportComponent extends unsub implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private mekaService: MekaService,
-    private router: Router
+    private router: Router,
+    private ngxLoader: NgxUiLoaderService
   ) {
     super();
+    this.SPINNER = SPINNER;
+    this.POSITION = POSITION;
   }
 
   tableDataForAttendanceTrack = true;
   ngOnInit() {
+    this.ngxLoader.start();
     const userid = this.route.snapshot.paramMap.get('id');
     if (userid.length > 0) {
       let postData = {
@@ -79,19 +90,18 @@ export class MonthReportComponent extends unsub implements OnInit {
         .pipe(takeUntil(this.onDestroyed$))
         .subscribe((data) => {
           this.userData = data;
+          this.ngxLoader.stop();
         });
-
       postData.status = 'present';
-
       this.mekaService
         .getUserDataAnalytics(postData, this.token)
         .pipe(takeUntil(this.onDestroyed$))
         .subscribe((data) => {
           this.userPresent = data;
+
           setTimeout(() => {
             this.setGraphData();
             this.setpieChartData();
-            this.skeleton = false;
           }, 500);
         });
     }

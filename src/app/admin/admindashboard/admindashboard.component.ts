@@ -12,9 +12,11 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ShowBirthdayComponent } from '../../shared/show-birthday/show-birthday.component';
 import { SkeletonModule } from 'primeng/skeleton';
+
 @Component({
   selector: 'app-admindashboard',
   standalone: true,
+
   imports: [
     ButtonModule,
     CommonModule,
@@ -36,22 +38,17 @@ export class AdmindashboardComponent extends unsub implements OnInit {
   usersData: any;
   isLoading: boolean = true;
   token = JSON.parse(localStorage.getItem('token'));
-  skeleton: boolean;
+
   constructor(private mekaService: MekaService) {
     super();
   }
-
   ngOnInit(): void {
-    this.skeleton = true;
     this.mekaService
       .getUsersData(this.token)
       .pipe(takeUntil(this.onDestroyed$))
       .subscribe(
         (user) => {
           this.usersData = user;
-          setTimeout(() => {
-            this.skeleton = false;
-          }, 500);
         },
         (err) => {
           this.notificationService.notify({
@@ -63,7 +60,6 @@ export class AdmindashboardComponent extends unsub implements OnInit {
         }
       );
   }
-
   navigateToReport(id) {
     this.router.navigate([`admin/mreport/${id}`]);
   }

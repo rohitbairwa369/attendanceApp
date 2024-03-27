@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MekaService } from '../../service/meka.service';
 import { DatePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-
+import { SkeletonModule } from 'primeng/skeleton';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-show-birthday',
   standalone: true,
-  imports: [DatePipe,ButtonModule],
+  imports: [DatePipe,ButtonModule,SkeletonModule,CommonModule],
   templateUrl: './show-birthday.component.html',
   styleUrl: './show-birthday.component.css'
 })
