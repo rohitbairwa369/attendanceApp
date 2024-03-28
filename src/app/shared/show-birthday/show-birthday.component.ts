@@ -35,11 +35,13 @@ export class ShowBirthdayComponent implements OnInit{
   mekaService = inject(MekaService)
   usersbirthday: any;
 ngOnInit(): void {
+  this.isLoading=true;
   const token = JSON.parse(localStorage.getItem('token'))
     var todaysDate = new Date();
     this.selectedMonth = todaysDate.getMonth()
     this.mekaService.getWhoseBirthday((todaysDate.getMonth()+1),token).subscribe(res=>{
       this.usersbirthday = res;
+      this.isLoading=false;
     },error=>{
 
     })
