@@ -19,7 +19,7 @@
 
     <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonthCalendar($event)" [inline]="true" [showWeek]="true">
         <ng-template pTemplate="date" let-date>
-            <span (click)="getAbsentDates(date)">{{date.day}}</span>
+            <span (click)="getAbsentDates(date)" [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable)}">{{date.day}}</span>
         </ng-template>
     </p-calendar>
 </div>

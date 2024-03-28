@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { compileNgModule } from '@angular/compiler';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class RequestLeaveComponent {
   constructor(private titleService: Title){
     this.titleService.setTitle("Meka - Request Leave")
   }
+  onlyAbsentDate=[]
   token = JSON.parse(localStorage.getItem('token'));
   mekaService= inject(MekaService);
   notificationService= inject(NotificationService);
@@ -100,6 +102,15 @@ console.log(event)
 }
 
 getAbsentDates(date){
-  console.log(date)
+  if(this.onlyAbsentDate.includes(date.day)){
+   var absentIndex =this.onlyAbsentDate.findIndex((item)=>{
+      return item == date.day
+    })
+    console.log(absentIndex)
+    
+  }else{
+    this.onlyAbsentDate.push(date.day)
+    console.log(this.onlyAbsentDate)
+  }
 }
 }
