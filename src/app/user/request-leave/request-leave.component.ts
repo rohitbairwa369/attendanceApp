@@ -8,8 +8,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { compileNgModule } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-request-leave',
@@ -63,7 +61,6 @@ export class RequestLeaveComponent {
     return result;
   }
   
-
   async onRequestleave(){
     if(this.requestDates.valid){
     const formDate = new Date(this.requestDates.value.fromDate)
@@ -106,11 +103,14 @@ getAbsentDates(date){
    var absentIndex =this.onlyAbsentDate.findIndex((item)=>{
       return item == date.day
     })
-    console.log(absentIndex)
+   
+    this.onlyAbsentDate.splice(absentIndex,1)
+    
     
   }else{
     this.onlyAbsentDate.push(date.day)
     console.log(this.onlyAbsentDate)
   }
 }
+
 }
