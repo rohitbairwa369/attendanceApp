@@ -10,13 +10,13 @@
             <h4 for="Absent" class="mb-3">Month <br>
                 <p class="text-primaryColor">{{this.selectedMonth}}</p></h4>
             <h4 for="Absent" class="mb-3 ">Absent <br>
-                <p class="text-red-500">{{absentData.length}} Days</p> </h4>
+                <p class="text-red-500">{{onlyAbsentDate.length}} Days</p> </h4>
         </div>
     </div>
     <div class="card w-full flex justify-content-center p-2 mt-2">
         <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate" [inline]="true" [showWeek]="true">
             <ng-template pTemplate="date" let-date>
-                <span [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable)}">{{date.day}}</span>
+                <span [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable),'holidaySelected':(onlyHolidays.includes(date.day) && date.selectable)}">{{date.day}}</span>
             </ng-template>
         </p-calendar>
     </div>

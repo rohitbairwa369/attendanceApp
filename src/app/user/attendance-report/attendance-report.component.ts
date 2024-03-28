@@ -25,6 +25,7 @@ export class AttendanceReportComponent {
     'monthYear': new FormControl(this.onBackPreviewDate, [Validators.required]),
   })
   onlyAbsentDate = []
+  onlyHolidays = []
   todaysDate = new Date();
   selectedMonth: string = 'Please select a month!'
 
@@ -51,7 +52,11 @@ export class AttendanceReportComponent {
           this.todaysDate = new Date()
         }
         this.absentData.forEach(element => {
+          if(element.status == "Absent"){
           this.onlyAbsentDate.push(parseInt(element.date))
+          }else{
+            this.onlyHolidays.push(parseInt(element.date))
+          }
         });
         this.loading = false;
       })
@@ -63,6 +68,7 @@ export class AttendanceReportComponent {
   catchMonth(event) {
 
     this.onlyAbsentDate = [];
+    this.onlyHolidays = [];
     const data = {
 
       month: this.months[event.month - 1],
@@ -72,7 +78,11 @@ export class AttendanceReportComponent {
     this.mekaService.getAbsentDates(data, this.token).subscribe(res => {
       this.absentData = res;
       this.absentData.forEach(element => {
-        this.onlyAbsentDate.push(parseInt(element.date))
+        if(element.status == "Absent"){
+          this.onlyAbsentDate.push(parseInt(element.date))
+          }else{
+            this.onlyHolidays.push(parseInt(element.date))
+          }
       });
       const newDate = `01/${data.month}/${data.year}`
       this.reportForm.patchValue({
