@@ -42,7 +42,8 @@ ngOnInit(){
       "/admin":"Home",
       "/admin/add-interns":"Add Interns",
       "/admin/notice":"Notice",
-      "/admin/add-holidays":"Add Holidays"
+      "/admin/add-holidays":"Add Holidays",
+      "/admin/manage-interns":"Manage interns"
     }
     this.headerTitle= setheaderTitle[window.location.pathname]
     if(window.location.pathname.includes('mreport')){

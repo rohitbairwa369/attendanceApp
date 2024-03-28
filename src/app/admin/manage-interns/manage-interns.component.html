@@ -1,0 +1,41 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+@defer (when allInternsList) {
+<div class="p-2  bg-gray-100 flex flex-column w-full">
+  <div class="border-round-md  shadow-2 p-2 bg-white">
+    <p-table [value]="allInternsList" [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
+      <ng-template pTemplate="caption"> All intern's data : </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">Name</th>
+          <th class="text-center">Team</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td class="text-center">{{product.name}}</td>
+          <td class="text-center">{{product.teamCategory}}</td>
+          <td class="text-center">
+            <div class="flex justify-content-center align-items-center gap-3">
+            <i class="pi pi-trash" pTooltip="Delete" (click)="deleteUser(product,$event)"></i>
+            <i class="pi pi-pencil" pTooltip="Edit" tooltipPosition="left"></i>
+          </div>
+          </td>
+        </tr>
+
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="12" class="text-center text-red-400">No data found!</td>
+          
+        </tr>
+
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+}@placeholder {
+  <ngx-ui-loader  [fgsType]="SPINNER.threeStrings" [text]="text" [textPosition]="'center-center'"></ngx-ui-loader>
+}

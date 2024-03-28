@@ -69,6 +69,10 @@ export const routes: Routes = [
                 loadComponent:()=>import('./month-report/month-report.component').then(mod=>mod.MonthReportComponent),
                 canMatch:[authGuard]
             },
+            {
+                path:'manage-interns',
+                loadComponent:()=>import('./admin/manage-interns/manage-interns.component').then(mod=>mod.ManageInternsComponent)
+            }
         ],
         canMatch:[authGuard]
        

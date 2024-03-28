@@ -43,8 +43,7 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   pieOptions: any;
   SPINNER;
   POSITION;
-  Color = 'red';
-  text = 'Loading...';
+  text= 'Loading...';
 
   monthColors = {
     Jan: '#b0d9e2',
@@ -90,7 +89,7 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroyed$))
         .subscribe((data) => {
           this.userData = data;
-          this.ngxLoader.stop();
+         
         });
       postData.status = 'present';
       this.mekaService
@@ -103,6 +102,7 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
             this.setGraphData();
             this.setpieChartData();
           }, 500);
+          this.ngxLoader.stop();
         });
     }
   }
