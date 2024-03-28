@@ -1,0 +1,4 @@
+::ng-deep .calendarStyle{
+    width: 90vw;
+    user-select: none;
+}

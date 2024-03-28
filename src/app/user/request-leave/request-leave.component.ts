@@ -7,12 +7,13 @@ import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Title } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-request-leave',
   standalone: true,
-  imports: [ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule],
+  imports: [CommonModule,ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule],
   templateUrl: './request-leave.component.html',
   styleUrl: './request-leave.component.css'
 })
@@ -92,5 +93,13 @@ export class RequestLeaveComponent {
   }else{
     this.notificationService.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 });
   }
+}
+
+catchMonthCalendar(event){
+console.log(event)
+}
+
+getAbsentDates(date){
+  console.log(date)
 }
 }
