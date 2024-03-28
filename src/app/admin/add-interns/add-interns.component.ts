@@ -30,8 +30,8 @@ export class AddInternsComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      console.log(this.registrationForm.value);
-      this.mekaService.userRegister(this.registrationForm.value).subscribe(response=>{
+      const token = JSON.parse(localStorage.getItem('token'))
+      this.mekaService.userRegister(this.registrationForm.value,token).subscribe(response=>{
         if(response['errorMessage']){
           this.notify.notify({severity:'error', summary: 'Aborted', detail: response['errorMessage'], life: 3000 })
         }else{

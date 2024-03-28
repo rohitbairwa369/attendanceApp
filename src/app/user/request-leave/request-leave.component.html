@@ -1,20 +1,24 @@
 <div class="mt-5 p-3">
+
+    <div class="font-bold text-center">Click to select dates! </div>
+    <br>
+    <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonthCalendar($event)" [(ngModel)]="todaysDate" [inline]="true"
+    [showWeek]="true">
+    <ng-template pTemplate="date" let-date>
+        <span (click)="getAbsentDates(date)"
+            [ngClass]="{'dateSelected': (onlyAbsentDate.includes(date.day) && date.selectable),'presentDateSelected':(onlyPresentdays.includes(date.day) && date.selectable),'alreadyAbsentDateSelected':(alreadyAbsentDays.includes(date.day) && date.selectable),'holidaysSelected':(onlyYearHoliday.includes(date.day) && date.selectable)}">{{date.day}}</span>
+    </ng-template>
+    </p-calendar>
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
-        <div class="field">
-            <label for="From" >From : </label>
-            <p-calendar formControlName="fromDate" [touchUI]="true" [showIcon]="true" styleClass="text-base text-color surface-overlay w-full"></p-calendar>
-        </div>
-        <div class="field">
-            <label for="To">To : </label>
-            <p-calendar formControlName="toDate" [touchUI]="true" [showIcon]="true" styleClass="text-base text-color surface-overlay w-full" ></p-calendar>
-        </div>
+
         <div class="mt-5 grid justify-content-center p-2">
             <textarea pInputTextarea class="p-2 w-full" cols="43" rows="10" formControlName="desc"
                 placeholder="Add your reason..." id="Reason"></textarea>
         </div>
 
-        <div class="p-2 grid justify-content-center mt-5"><p-button [raised]="true" type="Submit" label="Apply"
+        <div class="p-2 grid justify-content-center mt-5"><p-button [raised]="true" [disabled]="onlyAbsentDate.length==0" type="Submit" label="Apply"
                 styleClass="bg-primary p-button-sm"></p-button></div>
     </form>
-</div>
 
+
+</div>

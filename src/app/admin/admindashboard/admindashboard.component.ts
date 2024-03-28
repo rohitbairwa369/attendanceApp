@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NotificationService } from '../../service/notification.service';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs';
