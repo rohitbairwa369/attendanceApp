@@ -62,10 +62,10 @@ export class ManageInternsComponent implements OnInit {
       acceptIcon: 'none',
       rejectIcon: 'none',
       accept: () => {
-      this.notify.notify({severity:'success', summary: 'Success', detail: 'record deleted successfully!', life: 3000 })
+      this.notify.notify({severity:'success', summary: 'Success', detail: 'Record deleted successfully!', life: 3000 })
       },
       reject: () => {
-    this.notify.notify({severity:'error', summary: 'Aborted', detail: 'u have rejected!', life: 3000 })
+    this.notify.notify({severity:'error', summary: 'Aborted', detail: 'You have rejected!', life: 3000 })
       },
     });
   }
