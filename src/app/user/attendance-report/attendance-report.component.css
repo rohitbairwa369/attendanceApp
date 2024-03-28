@@ -8,12 +8,13 @@
 }
 
 .holidaySelected{
+    pointer-events: none;
     height: 100%;
     width: 100%;
     text-align: center;
     padding: 10px;
-    color: white;
-    background-color: #97a400;
+    color: black;
+    background-color: #FFD700;
 }
 
 ::ng-deep .calendarStyle{

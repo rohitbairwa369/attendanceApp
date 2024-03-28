@@ -31,11 +31,14 @@ export class MekaService {
   addHolidays(holidayArray,token){
     return this.http.put(this.apiUrl + '/holidays',holidayArray,{headers:{'x-access-token':token.token}})
   }
+  getHolidays(token,month){
+    return this.http.get(this.apiUrl + `/holidays/${month}`,{headers:{'x-access-token':token.token}})
+  }
   resetHolidays(token){
     return this.http.get(this.apiUrl + '/holidays/reset',{headers:{'x-access-token':token.token}})
   }
-  userRegister(credentials){
-    return this.http.post(this.apiUrl + '/user/register', credentials)
+  userRegister(credentials,token){
+    return this.http.post(this.apiUrl + '/user/register', credentials,{headers:{'x-access-token':token.token}})
   }
   getUserData(token){
     return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':token.token}})
@@ -82,6 +85,9 @@ export class MekaService {
 
   getAbsentDates(data,token){
     return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/absent`,{headers:{'x-access-token':token.token}})
+  }
+  getPresentDates(data,token){
+    return this.http.get(this.apiUrl + `/user/attendance/${data.month}/${data.year}/present`,{headers:{'x-access-token':token.token}})
   }
   requestLeave(requestedDates,token){
     return this.http.put(this.apiUrl + `/user/attendance/requestleave`,requestedDates,{headers:{'x-access-token':token.token}})

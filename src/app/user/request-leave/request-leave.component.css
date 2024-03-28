@@ -2,11 +2,40 @@
     width: 90vw;
     user-select: none;
 }
-.dateSelcted{
+.dateSelected{
     height: 100%;
     width: 100%;
     text-align: center;
     padding: 10px;
     color: white;
     background-color: red;
+}
+
+.presentDateSelected{
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgb(50, 141, 28);
+}
+.alreadyAbsentDateSelected{
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgba(204, 30, 30, 0.426);
+}
+
+.holidaysSelected{
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: black;
+    background-color: #FFD700;
 }
