@@ -7,11 +7,12 @@ import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-attendance-report',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MtableComponent, CalendarModule, ButtonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MtableComponent, CalendarModule, ButtonModule, FormsModule,TagModule],
   templateUrl: './attendance-report.component.html',
   styleUrl: './attendance-report.component.css'
 })
@@ -28,6 +29,7 @@ export class AttendanceReportComponent {
   onlyHolidays = []
   todaysDate = new Date();
   selectedMonth: string = 'Please select a month!'
+  holidaysWithDesc = [];
 
   constructor(private titleService: Title, private mekaService: MekaService, private notify: NotificationService) {
     this.titleService.setTitle("Meka - Report")
@@ -56,6 +58,7 @@ export class AttendanceReportComponent {
           this.onlyAbsentDate.push(parseInt(element.date))
           }else{
             this.onlyHolidays.push(parseInt(element.date))
+            this.holidaysWithDesc.push(element)
           }
         });
         this.loading = false;
@@ -69,6 +72,7 @@ export class AttendanceReportComponent {
 
     this.onlyAbsentDate = [];
     this.onlyHolidays = [];
+    this.holidaysWithDesc=[];
     const data = {
 
       month: this.months[event.month - 1],
@@ -82,6 +86,7 @@ export class AttendanceReportComponent {
           this.onlyAbsentDate.push(parseInt(element.date))
           }else{
             this.onlyHolidays.push(parseInt(element.date))
+            this.holidaysWithDesc.push(element)
           }
       });
       const newDate = `01/${data.month}/${data.year}`

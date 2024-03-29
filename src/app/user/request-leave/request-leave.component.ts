@@ -8,22 +8,23 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { takeUntil } from 'rxjs';
+import { takeUntil,forkJoin } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
-
+import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-request-leave',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule,FormsModule,TagModule],
   templateUrl: './request-leave.component.html',
   styleUrl: './request-leave.component.css'
 })
 export class RequestLeaveComponent  extends unsub implements OnInit{
 
   attendanceData:any;
-  onlyPresentdays:any[] =[]
+  onlyPresentdays:any[] =[];
   onlyYearHoliday :any =[];
-  alreadyAbsentDays:any[]=[]
+  alreadyAbsentDays:any[]=[];
+  holidaysWithDesc:any[]=[];
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   todaysDate= new Date();
@@ -41,71 +42,70 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
   requestDates = new FormGroup({
     'desc': new FormControl(null,Validators.required)
   })
+  
   ngOnInit(): void {
+    forkJoin([
+      this.mekaService.getAttendance(
+        this.todaysDate.toLocaleString('default', { month: 'short' }),
+        this.todaysDate.getFullYear()
+      ),
+      this.mekaService.getHolidays(this.token, this.todaysDate.toLocaleString('default', { month: 'short' }))
+    ]).pipe(takeUntil(this.onDestroyed$))
+      .subscribe(
+        ([attendance, holidays]:any) => {
+          this.attendanceData = attendance;
+          this.attendanceData.forEach(item => {
+            if (item.status == "Present") {
+              this.onlyPresentdays.push(parseInt(item.date))
+            } else if (item.status == "Absent") {
+              this.alreadyAbsentDays.push(parseInt(item.date))
+            }
+          });
 
-    this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$))
-    .subscribe(
-      (attendance) => {
-        this.attendanceData = attendance;
-        this.attendanceData.forEach(item=>{
-          if(item.status == "Present"){
-            this.onlyPresentdays.push(parseInt(item.date))
-          }else if(item.status == "Absent"){
-            this.alreadyAbsentDays.push(parseInt(item.date))
-          }
-        })
-
-        this.mekaService.getHolidays(this.token,this.todaysDate.toLocaleString('default', { month: 'short' })).pipe(takeUntil(this.onDestroyed$)).subscribe((res:any[])=>{
-          res.forEach(item=>{
-            this.onlyYearHoliday.push(item.date)
-          })
-        },err=>{
+          holidays.forEach(item => {
+            this.onlyYearHoliday.push(item.date);
+            this.holidaysWithDesc.push(item)
+          });
+        },
+        (err) => {
           this.notificationService.notify({
             severity: 'error',
             summary: 'API Failure',
             detail: 'Failed to connect',
             sticky: true,
           });
-        })
-      },(err) => {
-        this.notificationService.notify({
-          severity: 'error',
-          summary: 'API Failure',
-          detail: 'Failed to connect',
-          sticky: true,
-        });
-      }
-    );
+        }
+      );
   }
 
- generateDateObjectsExcludingWeekends(fromDate, toDate) {
-    const result = [];
-    let currentDate = new Date(fromDate);
+//  generateDateObjectsExcludingWeekends(fromDate, toDate) {
+//     const result = [];
+//     let currentDate = new Date(fromDate);
   
-    while (currentDate <= new Date(toDate)) {
-      const day = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(currentDate);
+//     while (currentDate <= new Date(toDate)) {
+//       const day = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(currentDate);
   
-      if (!this.weekends.includes(day)) {
-        const formattedDate = currentDate.getDate().toString();
-        const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(currentDate);
+//       if (!this.weekends.includes(day)) {
+//         const formattedDate = currentDate.getDate().toString();
+//         const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(currentDate);
   
-        result.push({
-          date: formattedDate,
-          day: day,
-          out: "-",
-          hours: "0",
-          status: "Absent",
-          in: "-",
-          month: month,
-          year: currentDate.getFullYear(),
-        });
-      }
+//         result.push({
+//           date: formattedDate,
+//           day: day,
+//           out: "-",
+//           hours: "0",
+//           status: "Absent",
+//           in: "-",
+//           month: month,
+//           year: currentDate.getFullYear(),
+//         });
+//       }
   
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
+//       currentDate.setDate(currentDate.getDate() + 1);
+//     }
   
-    return result;
-  }
+//     return result;
+//   }
   
   async onRequestleave(){
     if(this.requestDates.valid){
@@ -156,44 +156,42 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
   }
 }
 
-catchMonthCalendar(event){
-  this.onlyPresentdays=[];
+
+catchMonthCalendar(event) {
+  this.onlyPresentdays = [];
   this.alreadyAbsentDays = [];
   this.onlyYearHoliday = [];
+  this.holidaysWithDesc=[];
 
-this.mekaService.getAttendance(this.months[event.month-1],event.year).pipe(takeUntil(this.onDestroyed$))
-.subscribe(
-  (attendance) => {
-    this.attendanceData = attendance;
-    this.attendanceData.forEach(item=>{
-      if(item.status == "Present"){
-        this.onlyPresentdays.push(parseInt(item.date))
-      }else if(item.status == "Absent"){
-        this.alreadyAbsentDays.push(parseInt(item.date))
+  forkJoin([
+    this.mekaService.getAttendance(this.months[event.month - 1], event.year),
+    this.mekaService.getHolidays(this.token, this.months[event.month - 1])
+  ]).pipe(takeUntil(this.onDestroyed$))
+    .subscribe(
+      ([attendance, holidays]:any) => {
+        this.attendanceData = attendance;
+        this.attendanceData.forEach(item => {
+          if (item.status == "Present") {
+            this.onlyPresentdays.push(parseInt(item.date))
+          } else if (item.status == "Absent") {
+            this.alreadyAbsentDays.push(parseInt(item.date))
+          }
+        });
+
+        holidays.forEach(item => {
+          this.onlyYearHoliday.push(item.date);
+          this.holidaysWithDesc.push(item)
+        });
+      },
+      (err) => {
+        this.notificationService.notify({
+          severity: 'error',
+          summary: 'API Failure',
+          detail: 'Failed to connect',
+          sticky: true,
+        });
       }
-    })
-
-    this.mekaService.getHolidays(this.token,this.months[event.month-1]).pipe(takeUntil(this.onDestroyed$)).subscribe((res:any[])=>{
-      res.forEach(item=>{
-        this.onlyYearHoliday.push(item.date)
-      })
-    },err=>{
-      this.notificationService.notify({
-        severity: 'error',
-        summary: 'API Failure',
-        detail: 'Failed to connect',
-        sticky: true,
-      });
-    })
-  },(err) => {
-    this.notificationService.notify({
-      severity: 'error',
-      summary: 'API Failure',
-      detail: 'Failed to connect',
-      sticky: true,
-    });
-  }
-);
+    );
 }
 
 getAbsentDates(date){

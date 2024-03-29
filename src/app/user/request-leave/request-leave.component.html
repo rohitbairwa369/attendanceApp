@@ -8,6 +8,13 @@
         <span (click)="getAbsentDates(date)"
             [ngClass]="{'dateSelected': (onlyAbsentDate.includes(date.day) && date.selectable),'presentDateSelected':(onlyPresentdays.includes(date.day) && date.selectable),'alreadyAbsentDateSelected':(alreadyAbsentDays.includes(date.day) && date.selectable),'holidaysSelected':(onlyYearHoliday.includes(date.day) && date.selectable)}">{{date.day}}</span>
     </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="flex flex-wrap align-items-center gap-3 p-2  mt-2">
+            <div *ngFor="let item of holidaysWithDesc">
+                <p-tag styleClass="bg-yellow-400 text-gray-600" value="{{item.date}} {{item.month}} - {{item.status}}"></p-tag>
+            </div>
+        </div>
+    </ng-template>
     </p-calendar>
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
 
