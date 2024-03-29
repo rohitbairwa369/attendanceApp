@@ -4,6 +4,11 @@
         <button class="mclockin" (click)="clockIn()" [disabled]="weekends.includes(daysOfWeek[todaysDate.getDay()]) || tableData[0].status == 'Absent'">Clock in</button>
         }@else if(isClockIn=="clockout") {
         <button class="mclockout" (click)="confirmationDialogue()">Clock out</button>
+        }@else if (isClockIn=="holiday") {
+            <div>
+            <h2 class="today m-0">Today,</h2>
+            <div class="hours">🤩 {{tableData[0].status}} 🎉</div>
+            </div>
         }@else{
         <div>
             <h2 class="today">Today,</h2>
