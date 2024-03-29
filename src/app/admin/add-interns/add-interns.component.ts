@@ -30,15 +30,18 @@ export class AddInternsComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
+      this.notify.showLoader()
       const token = JSON.parse(localStorage.getItem('token'))
       this.mekaService.userRegister(this.registrationForm.value,token).subscribe(response=>{
         if(response['errorMessage']){
           this.notify.notify({severity:'error', summary: 'Aborted', detail: response['errorMessage'], life: 3000 })
+          this.notify.hideLoader()
         }else{
           this.notify.notify({severity:'success', summary: 'Success', detail: 'User Added', life: 3000 })
+          this.registrationForm.reset()
+          this.notify.hideLoader()
         }
       })
-      this.registrationForm.reset()
     } else {
       console.log('Form is invalid');
     }

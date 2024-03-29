@@ -46,12 +46,14 @@ export class DashboardComponent extends unsub implements OnInit{
   this.titleService.setTitle("Meka - Home")
   }
   ngOnInit(): void {
+    this.notificationService.showLoader()
     this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
       this.userData = user;
       const holidays = this.userData['holidays'];
       this.holidayInMonth = holidays.filter(element=>element.month == this.todaysDate.toLocaleString('default', { month: 'short' }))
       this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
         this.tableData = res;
+        this.notificationService.hideLoader();
         if(res['auth']==false){
           this.messageQuery = {
             header : "Invalid Token",

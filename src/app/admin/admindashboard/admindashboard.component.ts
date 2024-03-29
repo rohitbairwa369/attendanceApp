@@ -43,12 +43,14 @@ export class AdmindashboardComponent extends unsub implements OnInit {
     super();
   }
   ngOnInit(): void {
+    this.notificationService.showLoader()
     this.mekaService
       .getUsersData(this.token)
       .pipe(takeUntil(this.onDestroyed$))
       .subscribe(
         (user) => {
           this.usersData = user;
+          this.notificationService.hideLoader()
         },
         (err) => {
           this.notificationService.notify({
@@ -57,6 +59,7 @@ export class AdmindashboardComponent extends unsub implements OnInit {
             detail: 'Failed to connect',
             sticky: true,
           });
+          this.notificationService.hideLoader()
         }
       );
   }

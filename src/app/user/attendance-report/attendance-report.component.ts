@@ -36,6 +36,7 @@ export class AttendanceReportComponent {
   }
 
   onSubmit() {
+    this.notify.showLoader()
     if (this.reportForm.valid) {
       this.loading = true;
       this.onlyAbsentDate = []
@@ -62,6 +63,7 @@ export class AttendanceReportComponent {
           }
         });
         this.loading = false;
+        this.notify.hideLoader()
       })
     } else {
       this.notify.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 })
@@ -69,12 +71,11 @@ export class AttendanceReportComponent {
   }
 
   catchMonth(event) {
-
+    this.notify.showLoader()
     this.onlyAbsentDate = [];
     this.onlyHolidays = [];
     this.holidaysWithDesc=[];
     const data = {
-
       month: this.months[event.month - 1],
       year: event.year
     }
@@ -93,7 +94,7 @@ export class AttendanceReportComponent {
       this.reportForm.patchValue({
         'monthYear': new Date(newDate)
       });
-
+      this.notify.hideLoader()
     })
 
   }

@@ -49,7 +49,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
   })
   
   ngOnInit(): void {
-this.categoryReason = [
+    this.categoryReason = [
     { name: 'Sick Leave', code: 'SL' },
     { name: 'Personal Leave', code: 'PL' },
     { name: 'Maternity/Paternity Leave', code: 'MPL' },
@@ -123,6 +123,7 @@ this.categoryReason = [
   
   async onRequestleave(){
     if(this.requestDates.valid){
+      this.notificationService.showLoader();
     var getAbsentDatesArray =[]
     this.onlyAbsentDate.forEach(item=>{
       const currentDate = new Date(`${this.todaysDate.getFullYear()}-${(this.todaysDate.getMonth() + 1).toString().padStart(2, '0')}-${item.toString().padStart(2, '0')}`);
@@ -154,14 +155,19 @@ this.categoryReason = [
           this.requestDates.reset()
           this.mekaService.postNotice(inboxObject,this.token).subscribe(isMsg=>{
             this.notificationService.notify({severity:'success', summary: 'Sent', detail: 'Notified to everyone', life: 3000 })
+            this.notificationService.hideLoader();
           },err=>{
+            this.notificationService.hideLoader();
             this.notificationService.notify({severity:'error', summary: 'Failed', detail: err.name, life: 3000 })
           })
+          this.notificationService.hideLoader();
           this.notificationService.notify({severity:'success', summary: 'Successfull', detail: res['message'], life: 3000 })
         }else{
+          this.notificationService.hideLoader();
           this.notificationService.notify({severity:'error', summary: 'Failed', detail: res['message'], sticky: true})
         }
       },err=>{
+        this.notificationService.hideLoader();
         this.notificationService.notify({severity:'error', summary: 'Failed', detail: err.name , sticky: false})
       })
     }
@@ -172,6 +178,7 @@ this.categoryReason = [
 
 
 catchMonthCalendar(event) {
+  this.notificationService.showLoader();
   this.onlyPresentdays = [];
   this.alreadyAbsentDays = [];
   this.onlyYearHoliday = [];
@@ -196,6 +203,7 @@ catchMonthCalendar(event) {
           this.onlyYearHoliday.push(item.date);
           this.holidaysWithDesc.push(item)
         });
+        this.notificationService.hideLoader();
       },
       (err) => {
         this.notificationService.notify({
@@ -204,6 +212,7 @@ catchMonthCalendar(event) {
           detail: 'Failed to connect',
           sticky: true,
         });
+        this.notificationService.hideLoader();
       }
     );
 }
