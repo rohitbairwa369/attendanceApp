@@ -11,10 +11,12 @@ import { CommonModule } from '@angular/common';
 import { takeUntil,forkJoin } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
 import { TagModule } from 'primeng/tag';
+import { DropdownModule } from 'primeng/dropdown';
+
 @Component({
   selector: 'app-request-leave',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule,FormsModule,TagModule],
+  imports: [CommonModule,ReactiveFormsModule,CalendarModule,ButtonModule,InputTextareaModule,FormsModule,TagModule,DropdownModule],
   templateUrl: './request-leave.component.html',
   styleUrl: './request-leave.component.css'
 })
@@ -25,6 +27,8 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
   onlyYearHoliday :any =[];
   alreadyAbsentDays:any[]=[];
   holidaysWithDesc:any[]=[];
+  categoryReason: any[]=[];
+  selectedCategory:  undefined;
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   todaysDate= new Date();
@@ -40,10 +44,20 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
   notificationService= inject(NotificationService);
   weekends = environment.weekends
   requestDates = new FormGroup({
+    'category':new FormControl(null,Validators.required),
     'desc': new FormControl(null,Validators.required)
   })
   
   ngOnInit(): void {
+this.categoryReason = [
+    { name: 'Sick Leave', code: 'SL' },
+    { name: 'Personal Leave', code: 'PL' },
+    { name: 'Maternity/Paternity Leave', code: 'MPL' },
+    { name: 'Bereavement Leave', code: 'BL' },
+    { name: 'Vacation Leave', code: 'VL' },
+    { name: 'Medical Appointment', code: 'MA' },
+    { name: 'Other', code: 'OT' }
+];
     forkJoin([
       this.mekaService.getAttendance(
         this.todaysDate.toLocaleString('default', { month: 'short' }),
@@ -135,7 +149,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
             'fromDate': `${getAbsentDatesArray[0].date}/${getAbsentDatesArray[0].month}/${getAbsentDatesArray[0].year}` ,
             'toDate': `${getAbsentDatesArray[absentArrayLength].date}/${getAbsentDatesArray[absentArrayLength].month}/${getAbsentDatesArray[absentArrayLength].year}` ,
             'message':this.requestDates.value.desc,
-            'category':'Other'
+            'category':this.requestDates.value.category['name']
           }
           this.requestDates.reset()
           this.mekaService.postNotice(inboxObject,this.token).subscribe(isMsg=>{
