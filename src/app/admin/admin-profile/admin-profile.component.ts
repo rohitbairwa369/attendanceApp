@@ -61,6 +61,7 @@ export class AdminProfileComponent extends unsub implements OnInit {
 
   OnSave(){
     this.isloading=true;
+    this.notify.showLoader()
       const updatedProfile ={
         'profilePic' :this.imageUrl['changingThisBreaksApplicationSecurity'],
         ...this.profileForm.value
@@ -70,9 +71,11 @@ export class AdminProfileComponent extends unsub implements OnInit {
       }
       this.mekaService.updateUserDataApi(this.token,updatedProfile).subscribe(res=>{
         this.isloading=false;
+        this.notify.hideLoader()
         this.notify.notify({severity:'success', summary:'Profile Updated', detail: "Success"});
       },error=>{
         this.isloading=false;
+        this.notify.hideLoader()
         this.notify.notify({severity:'error', summary:'Updating Profile Failed', detail: "Failed"});
       })
 }

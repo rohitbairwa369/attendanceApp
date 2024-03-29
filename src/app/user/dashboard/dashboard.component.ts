@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MtableComponent } from '../../mtable/mtable.component';
 import { MekaService } from '../../service/meka.service';
 import { environment } from '../../../environments/environment';
@@ -25,7 +25,7 @@ import { Title } from '@angular/platform-browser';
     providers: [MekaService,NotificationService,ConfirmationService],
     imports: [CommonModule,MtableComponent, DatePipe, DecimalToTimePipe,SafeDatePipe,ConfirmDialogModule,DialogModule,ButtonModule,BadgeModule,AvatarModule,CalendarModule]
   })
-export class DashboardComponent extends unsub{
+export class DashboardComponent extends unsub implements OnInit{
   mekaService= inject(MekaService);
   notificationService = inject(NotificationService)
   confirmationService = inject(ConfirmationService)
@@ -39,47 +39,63 @@ export class DashboardComponent extends unsub{
   weekends = environment.weekends;
   userData:any={}
   token = JSON.parse(localStorage.getItem('token'));
+  holidayInMonth:any[]=[];
 
   constructor(private titleService: Title){
   super()
   this.titleService.setTitle("Meka - Home")
-   this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
+  }
+  ngOnInit(): void {
+    this.notificationService.showLoader()
+    this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
       this.userData = user;
-    },err=>{
-      this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
-    })
-   this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
-      this.tableData = res;
-      if(res['auth']==false){
-        this.messageQuery = {
-          header : "Invalid Token",
-          message : "Token Expired. Please Login Again!"
-        }
-        this.isDialogVisible = true;
-        this.tableData = [];
-      }else{
-      if(!this.weekends.includes(this.daysOfWeek[this.todaysDate.getDay()])){
-        const todaysDateDate = this.todaysDate.getDate();
-        if(this.tableData.length>0 && todaysDateDate == this.tableData[0].date){
-          if(this.tableData[0].in.length >1){
-            this.isClockIn = 'clockout'
+      const holidays = this.userData['holidays'];
+      this.holidayInMonth = holidays.filter(element=>element.month == this.todaysDate.toLocaleString('default', { month: 'short' }))
+      this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
+        this.tableData = res;
+        this.notificationService.hideLoader();
+        if(res['auth']==false){
+          this.messageQuery = {
+            header : "Invalid Token",
+            message : "Token Expired. Please Login Again!"
           }
-          if(this.tableData[0].hours.length > 1){
-            this.isClockIn = 'denied'
+          this.isDialogVisible = true;
+          this.tableData = [];
+        }else{
+        if(!this.weekends.includes(this.daysOfWeek[this.todaysDate.getDay()])){
+          const todaysDateDate = this.todaysDate.getDate();
+          if(this.tableData.length>0 && todaysDateDate == this.tableData[0].date){
+            if(this.tableData[0].in.length >1){
+              this.isClockIn = 'clockout'
+            }
+            if(this.tableData[0].hours.length > 1){
+              this.isClockIn = 'denied'
+            }
+          }else{
+            this.holidayInMonth.forEach(item=>{
+              if(this.todaysDate.getDate() == item.date){
+                this.isClockIn = "holiday"
+                this.tableData.unshift(item)
+              }
+            })  
+            if(this.isClockIn != "holiday"){
+              this.tableData.unshift({ date: this.todaysDate.getDate(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0 , month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()})
+            }
           }
         }else{
-          this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0 , month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear()})
+          this.tableData.unshift({ date: this.todaysDate.getDate(), day: this.daysOfWeek[this.todaysDate.getDay()], status: 'Holiday', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
         }
-      }else{
-        this.tableData.unshift({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: 'Holiday', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
+        if(this.tableData.length==0){
+          this.tableData.push({ date: this.todaysDate.getDate(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
+        }
       }
-      if(this.tableData.length==0){
-        this.tableData.push({ date: this.todaysDate.getDate().toString(), day: this.daysOfWeek[this.todaysDate.getDay()], status: '-', in: '-', out: '-', hours: 0, month : this.todaysDate.toLocaleString('default', { month: 'short' }),year:this.todaysDate.getFullYear() })
-      }
-    }
+      },err=>{
+        this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
+      })
     },err=>{
       this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
     })
+
     setInterval(() => { 
       this.todaysDate = new Date();
     }, 1000);

@@ -1,6 +1,5 @@
 <div class="p-2 mt-4">
     <form class="flex justify-content-between px-3 align-items-center gap-2 mb-2" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-    <!-- <input type="month" id="start" formControlName="monthYear" /> -->
     <p-calendar formControlName="monthYear" view="month" styleClass="flex-grow-1" dateFormat="mm/yy"  [readonlyInput]="true"></p-calendar>
     <p-button styleClass="mbg-primary" label="Fetch" type="Submit" [raised]="true" [loading]="loading"></p-button>
     
@@ -17,6 +16,13 @@
         <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate" [inline]="true" [showWeek]="true">
             <ng-template pTemplate="date" let-date>
                 <span [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable),'holidaySelected':(onlyHolidays.includes(date.day) && date.selectable)}">{{date.day}}</span>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="flex flex-wrap align-items-center gap-3 p-2  mt-2">
+                    @for (item of holidaysWithDesc; track $index) {
+                        <p-tag styleClass="bg-yellow-400 text-gray-600" value="{{item.date}} {{item.month}} - {{item.status}}"></p-tag>
+                }
+                </div>
             </ng-template>
         </p-calendar>
     </div>

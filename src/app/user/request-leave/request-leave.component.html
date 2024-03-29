@@ -1,24 +1,34 @@
-<div class="mt-5 p-3">
-
-    <div class="font-bold text-center">Click to select dates! </div>
-    <br>
-    <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonthCalendar($event)" [(ngModel)]="todaysDate" [inline]="true"
-    [showWeek]="true">
-    <ng-template pTemplate="date" let-date>
-        <span (click)="getAbsentDates(date)"
-            [ngClass]="{'dateSelected': (onlyAbsentDate.includes(date.day) && date.selectable),'presentDateSelected':(onlyPresentdays.includes(date.day) && date.selectable),'alreadyAbsentDateSelected':(alreadyAbsentDays.includes(date.day) && date.selectable),'holidaysSelected':(onlyYearHoliday.includes(date.day) && date.selectable)}">{{date.day}}</span>
-    </ng-template>
-    </p-calendar>
+<div class="mt-2 p-3">
+    <div class="field">
+        <label for="selectdate">Select Date</label>
+        <p-calendar styleClass="calendarStyle text-base" (onMonthChange)="catchMonthCalendar($event)"
+            [(ngModel)]="todaysDate" [inline]="true" [showWeek]="true">
+            <ng-template pTemplate="date" let-date>
+                <span (click)="getAbsentDates(date)"
+                    [ngClass]="{'dateSelected': (onlyAbsentDate.includes(date.day) && date.selectable),'presentDateSelected':(onlyPresentdays.includes(date.day) && date.selectable),'alreadyAbsentDateSelected':(alreadyAbsentDays.includes(date.day) && date.selectable),'holidaysSelected':(onlyYearHoliday.includes(date.day) && date.selectable)}">{{date.day}}</span>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="flex flex-wrap align-items-center gap-3 p-2  mt-2">
+                    <div *ngFor="let item of holidaysWithDesc">
+                        <p-tag styleClass="bg-yellow-400 text-gray-600"
+                            value="{{item.date}} {{item.month}} - {{item.status}}"></p-tag>
+                    </div>
+                </div>
+            </ng-template>
+        </p-calendar>
+    </div>
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
-
-        <div class="mt-5 grid justify-content-center p-2">
-            <textarea pInputTextarea class="p-2 w-full" cols="43" rows="10" formControlName="desc"
+        <div class="field">
+            <label for="category">Category</label>
+            <p-dropdown styleClass="max-w-full w-full text-base" [options]="categoryReason" formControlName="category"
+                optionLabel="name" [showClear]="true" placeholder="Select a category"></p-dropdown>
+        </div>
+        <div class="field">
+            <label for="desc">Reason</label>
+            <textarea pInputTextarea class="p-2 w-full text-base" cols="43" rows="5" formControlName="desc"
                 placeholder="Add your reason..." id="Reason"></textarea>
         </div>
-
-        <div class="p-2 grid justify-content-center mt-5"><p-button [raised]="true" [disabled]="onlyAbsentDate.length==0" type="Submit" label="Apply"
+        <div class="p-2 grid justify-content-center mt-5"><p-button [raised]="true" type="Submit" label="Apply"
                 styleClass="bg-primary p-button-sm"></p-button></div>
     </form>
-
-
 </div>

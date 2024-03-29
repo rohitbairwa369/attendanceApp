@@ -7,11 +7,12 @@ import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-attendance-report',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MtableComponent, CalendarModule, ButtonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MtableComponent, CalendarModule, ButtonModule, FormsModule,TagModule],
   templateUrl: './attendance-report.component.html',
   styleUrl: './attendance-report.component.css'
 })
@@ -28,12 +29,14 @@ export class AttendanceReportComponent {
   onlyHolidays = []
   todaysDate = new Date();
   selectedMonth: string = 'Please select a month!'
+  holidaysWithDesc = [];
 
   constructor(private titleService: Title, private mekaService: MekaService, private notify: NotificationService) {
     this.titleService.setTitle("Meka - Report")
   }
 
   onSubmit() {
+    this.notify.showLoader()
     if (this.reportForm.valid) {
       this.loading = true;
       this.onlyAbsentDate = []
@@ -56,9 +59,11 @@ export class AttendanceReportComponent {
           this.onlyAbsentDate.push(parseInt(element.date))
           }else{
             this.onlyHolidays.push(parseInt(element.date))
+            this.holidaysWithDesc.push(element)
           }
         });
         this.loading = false;
+        this.notify.hideLoader()
       })
     } else {
       this.notify.notify({ severity: 'info', summary: 'Invalid Form', detail: 'Response is empty or invalid', life: 3000 })
@@ -66,11 +71,11 @@ export class AttendanceReportComponent {
   }
 
   catchMonth(event) {
-
+    this.notify.showLoader()
     this.onlyAbsentDate = [];
     this.onlyHolidays = [];
+    this.holidaysWithDesc=[];
     const data = {
-
       month: this.months[event.month - 1],
       year: event.year
     }
@@ -82,13 +87,14 @@ export class AttendanceReportComponent {
           this.onlyAbsentDate.push(parseInt(element.date))
           }else{
             this.onlyHolidays.push(parseInt(element.date))
+            this.holidaysWithDesc.push(element)
           }
       });
       const newDate = `01/${data.month}/${data.year}`
       this.reportForm.patchValue({
         'monthYear': new Date(newDate)
       });
-
+      this.notify.hideLoader()
     })
 
   }

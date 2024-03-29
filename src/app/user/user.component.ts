@@ -1,4 +1,4 @@
-import {  Component, inject } from '@angular/core';
+import {  Component, OnInit, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { SidebarModule } from 'primeng/sidebar';
@@ -17,7 +17,7 @@ import { unsub } from '../shared/unsub.class';
   styleUrl: './user.component.css',
   providers: [MekaService, NotificationService]
 })
-export class UserComponent extends unsub {
+export class UserComponent extends unsub implements OnInit{
   mekaService = inject(MekaService);
   notificationService = inject(NotificationService)
   router = inject(Router)
@@ -27,9 +27,9 @@ export class UserComponent extends unsub {
   noticeData$:Observable<any>;
   token = JSON.parse(localStorage.getItem('token'));
   isMessageRead:boolean=false;
+  headerTitle:any;
 
-  constructor() {
-    super()
+  ngOnInit() {
     this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user => {
       this.userData = user;
       this.mekaService.UserSubject.next(user);
@@ -40,9 +40,19 @@ export class UserComponent extends unsub {
       this.userData.profilePic = update;
     }))
     this.noticeData$ = this.mekaService.getNotice(this.token)
+    let setheaderTitle = {
+      "/profile":"Profile",
+      "/":"Home",
+      "/dashboard":"Home",
+      "/attendance":"Leaves Report",
+      "/notice":"Notice",
+      "/requestleave":"Request Leave"
+    }
+    this.headerTitle= setheaderTitle[window.location.pathname]
     this.router.events.pipe(takeUntil(this.onDestroyed$)).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.isSidebarVisible = false;
+        this.headerTitle = setheaderTitle[event.url]
       }
     })
   }
