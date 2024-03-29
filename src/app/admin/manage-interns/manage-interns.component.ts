@@ -5,10 +5,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService} from 'primeng/api';
-import { NgxUiLoaderModule } from 'ngx-ui-loader';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { SPINNER } from 'ngx-ui-loader';
-import { POSITION } from 'ngx-ui-loader';
 import { NotificationService } from '../../service/notification.service';
 @Component({
   selector: 'app-manage-interns',
@@ -18,12 +14,10 @@ import { NotificationService } from '../../service/notification.service';
     TooltipModule,
     ConfirmDialogModule,
     ToastModule,
-    NgxUiLoaderModule,
   ],
   providers: [
     MekaService,
     ConfirmationService,
-    NgxUiLoaderService,
   ],
   templateUrl: './manage-interns.component.html',
 
@@ -35,19 +29,15 @@ export class ManageInternsComponent implements OnInit {
   constructor(
     private mekaService: MekaService,
     private confirmationService: ConfirmationService,
-    private ngxLoader: NgxUiLoaderService,
     private notify:NotificationService
-  ) {
-    this.SPINNER = SPINNER;
-    this.POSITION = POSITION;
-  }
+  ) {}
   allInternsList: any;
   ngOnInit(): void {
-    this.ngxLoader.start();
+    this.notify.showLoader()
     const token = JSON.parse(localStorage.getItem('token'));
     this.mekaService.getUsersData(token).subscribe((res: any) => {
       this.allInternsList = res;
-     this.ngxLoader.stop();
+      this.notify.hideLoader()
     });
   }
 
