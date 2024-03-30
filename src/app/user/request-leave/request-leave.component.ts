@@ -58,6 +58,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
     { name: 'Medical Appointment', code: 'MA' },
     { name: 'Other', code: 'OT' }
 ];
+this.notificationService.showLoader();
     forkJoin([
       this.mekaService.getAttendance(
         this.todaysDate.toLocaleString('default', { month: 'short' }),
@@ -80,6 +81,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
             this.onlyYearHoliday.push(item.date);
             this.holidaysWithDesc.push(item)
           });
+          this.notificationService.hideLoader();
         },
         (err) => {
           this.notificationService.notify({
@@ -88,6 +90,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
             detail: 'Failed to connect',
             sticky: true,
           });
+          this.notificationService.hideLoader();
         }
       );
   }
