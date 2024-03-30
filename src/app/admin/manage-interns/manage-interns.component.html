@@ -1,22 +1,22 @@
 <p-confirmDialog></p-confirmDialog>
 @defer (when allInternsList) {
-<div class="p-2  mt-3 bg-gray-100 flex flex-column w-full">
+<div class="p-2  mt-3 flex flex-column w-full">
     <p-table [value]="allInternsList" [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
       <ng-template pTemplate="header">
         <tr>
           <th class="text-center">Name</th>
-          <th class="text-center">Team</th>
+          <th class="text-center">Designation</th>
           <th class="text-center">Action</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-user>
         <tr>
-          <td class="text-center">{{product.name}}</td>
-          <td class="text-center">{{product.designation}}</td>
+          <td class="text-center">{{user.name}}</td>
+          <td class="text-center">{{user.designation}}</td>
           <td class="text-center">
-            <div class="flex justify-content-center align-items-center gap-3">
-            <i class="pi pi-pencil cursor-pointer" pTooltip="Edit" tooltipPosition="left"></i>
-            <i class="pi pi-trash cursor-pointer"  pTooltip="Delete" (click)="deleteUser(product,$event)"></i>
+            <div class="flex justify-content-center align-items-center gap-1">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"(click)="deleteUser(user)"></button>
           </div>
           </td>
         </tr>

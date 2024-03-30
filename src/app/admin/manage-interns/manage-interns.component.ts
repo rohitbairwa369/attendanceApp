@@ -23,9 +23,8 @@ import { NotificationService } from '../../service/notification.service';
 
 })
 export class ManageInternsComponent implements OnInit {
-  SPINNER;
-  POSITION;
-  text = 'Loading...';
+
+  token = JSON.parse(localStorage.getItem('token'))
   constructor(
     private mekaService: MekaService,
     private confirmationService: ConfirmationService,
@@ -41,7 +40,10 @@ export class ManageInternsComponent implements OnInit {
     });
   }
 
-  deleteUser(user, event) {
+  deleteUser(user) {
+    let userIndex = this.allInternsList.findIndex(item=>{
+      return item._id == user._id
+    })
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this record?',
@@ -52,11 +54,13 @@ export class ManageInternsComponent implements OnInit {
       acceptIcon: 'none',
       rejectIcon: 'none',
       accept: () => {
-      this.notify.notify({severity:'success', summary: 'Success', detail: 'Record deleted successfully!', life: 3000 })
-      },
-      reject: () => {
-    this.notify.notify({severity:'error', summary: 'Aborted', detail: 'You have rejected!', life: 3000 })
-      },
+      this.mekaService.deleteUser(this.token,user._id).subscribe(res=>{
+        this.allInternsList.splice(userIndex,1)
+        this.notify.notify({severity:'success', summary: 'Success', detail: res['message'], life: 3000 })
+      },error=>{
+        this.notify.notify({severity:'error', summary: 'Error', detail: 'Failed to delete record!', life: 3000 })
+      })
+      }
     });
   }
 }

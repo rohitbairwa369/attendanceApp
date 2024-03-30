@@ -43,6 +43,9 @@ export class MekaService {
   getUserData(token){
     return this.http.get(this.apiUrl + '/user',{headers:{'x-access-token':token.token}})
   }
+  deleteUser(token,userId){
+    return this.http.delete(this.apiUrl + `/user/${userId}`,{headers:{'x-access-token':token.token}})
+  }
   getUsersData(token){
     return this.http.get(this.apiUrl + '/users',{headers:{'x-access-token':token.token}})
   }
