@@ -39,7 +39,8 @@ export class AttendanceReportComponent {
     this.notify.showLoader()
     if (this.reportForm.valid) {
       this.loading = true;
-      this.onlyAbsentDate = []
+      this.onlyAbsentDate = [];
+      this.holidaysWithDesc = [];
       const dateyear = this.reportForm.value.monthYear.toString()
       const data = {
         month: dateyear.split(' ')[1],    //   month : this.months[this.reportForm.value.monthYear.split('-')[1]-1],
