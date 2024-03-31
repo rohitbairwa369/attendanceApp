@@ -1,29 +1,45 @@
 <div class="p-2 mt-4">
-    <form class="flex justify-content-between px-3 align-items-center gap-2 mb-2" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-    <p-calendar formControlName="monthYear" view="month" styleClass="flex-grow-1" dateFormat="mm/yy"  [readonlyInput]="true"></p-calendar>
-    <p-button styleClass="mbg-primary" label="Fetch" type="Submit" [raised]="true" [loading]="loading"></p-button>
-    
+    <form class="flex justify-content-between px-3 align-items-center gap-2 mb-2" [formGroup]="reportForm"
+        (ngSubmit)="onSubmit()">
+        <p-calendar formControlName="monthYear" view="month" styleClass="flex-grow-1" dateFormat="mm/yy"
+            [readonlyInput]="true"></p-calendar>
+        <p-button styleClass="mbg-primary" label="Fetch" type="Submit" [raised]="true" [loading]="loading"></p-button>
+
     </form>
     <div class="mt-5 p-2">
         <div class="flex justify-content-between border-round  px-3 mx-2 bordershadow-meka">
             <h4 for="Absent" class="mb-3">Month <br>
-                <p class="text-primaryColor">{{this.selectedMonth}}</p></h4>
+                <p class="text-primaryColor">{{this.selectedMonth}}</p>
+            </h4>
             <h4 for="Absent" class="mb-3 ">Absent <br>
-                <p class="text-red-500">{{onlyAbsentDate.length}} Days</p> </h4>
+                <p class="text-red-500">{{onlyAbsentDate.length}} Days</p>
+            </h4>
         </div>
     </div>
     <div class="card w-full flex justify-content-center p-2 mt-2">
-        <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate" [inline]="true" [showWeek]="false">
+        <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate"
+            [inline]="true" [showWeek]="false">
             <ng-template pTemplate="date" let-date>
-                <span [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable),'holidaySelected':(onlyHolidays.includes(date.day) && date.selectable)}">{{date.day}}</span>
+                <span
+                    [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable),'holidaySelected':(onlyHolidays.includes(date.day) && date.selectable)}">{{date.day}}</span>
             </ng-template>
             <ng-template pTemplate="footer">
                 <div class="flex flex-wrap align-items-center gap-3 p-2  mt-2">
                     @for (item of holidaysWithDesc; track $index) {
-                        <p-tag styleClass="bg-yellow-400 text-gray-600" value="{{item.date}} {{item.month}} - {{item.status}}"></p-tag>
-                }
+                    <p-tag styleClass="bg-yellow-400 text-gray-600"
+                        value="{{item.date}} {{item.month}} - {{item.status}}"></p-tag>
+                    }
                 </div>
             </ng-template>
         </p-calendar>
+    </div>
+    <div class=" flex px-2  gap-3">
+        <div class="flex gap-1 align-items-center">
+            <div class="h-1rem w-1rem bg-red-500 border-round-sm"></div><span class="text-sm">Absent
+                days</span>
+        </div>
+        <div class="flex gap-1 align-items-center">
+            <div class="h-1rem w-1rem bg-yellow-400 border-round-sm"></div><span class="text-sm">Holidays</span>
+        </div>
     </div>
 </div>

@@ -18,7 +18,21 @@
         </p-calendar>
     </div>
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
-        <div class="field">
+        <div class=" flex  gap-3">
+            <div class="flex gap-1 align-items-center">
+                <div class="h-1rem w-1rem bg-red-500 border-round-sm"></div><span class="text-sm">Selected
+                    date</span>
+            </div>
+
+            <div class="flex gap-1 align-items-center">
+                <div class="h-1rem w-1rem bg-pink-200 border-round-sm"></div><span class="text-sm">Absent
+                    days</span>
+            </div>
+            <div class="flex gap-1 align-items-center">
+                <div class="h-1rem w-1rem bg-yellow-400 border-round-sm"></div><span class="text-sm">Holidays</span>
+            </div>
+        </div>
+        <div class="field mt-3">
             <label for="category">Category</label>
             <p-dropdown styleClass="max-w-full w-full text-base" [options]="categoryReason" formControlName="category"
                 optionLabel="name" [showClear]="true" placeholder="Select a category"></p-dropdown>
