@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="card w-full flex justify-content-center p-2 mt-2">
-        <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate" [inline]="true" [showWeek]="true">
+        <p-calendar styleClass="calendarStyle" (onMonthChange)="catchMonth($event)" [(ngModel)]="todaysDate" [inline]="true" [showWeek]="false">
             <ng-template pTemplate="date" let-date>
                 <span [ngClass]="{'dateSelcted': (onlyAbsentDate.includes(date.day) && date.selectable),'holidaySelected':(onlyHolidays.includes(date.day) && date.selectable)}">{{date.day}}</span>
             </ng-template>

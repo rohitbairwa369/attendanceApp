@@ -2,7 +2,7 @@
     <div class="field">
         <label for="selectdate">Select Date</label>
         <p-calendar styleClass="calendarStyle text-base" (onMonthChange)="catchMonthCalendar($event)"
-            [(ngModel)]="todaysDate" [inline]="true" [showWeek]="true">
+            [(ngModel)]="todaysDate" [inline]="true" [showWeek]="false">
             <ng-template pTemplate="date" let-date>
                 <span (click)="getAbsentDates(date)"
                     [ngClass]="{'dateSelected': (onlyAbsentDate.includes(date.day) && date.selectable),'presentDateSelected':(onlyPresentdays.includes(date.day) && date.selectable),'alreadyAbsentDateSelected':(alreadyAbsentDays.includes(date.day) && date.selectable),'holidaysSelected':(onlyYearHoliday.includes(date.day) && date.selectable)}">{{date.day}}</span>
