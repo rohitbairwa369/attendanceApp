@@ -14,6 +14,8 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SPINNER } from 'ngx-ui-loader';
 import { POSITION } from 'ngx-ui-loader';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-month-report',
   standalone: true,
@@ -26,6 +28,8 @@ import { POSITION } from 'ngx-ui-loader';
     ChartModule,
     TableModule,
     NgxUiLoaderModule,
+    DropdownModule,
+    FormsModule
   ],
   providers: [MekaService, NotificationService, NgxUiLoaderService],
   templateUrl: './month-report.component.html',
@@ -43,8 +47,12 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   pieOptions: any;
   SPINNER;
   POSITION;
-  text= 'Loading...';
-
+  text = 'Loading...';
+  months: string[] = [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+  selectedMonth: string;
+  remainingLeaves:any;
   monthColors = {
     Jan: '#b0d9e2',
     Feb: '#b4c8a9',
@@ -74,6 +82,7 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
 
   tableDataForAttendanceTrack = true;
   ngOnInit() {
+
     this.ngxLoader.start();
     const userid = this.route.snapshot.paramMap.get('id');
     if (userid.length > 0) {
@@ -89,7 +98,7 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroyed$))
         .subscribe((data) => {
           this.userData = data;
-         
+
         });
       postData.status = 'present';
       this.mekaService
@@ -109,7 +118,6 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   backTohome() {
     this.router.navigate(['admin']);
   }
-
   setGraphData() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -161,7 +169,6 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
       },
     };
   }
-
   setpieChartData() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -195,4 +202,43 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
       },
     };
   }
+
+  onMonthChange() {
+    this.ngxLoader.start();
+    const userid = this.route.snapshot.paramMap.get('id');
+    let postData = {
+      month: this.selectedMonth.slice(0,3),
+
+      year: this.todaysDate.getFullYear(),
+      userId: userid,
+      status: 'absent',
+    };
+    this.mekaService
+      .getUserDataAnalytics(postData, this.token)
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe((data) => {
+        this.userData = data;
+
+      });
+    postData.status = 'present';
+    this.mekaService
+      .getUserDataAnalytics(postData, this.token)
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe((data) => {
+        this.userPresent = data;
+
+        setTimeout(() => {
+          this.setGraphData();
+          this.setpieChartData();
+        }, 500);
+        this.ngxLoader.stop();
+      });
+  }
+  // calculateLeaves(){
+  //   const internsPaidLeave=1;
+    
+  //   if (this.userData.totalLeaves){
+  //     this.remainingLeaves = this.userData.totalLeaves - internsPaidLeave;
+  //   }
+  // }
 }

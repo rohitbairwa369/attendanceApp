@@ -22,7 +22,11 @@
       <p><b>Address:</b> {{ userData.address }}</p>
     </div>
   </div>
-
+   <div class="month-drp">
+    <div class="card flex justify-content-end">
+      <p-dropdown [options]="months" [(ngModel)]="selectedMonth"  (onChange)="onMonthChange()" placeholder="Select Month"></p-dropdown>
+  </div>
+   </div>
   <div
     class="flex flip animation-duration-800 animation-iteration-1 animation-delay-100 align-items-center justify-content-between bg-white border-round-md  shadow-2 p-3">
     <div>
