@@ -53,7 +53,7 @@ export class AttendanceReportComponent {
           var newDate = `${this.absentData[0].date}/${this.absentData[0].month}/${this.absentData[0].year}`
           this.todaysDate = new Date(newDate)
         } else {
-          this.todaysDate = new Date()
+          this.todaysDate = new Date(dateyear)
         }
         this.absentData.forEach(element => {
           if(element.status == "Absent"){

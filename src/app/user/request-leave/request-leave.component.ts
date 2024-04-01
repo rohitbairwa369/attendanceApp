@@ -60,7 +60,7 @@ export class RequestLeaveComponent  extends unsub implements OnInit{
 ];
 this.notificationService.showLoader();
     forkJoin([
-      this.mekaService.getAttendance(
+      this.mekaService.getfullAttendance(
         this.todaysDate.toLocaleString('default', { month: 'short' }),
         this.todaysDate.getFullYear()
       ),
@@ -188,7 +188,7 @@ catchMonthCalendar(event) {
   this.holidaysWithDesc=[];
 
   forkJoin([
-    this.mekaService.getAttendance(this.months[event.month - 1], event.year),
+    this.mekaService.getfullAttendance(this.months[event.month - 1], event.year),
     this.mekaService.getHolidays(this.token, this.months[event.month - 1])
   ]).pipe(takeUntil(this.onDestroyed$))
     .subscribe(

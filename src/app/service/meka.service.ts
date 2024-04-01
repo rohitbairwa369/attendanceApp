@@ -68,6 +68,9 @@ export class MekaService {
   getAttendance(month,year){
     return this.http.get(this.apiUrl + `/user/attendance/${month}/${year}`,{headers:{'x-access-token':this.token.token}})
   }
+  getfullAttendance(month,year){
+    return this.http.get(this.apiUrl + `/user/attendance/full/${month}/${year}`,{headers:{'x-access-token':this.token.token}})
+  }
   userClockIn(logdetail,timeStamp){
     return this.http.put(this.apiUrl + `/user/attendance/clockin/${timeStamp.month}/${timeStamp.year}`,logdetail,{headers:{'x-access-token':this.token.token}})
   }
