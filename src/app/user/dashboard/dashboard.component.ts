@@ -17,12 +17,14 @@ import { CalendarModule } from 'primeng/calendar';
 import { takeUntil } from 'rxjs';
 import { unsub } from '../../shared/unsub.class';
 import { Title } from '@angular/platform-browser';
+import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
-    providers: [MekaService,NotificationService,ConfirmationService],
+    providers: [MekaService,NotificationService,ConfirmationService,  { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+      JwtHelperService],
     imports: [CommonModule,MtableComponent, DatePipe, DecimalToTimePipe,SafeDatePipe,ConfirmDialogModule,DialogModule,ButtonModule,BadgeModule,AvatarModule,CalendarModule]
   })
 export class DashboardComponent extends unsub implements OnInit{
@@ -41,14 +43,18 @@ export class DashboardComponent extends unsub implements OnInit{
   token = JSON.parse(localStorage.getItem('token'));
   holidayInMonth:any[]=[];
 
-  constructor(private titleService: Title){
+  constructor(private titleService: Title,public jwtHelper: JwtHelperService){
   super()
-  this.titleService.setTitle("Meka - Home")
+  this.titleService.setTitle("Meka - Home");
   }
   ngOnInit(): void {
+   const token= (localStorage.getItem('token'))
+    if (!this.jwtHelper.isTokenExpired(token) && JSON.parse(token)) {
+       
+      
     this.notificationService.showLoader()
     this.mekaService.getUserData(this.token).pipe(takeUntil(this.onDestroyed$)).subscribe(user=>{
-      this.userData = user;
+    this.userData = user;
       const holidays = this.userData['holidays'];
       this.holidayInMonth = holidays.filter(element=>element.month == this.todaysDate.toLocaleString('default', { month: 'short' }))
       this.mekaService.getAttendance(this.todaysDate.toLocaleString('default', { month: 'short' }),this.todaysDate.getFullYear()).pipe(takeUntil(this.onDestroyed$)).subscribe(res=>{
@@ -99,7 +105,11 @@ export class DashboardComponent extends unsub implements OnInit{
     setInterval(() => { 
       this.todaysDate = new Date();
     }, 1000);
-
+    console.log('token valid') 
+  }else {
+    this.navigateToLogin();
+    console.log('token expired')
+  }
   }
 
 

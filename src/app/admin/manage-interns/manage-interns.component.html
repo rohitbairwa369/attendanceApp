@@ -1,10 +1,10 @@
 <p-confirmDialog></p-confirmDialog>
 @defer (when allInternsList) {
 <div class="p-2  mt-3 flex flex-column w-full">
-    <p-table [value]="allInternsList" [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
+    <p-table [value]="allInternsList" [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true"  styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
-          <th class="text-center">Name</th>
+          <th class="text-center" pSortableColumn="name">Name<p-sortIcon field="user.name"></p-sortIcon></th>
           <th class="text-center">Designation</th>
           <th class="text-center">Action</th>
         </tr>
@@ -15,7 +15,7 @@
           <td class="text-center">{{user.designation}}</td>
           <td class="text-center">
             <div class="flex justify-content-center align-items-center gap-1">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2" (click)="sidebarVisible(user)"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"(click)="deleteUser(user)"></button>
           </div>
           </td>
@@ -28,5 +28,25 @@
         </tr>
       </ng-template>
     </p-table>
+
+
+    <p-sidebar [(visible)]="isSidebarVisible" position="right">
+      <ng-template pTemplate="header">Edit Intern Details</ng-template>
+      <div class="p-2">
+       
+        <ng-template pTemplate="body">
+  <label>Name</label>
+  <input type="text" pInputText/>
+  
+  
+        </ng-template> 
+      </div>
+      
+     </p-sidebar>
+
+
+
+
+
   </div>
 }

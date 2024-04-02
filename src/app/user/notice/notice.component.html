@@ -1,37 +1,40 @@
+<div class="container bg-gray-100">
+    <div class="p-2 py-3">
+        @if (notice && notice.length){
+        @for(noticeData of notice;track noticeData._id){
+ 
+        <div class="mt-3 w-full bg-white  border-round-lg shadow-3">
+            <div class="flex align-items-center gap-2 px-2 p-2  border-round-top-lg bg-purple-300">
 
-<div class="container">
-<div class="p-2 py-3">
-@if (noticeData$ | async; as noticeDatas){
-@for(noticeData of noticeDatas;track noticeData._id){
-<div class="mt-3 w-full bg-gray-100  border-round">
-    <div class="flex align-items-center gap-2 px-2 pt-2 ">
-    @if(noticeData.profilePic){
-    <p-avatar [image]="noticeData.profilePic" shape="circle" />
-    }@else {
-    <p-avatar image="../../assets/userProfile.jpg" shape="circle" />
-    }
-    <div class="flex justify-content-between w-full">
-        <label for="name" class="font-bold px-2 mt-1">{{noticeData.name}}</label>
-    </div>
-</div>
-    <div class="w-full">
-        <p class="m-0 p-2 line-height-3">From :{{noticeData.fromDate | date}}</p>
-        <p class="m-0 p-2 line-height-3">To :{{noticeData.toDate | date}}</p>
-        <p class="m-0 p-2">{{noticeData.message}}</p>
-        <div class="flex justify-content-end p-2 mt-3">
-            <span class="text-sm text-400">{{noticeData.date | date}}</span>
+                @if(noticeData){
+                <p-avatar [label]="noticeData.initials" styleClass="bg-blue-200 text-white" shape="circle" />
+                }@else {
+                <p-avatar image="../../assets/userProfile.jpg" shape="circle" />
+                }
+
+                <div class="flex justify-content-between align-items-center w-full">
+                    <label for="name" class="font-semibold text-white px-2 mt-1">{{noticeData.name}}</label>
+                </div>
+            </div>
+            <div class="w-full">
+
+                <p class="m-0 p-2 line-height-3">Leaves taken dates:</p>
+                <p class="m-0 p-2">{{noticeData.message}}</p>
+                <div class="flex justify-content-end p-2 mt-3">
+                    <span class="text-sm text-400">{{noticeData.date | date}}</span>
+                </div>
+            </div>
         </div>
+        }@empty {
+        <div class="text-center">No Message Available.</div>
+        }
+        }@else{
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
+        }
     </div>
-</div>
-}@empty {
-    <div class="text-center">No Message Available.</div>
-}
-}@else{
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-    <p-skeleton height="7rem" styleClass="mb-3"></p-skeleton>
-}
 </div>

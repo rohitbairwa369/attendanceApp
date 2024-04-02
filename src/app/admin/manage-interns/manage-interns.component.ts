@@ -6,6 +6,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService} from 'primeng/api';
 import { NotificationService } from '../../service/notification.service';
+import { SidebarModule } from 'primeng/sidebar';
 @Component({
   selector: 'app-manage-interns',
   standalone: true,
@@ -14,6 +15,7 @@ import { NotificationService } from '../../service/notification.service';
     TooltipModule,
     ConfirmDialogModule,
     ToastModule,
+    SidebarModule
   ],
   providers: [
     MekaService,
@@ -23,7 +25,7 @@ import { NotificationService } from '../../service/notification.service';
 
 })
 export class ManageInternsComponent implements OnInit {
-
+  isSidebarVisible=false;
   token = JSON.parse(localStorage.getItem('token'))
   constructor(
     private mekaService: MekaService,
@@ -62,5 +64,10 @@ export class ManageInternsComponent implements OnInit {
       })
       }
     });
+  }
+
+  sidebarVisible(user){
+    this.isSidebarVisible=true;
+    console.log(user);
   }
 }
