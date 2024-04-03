@@ -33,6 +33,7 @@ export class AttendanceReportComponent {
 
   constructor(private titleService: Title, private mekaService: MekaService, private notify: NotificationService) {
     this.titleService.setTitle("Meka - Report")
+    this.onSubmit()
   }
 
   onSubmit() {
