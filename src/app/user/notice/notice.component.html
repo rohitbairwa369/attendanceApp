@@ -4,10 +4,10 @@
         @for(noticeData of notice;track noticeData._id){
  
         <div class="mt-3 w-full bg-white  border-round-lg shadow-3">
-            <div class="flex align-items-center gap-2 px-2 p-2  border-round-top-lg bg-purple-300">
+            <div class="flex align-items-center gap-2 px-2 p-2 bg-cyan-400 border-round-top-lg ">
 
                 @if(noticeData){
-                <p-avatar [label]="noticeData.initials" styleClass="bg-blue-200 text-white" shape="circle" />
+                <p-avatar [label]="noticeData.initials" styleClass="bg-indigo-300 text-white" shape="circle" />
                 }@else {
                 <p-avatar image="../../assets/userProfile.jpg" shape="circle" />
                 }

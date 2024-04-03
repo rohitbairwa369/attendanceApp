@@ -18,19 +18,31 @@
         </p-calendar>
     </div>
     <form [formGroup]="requestDates" (ngSubmit)="onRequestleave()">
-        <div class=" flex  gap-3">
-            <div class="flex gap-1 align-items-center">
-                <div class="h-1rem w-1rem bg-red-500 border-round-sm"></div><span class="text-sm">Selected
-                    date</span>
+        <div class=" flex  align-items-center gap-4 p-1">
+
+            <div class="flex flex-column gap-2">
+                <div class="flex gap-1 align-items-center">
+                    <div class="h-1rem w-1rem bg-red-500 border-round-sm"></div><span class="text-sm">Selected
+                        date</span>
+                </div>
+
+                <div class="flex gap-1 align-items-center">
+                    <div class="h-1rem w-1rem bg-pink-200 border-round-sm"></div><span class="text-sm">Absent
+                        days</span>
+                </div>
             </div>
 
-            <div class="flex gap-1 align-items-center">
-                <div class="h-1rem w-1rem bg-pink-200 border-round-sm"></div><span class="text-sm">Absent
-                    days</span>
+            <div class="flex flex-column gap-2">
+                <div class="flex gap-1 align-items-center">
+                    <div class="h-1rem w-1rem bg-yellow-400 border-round-sm"></div><span class="text-sm">Holidays</span>
+                </div>
+
+                <div class="flex gap-1 align-items-center">
+                    <div class="h-1rem w-1rem bg-green-400 border-round-sm"></div><span class="text-sm">Present
+                        days</span>
+                </div>
             </div>
-            <div class="flex gap-1 align-items-center">
-                <div class="h-1rem w-1rem bg-yellow-400 border-round-sm"></div><span class="text-sm">Holidays</span>
-            </div>
+
         </div>
         <div class="field mt-3">
             <label for="category">Category</label>

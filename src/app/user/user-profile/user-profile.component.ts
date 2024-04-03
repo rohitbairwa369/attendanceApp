@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MekaService } from '../../service/meka.service';
 import { CommonModule } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -38,7 +38,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
 })
-export class UserProfileComponent extends unsub{
+export class UserProfileComponent extends unsub implements OnInit {
   userData: any = {};
   profileForm!: FormGroup;
   imageUrl: SafeResourceUrl;
@@ -55,6 +55,9 @@ export class UserProfileComponent extends unsub{
     private cdref: ChangeDetectorRef
   ) {
     super();
+  }
+
+  ngOnInit(): void {
     this.titleService.setTitle('Meka - Profile');
     this.mekaService.myUserData$
       .pipe(takeUntil(this.onDestroyed$))
@@ -62,7 +65,6 @@ export class UserProfileComponent extends unsub{
         this.userData = data;
         this.userid = data._id;
         this.imageUrl = this.userData.profilePic;
-        this.setValue()
         this.profileForm = this.FormBuilder.group({
           name: [this.userData.name, [Validators.required]],
           email: [this.userData.email, [Validators.required, Validators.email]],
@@ -84,14 +86,19 @@ export class UserProfileComponent extends unsub{
           address: [this.userData.address, [Validators.required]],
         });
       });
+    this.setValue();
   }
-
-
   setValue() {
     this.mekaService
       .getUserById(this.userid, this.token)
       .subscribe((res: any) => {
-        this.profileForm.get('address').setValue(res.address);
+        this.profileForm.patchValue({
+          name: res.name,
+          gender: res.gender,
+          contact: res.contact,
+          birthDate: res.birthDate,
+          address: res.address,
+        });
       });
   }
 
@@ -117,7 +124,7 @@ export class UserProfileComponent extends unsub{
         this.imageUrl['changingThisBreaksApplicationSecurity']
       );
     }
-    console.log(updatedProfile);
+    // console.log(updatedProfile);
     this.mekaService.updateUserDataApi(this.token, updatedProfile).subscribe(
       (res) => {
         this.isloading = false;
