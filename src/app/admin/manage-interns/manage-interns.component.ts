@@ -6,25 +6,32 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService} from 'primeng/api';
 import { NotificationService } from '../../service/notification.service';
-@Component({
-  selector: 'app-manage-interns',
-  standalone: true,
-  imports: [
-    TableModule,
-    TooltipModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
-  providers: [
-    MekaService,
-    ConfirmationService,
-  ],
-  templateUrl: './manage-interns.component.html',
+import { SidebarModule } from 'primeng/sidebar';
+import { AddInternsComponent } from "../add-interns/add-interns.component";
+import { InputTextModule } from 'primeng/inputtext';
 
+@Component({
+    selector: 'app-manage-interns',
+    standalone: true,
+    providers: [
+        MekaService,
+        ConfirmationService,
+    ],
+    templateUrl: './manage-interns.component.html',
+    imports: [
+        TableModule,
+        TooltipModule,
+        ConfirmDialogModule,
+        ToastModule,
+        SidebarModule,
+        AddInternsComponent,
+        InputTextModule
+    ]
 })
 export class ManageInternsComponent implements OnInit {
 
   token = JSON.parse(localStorage.getItem('token'))
+  IsSidebarVisible:boolean=false;
   constructor(
     private mekaService: MekaService,
     private confirmationService: ConfirmationService,
@@ -40,6 +47,14 @@ export class ManageInternsComponent implements OnInit {
     });
   }
 
+  internAdded(event){
+    this.notify.showLoader()
+    const token = JSON.parse(localStorage.getItem('token'));
+    this.mekaService.getUsersData(token).subscribe((res: any) => {
+      this.allInternsList = res;
+      this.notify.hideLoader()
+    });
+  }
   deleteUser(user) {
     let userIndex = this.allInternsList.findIndex(item=>{
       return item._id == user._id

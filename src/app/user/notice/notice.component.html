@@ -8,16 +8,23 @@
     @if(noticeData.profilePic){
     <p-avatar [image]="noticeData.profilePic" shape="circle" />
     }@else {
-    <p-avatar image="../../assets/userProfile.jpg" shape="circle" />
+    <p-avatar [label]="noticeData.name[0]" [style]="{ 'background-color': '#2196F3', color: '#ffffff' }" shape="circle" />
     }
     <div class="flex justify-content-between w-full">
         <label for="name" class="font-bold px-2 mt-1">{{noticeData.name}}</label>
     </div>
 </div>
     <div class="w-full">
-        <p class="m-0 p-2 line-height-3">From :{{noticeData.fromDate | date}}</p>
-        <p class="m-0 p-2 line-height-3">To :{{noticeData.toDate | date}}</p>
-        <p class="m-0 p-2">{{noticeData.message}}</p>
+        <div class="p-2">
+        <label for="dates">Dates : </label>
+        @for(item of noticeData.toFromAbsent;track $index){
+        <span class="ml-1 line-height-3">{{item}},</span>
+        }
+        </div>
+        <div class="p-2">
+            <label for="message">Message :</label>
+            <p>{{noticeData.message}}</p>
+        </div>
         <div class="flex justify-content-end p-2 mt-3">
             <span class="text-sm text-400">{{noticeData.date | date}}</span>
         </div>

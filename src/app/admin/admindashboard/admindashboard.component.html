@@ -45,3 +45,12 @@
 
     </p-table>
 </div>
+
+<p-dialog [header]="messageQuery.header" [(visible)]="isDialogVisible" [modal]="true" [style]="{ width: '95vw' }" [draggable]="false" [closable]="false" [resizable]="false">
+    <p class="m-0 mt-4">
+       {{messageQuery.message}}
+    </p>
+    <div class="flex justify-content-center mt-4">
+        <button pButton label="Ok" class="commonButton" (click)="navigateToLogin()"></button>
+    </div>
+</p-dialog>

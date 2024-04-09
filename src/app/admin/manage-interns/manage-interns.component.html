@@ -1,7 +1,36 @@
 <p-confirmDialog></p-confirmDialog>
+
+<p-sidebar [(visible)]="IsSidebarVisible" position="right">
+  <ng-template pTemplate="header">
+    <h3>
+      <i class="pi pi-user-plus mr-2 font-bold"></i> Add Intern
+    </h3>
+  </ng-template>
+  <ng-template pTemplate="body">
+    <app-add-interns (newInternAdded)="internAdded($event)"></app-add-interns>
+   </ng-template>
+</p-sidebar>
 @defer (when allInternsList) {
 <div class="p-2  mt-3 flex flex-column w-full">
-    <p-table [value]="allInternsList" [tableStyle]="{ 'min-width': 'auto' }" [rowHover]="true">
+    <p-table [value]="allInternsList" 
+    #dt
+    [tableStyle]="{ 'min-width': 'auto' }"
+    [rowHover]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [paginator]="true"
+    [filterDelay]="0"
+    [globalFilterFields]="['name', 'designation']"
+    >
+    <ng-template pTemplate="caption">
+      <div class="table-header flex justify-content-between align-items-center">
+          <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')" placeholder="Global Search" />
+          </span>
+          <div class="flex p-2 justify-content-end"><p-button size="small" (click)="IsSidebarVisible=true" icon="pi pi-plus font-bold" class="p-Button-sm" label="Add"></p-button></div>
+      </div>
+  </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th class="text-center">Name</th>
@@ -15,7 +44,6 @@
           <td class="text-center">{{user.designation}}</td>
           <td class="text-center">
             <div class="flex justify-content-center align-items-center gap-1">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"(click)="deleteUser(user)"></button>
           </div>
           </td>

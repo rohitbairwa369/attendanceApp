@@ -146,12 +146,14 @@ this.notificationService.showLoader();
     }
     })
     if(getAbsentDatesArray){
-      const absentArrayLength = getAbsentDatesArray.length-1;
+      var absentArray= []
       this.mekaService.requestLeave(getAbsentDatesArray,this.token).subscribe(res=>{
         if(!res['error']){
+          getAbsentDatesArray.forEach(date=>{
+            absentArray.push(`${date.date}/${date.month}/${date.year}`)
+          })
           const inboxObject = {
-            'fromDate': `${getAbsentDatesArray[0].date}/${getAbsentDatesArray[0].month}/${getAbsentDatesArray[0].year}` ,
-            'toDate': `${getAbsentDatesArray[absentArrayLength].date}/${getAbsentDatesArray[absentArrayLength].month}/${getAbsentDatesArray[absentArrayLength].year}` ,
+            'toFromAbsent':absentArray,
             'message':this.requestDates.value.desc,
             'category':this.requestDates.value.category['name']
           }

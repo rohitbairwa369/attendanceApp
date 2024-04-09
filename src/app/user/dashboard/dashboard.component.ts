@@ -95,7 +95,14 @@ export class DashboardComponent extends unsub implements OnInit{
       })
     },err=>{
       this.notificationService.hideLoader();
-      this.notificationService.notify({severity:'error', summary: 'API Failure', detail: 'Failed to connect', sticky: true})
+      if(err.status ==401){
+        this.messageQuery = {
+          header : "Invalid Token",
+          message : "Token Expired. Please Login Again!"
+        }
+        this.isDialogVisible = true;
+        this.tableData = [];
+      }
     })
 
     setInterval(() => { 

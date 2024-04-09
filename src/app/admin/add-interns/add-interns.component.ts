@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MekaService } from '../../service/meka.service';
 import { NotificationService } from '../../service/notification.service';
@@ -16,6 +16,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 })
 export class AddInternsComponent {
   registrationForm: FormGroup;
+  @Output() newInternAdded = new EventEmitter<boolean>();
 
   constructor(private fb: FormBuilder,private mekaService:MekaService,private notify:NotificationService) { }
 
@@ -38,9 +39,12 @@ export class AddInternsComponent {
           this.notify.hideLoader()
         }else{
           this.notify.notify({severity:'success', summary: 'Success', detail: 'User Added', life: 3000 })
+          this.newInternAdded.emit(true);
           this.registrationForm.reset()
           this.notify.hideLoader()
         }
+      },err=>{
+        this.notify.notify({severity:'error', summary: 'Aborted', detail: 'Something went wrong!', life: 3000 })
       })
     } else {
       console.log('Form is invalid');

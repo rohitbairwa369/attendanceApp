@@ -12,6 +12,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ShowBirthdayComponent } from '../../shared/show-birthday/show-birthday.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-admindashboard',
@@ -26,6 +27,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     AvatarGroupModule,
     ShowBirthdayComponent,
     SkeletonModule,
+    DialogModule
   ],
   providers: [MekaService, NotificationService],
   templateUrl: './admindashboard.component.html',
@@ -36,6 +38,8 @@ export class AdmindashboardComponent extends unsub implements OnInit {
   router = inject(Router);
   selectedUser: any;
   usersData: any;
+  isDialogVisible:boolean=false;
+  messageQuery:any={}
   isLoading: boolean = true;
   token = JSON.parse(localStorage.getItem('token'));
 
@@ -50,9 +54,24 @@ export class AdmindashboardComponent extends unsub implements OnInit {
       .subscribe(
         (user) => {
           this.usersData = user;
+          if(user['auth']==false){
+            this.messageQuery = {
+              header : "Invalid Token",
+              message : "Token Expired. Please Login Again!"
+            }
+            this.isDialogVisible = true;
+          }
           this.notificationService.hideLoader()
         },
         (err) => {
+          if(err.status ==401){
+            this.notificationService.hideLoader()
+            this.messageQuery = {
+              header : "Invalid Token",
+              message : "Token Expired. Please Login Again!"
+            }
+            this.isDialogVisible = true;
+          }
           this.notificationService.notify({
             severity: 'error',
             summary: 'API Failure',
@@ -62,6 +81,11 @@ export class AdmindashboardComponent extends unsub implements OnInit {
           this.notificationService.hideLoader()
         }
       );
+  }
+
+  navigateToLogin(){
+    localStorage.clear()
+    this.router.navigate(['login'])
   }
   navigateToReport(id) {
     this.router.navigate([`admin/mreport/${id}`]);
