@@ -77,15 +77,29 @@ export class UserProfileComponent extends unsub {
       })
 }
 
-
 onFileSelected(event: any) {
   this.selectedFile = event.target.files[0];
   if (this.selectedFile) {
     const reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
+      this.compressImage(event.target.result);
     };
     reader.readAsDataURL(this.selectedFile);
   }
+}
+
+compressImage(imageUrl: string) {
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    const compressedImageUrl = canvas.toDataURL('image/jpeg', 0.1); 
+
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(compressedImageUrl);
+  };
+  img.src = imageUrl;
 }
 }

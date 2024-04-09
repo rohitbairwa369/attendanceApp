@@ -47,7 +47,6 @@ export class AdmindashboardComponent extends unsub implements OnInit {
     super();
   }
   ngOnInit(): void {
-    this.notificationService.showLoader()
     this.mekaService
       .getUsersData(this.token)
       .pipe(takeUntil(this.onDestroyed$))
@@ -61,7 +60,6 @@ export class AdmindashboardComponent extends unsub implements OnInit {
             }
             this.isDialogVisible = true;
           }
-          this.notificationService.hideLoader()
         },
         (err) => {
           if(err.status ==401){
@@ -78,7 +76,6 @@ export class AdmindashboardComponent extends unsub implements OnInit {
             detail: 'Failed to connect',
             sticky: true,
           });
-          this.notificationService.hideLoader()
         }
       );
   }
