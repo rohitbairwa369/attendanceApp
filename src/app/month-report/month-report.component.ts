@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MekaService } from '../service/meka.service';
 import { NotificationService } from '../service/notification.service';
-import { takeUntil } from 'rxjs';
+import { forkJoin, takeUntil } from 'rxjs';
 import { unsub } from '../shared/unsub.class';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
@@ -10,10 +10,6 @@ import { DecimalTimeShortPipe } from '../shared/pipes/decimal-time-short.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
-import { NgxUiLoaderModule } from 'ngx-ui-loader';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { SPINNER } from 'ngx-ui-loader';
-import { POSITION } from 'ngx-ui-loader';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 @Component({
@@ -27,11 +23,10 @@ import { FormsModule } from '@angular/forms';
     DecimalTimeShortPipe,
     ChartModule,
     TableModule,
-    NgxUiLoaderModule,
     DropdownModule,
     FormsModule
   ],
-  providers: [MekaService, NotificationService, NgxUiLoaderService],
+  providers: [MekaService, NotificationService],
   templateUrl: './month-report.component.html',
   styleUrl: './month-report.component.css',
 })
@@ -45,45 +40,25 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   basicOptions: any;
   pieData: any;
   pieOptions: any;
-  SPINNER;
-  POSITION;
-  text = 'Loading...';
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
   ]
   selectedMonth: string;
   remainingLeaves:any;
-  monthColors = {
-    Jan: '#b0d9e2',
-    Feb: '#b4c8a9',
-    Mar: '#b8c0b1',
-    Apr: '#d8bcb9',
-    May: '#c7c9b8',
-    Jun: '#b8d5c7',
-    Jul: '#b8c0c7',
-    Aug: '#b8c7c7',
-    Sep: '#d8c7b8',
-    Oct: '#c8c7b8',
-    Nov: '#c7b8b8',
-    Dec: '#d8d5b8',
-  };
   todaysDate = new Date();
 
   constructor(
     private route: ActivatedRoute,
     private mekaService: MekaService,
     private router: Router,
-    private ngxLoader: NgxUiLoaderService
+    private notify : NotificationService
   ) {
     super();
-    this.SPINNER = SPINNER;
-    this.POSITION = POSITION;
   }
 
-  tableDataForAttendanceTrack = true;
   ngOnInit() {
-
-    this.ngxLoader.start();
+    this.selectedMonth = this.months[this.todaysDate.getMonth()]
+    this.notify.showLoader();
     const userid = this.route.snapshot.paramMap.get('id');
     if (userid.length > 0) {
       let postData = {
@@ -92,29 +67,39 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
         userId: userid,
         status: 'absent',
       };
-
-      this.mekaService
-        .getUserDataAnalytics(postData, this.token)
-        .pipe(takeUntil(this.onDestroyed$))
-        .subscribe((data) => {
-          this.userData = data;
-
-        });
-      postData.status = 'present';
-      this.mekaService
-        .getUserDataAnalytics(postData, this.token)
-        .pipe(takeUntil(this.onDestroyed$))
-        .subscribe((data) => {
-          this.userPresent = data;
-
-          setTimeout(() => {
-            this.setGraphData();
-            this.setpieChartData();
-          }, 500);
-          this.ngxLoader.stop();
-        });
+      this.getMonthlyReport(postData)
     }
   }
+
+  getMonthlyReport(postData){
+    let observables = [];
+    observables.push(
+      this.mekaService.getUserDataAnalytics(postData, this.token)
+        .pipe(takeUntil(this.onDestroyed$))
+    );
+    postData.status = 'present';
+    observables.push(
+      this.mekaService.getUserDataAnalytics(postData, this.token)
+        .pipe(takeUntil(this.onDestroyed$))
+    );
+     
+    forkJoin(observables).subscribe(
+      (results:any[]) => {
+        this.userData = results[0];
+        this.userPresent = results[1];
+        setTimeout(() => {
+          this.setGraphData();
+          this.setpieChartData();
+        }, 500);
+        this.notify.hideLoader();
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+      }
+    );
+
+  }
+
   backTohome() {
     this.router.navigate(['admin']);
   }
@@ -204,41 +189,14 @@ export class MonthReportComponent extends unsub implements OnInit, OnDestroy {
   }
 
   onMonthChange() {
-    this.ngxLoader.start();
+    this.notify.showLoader();
     const userid = this.route.snapshot.paramMap.get('id');
     let postData = {
       month: this.selectedMonth.slice(0,3),
-
       year: this.todaysDate.getFullYear(),
       userId: userid,
       status: 'absent',
     };
-    this.mekaService
-      .getUserDataAnalytics(postData, this.token)
-      .pipe(takeUntil(this.onDestroyed$))
-      .subscribe((data) => {
-        this.userData = data;
-
-      });
-    postData.status = 'present';
-    this.mekaService
-      .getUserDataAnalytics(postData, this.token)
-      .pipe(takeUntil(this.onDestroyed$))
-      .subscribe((data) => {
-        this.userPresent = data;
-
-        setTimeout(() => {
-          this.setGraphData();
-          this.setpieChartData();
-        }, 500);
-        this.ngxLoader.stop();
-      });
+    this.getMonthlyReport(postData)
   }
-  // calculateLeaves(){
-  //   const internsPaidLeave=1;
-    
-  //   if (this.userData.totalLeaves){
-  //     this.remainingLeaves = this.userData.totalLeaves - internsPaidLeave;
-  //   }
-  // }
 }

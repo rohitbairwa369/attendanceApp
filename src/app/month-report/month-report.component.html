@@ -46,10 +46,14 @@
     class="flex flip animation-duration-800 animation-iteration-1 animation-delay-200 align-items-center justify-content-between bg-white border-round-md  shadow-2 p-3">
     <div>
       <div class="mt-3">
-        <b>Total leaves in {{this.todaysDate.toLocaleString('default', { month:'long' })}}</b>
+        <b>Total leaves in {{selectedMonth}} (1 Paid Leave)</b>
       </div>
       <div>
-        <p class="text-red-500 font-bold">{{userData.totalLeaves}} - 1 paid leaves = {{ userData.totalLeaves - 1 }}</p>
+        @if(userData.totalLeaves>0){
+        <p class="text-red-500 font-bold">{{ userData.totalLeaves - 1 }}</p>
+        }@else {
+        <p class="text-red-500 font-bold">{{ userData.totalLeaves }}</p>
+        }
       </div>
     </div>
     <div class="p-2 border-round-md" style="background-color:#ff2222; opacity: 0.9;">
@@ -139,6 +143,4 @@
   </div>
 
 </div>
-}@placeholder {
-<ngx-ui-loader [fgsType]="SPINNER.threeStrings" [text]="text" [textPosition]="'center-center'"></ngx-ui-loader>
 }
